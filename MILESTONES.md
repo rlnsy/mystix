@@ -1,6 +1,3 @@
-# Data Visualization DSL :chart_with_downwards_trend:
-Access the powerful data-processing and visualization capabilities of the python ecosystem as well as programmatic dynamic updating using a friendly syntax.
-
 ## Milestone 1 Update (09-18-2020)
 ### Use Case
 An individual working on a research report or informative website who wants to display and work with static or live data
