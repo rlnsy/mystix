@@ -1,4 +1,11 @@
-## Milestone 2 Update (09-24-2020)
+## Milestone 2 Update (09-25-2020)
+### Summary of Progress So Far:
+As of today, we have completed both milestone 1 and 2. The user study has been created
+ and is currently underway. The team will be meeting early next week to finalize
+  the language grammar, which has been discussed at a high-level at this point
+  ; more depth and details are yet to come. The assigned “Project Manager” will
+   ensure the team stays on schedule (See "Responsibilities").
+
 ### Project Roadmap
 A schedule for key targets our group will reach
 
