@@ -32,14 +32,10 @@ Here we describe the high-level roles each team member will have throughout the
 | Role | Group Member | Responsibilities |
 | ---- | ------------ | :--------------- |
 |Project Manager | Rowan | Review and submit assignments, manage deadlines |
-|Dev Lead | Brandon | Review and approve code changes, manage source code repository, coordinate integration, determine tools, practices, architecture
- |
-|QA Lead | Adrian | Design and review tests, ensure that code changes do not break existing functionality, enforce code consistency and style
- |
-|Design Lead | Jack | Review and approve changes to language design (i.e. EBNF), communicate with research lead to ensure features are correctly implemented and changes are made in an organized way
- |
-|Research Lead | Sofia | Coordinate user studies and determine new requirements/changes that should be added to design and implementation, prototype features to use for user-studies and to ensure feasibility
- |
+|Dev Lead | Brandon | Review and approve code changes, manage source code repository, coordinate integration, determine tools, practices, architecture |
+|QA Lead | Adrian | Design and review tests, ensure that code changes do not break existing functionality, enforce code consistency and style |
+|Design Lead | Jack | Review and approve changes to language design (i.e. EBNF), communicate with research lead to ensure features are correctly implemented and changes are made in an organized way |
+|Research Lead | Sofia | Coordinate user studies and determine new requirements/changes that should be added to design and implementation, prototype features to use for user-studies and to ensure feasibility |
  
  In addition to the above, we plan to assign smaller tasks during the implementation phase, particularly relating to the development of core modules such as
  - Tokenizer
