@@ -1,3 +1,48 @@
+## Milestone 2 Update (09-24-2020)
+### Project Roadmap
+A schedule for key targets our group will reach
+
+| Date | Description |
+| :--- | :---------- |
+| Sat, Sep. 26, 2020 | A concrete list of features, visualization types etc. |
+Mon, Sep. 28, 2020 | Concrete language design for user-study 1
+Tue, Sep. 29, 2020 | Working prototypes of each feature
+Wed, Sep. 30, 2020 | User-study 1
+Thurs, Oct. 1, 2020 | Modified language design following user-study 1
+Fri, Oct. 2, 2020 | Milestone 3
+| Mon, Oct. 5, 2020 | Coded specification of shared data-structures e.g. Tokenized, AST and module specification. |
+| Thurs, Oct. 8, 2020 | Unit and Integration tests for each module
+Fri, Oct. 9, 2020 | Milestone 4
+Wed, Oct. 14, 2020 | Implementation complete; all tests passing
+Fri, Oct. 16, 2020 | Final User-study
+Sun, Oct. 18, 2020 | Project Video
+Mon, Oct. 19, 2020 | Final Deliverable
+
+### Responsibilities
+Here we describe the high-level roles each team member will have throughout the
+ project
+ 
+| Role | Group Member | Responsibilities |
+| ---- | ------------ | :--------------- |
+|Project Manager | Rowan | Review and submit assignments, manage deadlines |
+|Dev Lead | Brandon | Review and approve code changes, manage source code repository, coordinate integration, determine tools, practices, architecture
+ |
+|QA Lead | Adrian | Design and review tests, ensure that code changes do not break existing functionality, enforce code consistency and style
+ |
+|Design Lead | Jack | Review and approve changes to language design (i.e. EBNF), communicate with research lead to ensure features are correctly implemented and changes are made in an organized way
+ |
+|Research Lead | Sofia | Coordinate user studies and determine new requirements/changes that should be added to design and implementation, prototype features to use for user-studies and to ensure feasibility
+ |
+ 
+ In addition to the above, we plan to assign smaller tasks during the implementation phase, particularly relating to the development of core modules such as
+ - Tokenizer
+ - Parser
+ - Evaluator
+ - Validator
+ 
+ Other tasks will include the integration of modules, testing of modules, and
+  fixing of reported bugs. The above tasks will be assigned at a later date when the precise requirements and work schedules of our individual members are better understood.
+
 ## Milestone 1 Update (09-18-2020)
 ### Use Case
 An individual working on a research report or informative website who wants to display and work with static or live data
