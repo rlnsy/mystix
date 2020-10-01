@@ -1,4 +1,4 @@
-from evaluation import dataLoader
+from code.evaluation import dataLoader
 
 def main():
     dataLoader.load_data("http://winterolympicsmedals.com/medals.csv")
