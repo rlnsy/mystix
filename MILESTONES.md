@@ -58,9 +58,21 @@ Our first user study had six participants with similar views. Many were confused
     
 ### Improved Language Design:
 We made several changes to generalize the grammar and allow for more features in
- our language. Such as
+ our language:
  
- TODO
+ 1. Added clear start and end tokens to help users frame the structure of the
+  program.
+ 2. Added new terminology to make it more evident when things are dynamic vs static.
+ 3. Added an array of new keywords corresponding to different types of data objects
+  etc.
+ 4. Elaborated the structure of math and variable syntax.
+ 
+ Things we might add going forward:
+ 
+ 1. Stricter checking for strings at parsing.
+ 2. A more visually pleasing syntax for modelling control flow.
+ 3. Custom functions/routines that can be applied
+ 4. More static type declarations.
  
  The latest version of our grammar can be found [here](grammar.txt).
 
