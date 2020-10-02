@@ -30,6 +30,20 @@ VAL ::= NUMBER | FUNC(NUMBER)
 PLOT_NAME ::= [a-z]+
 FUNC ::= log
 ```
+Example program:
+```
+/* Implementation for loading case age and date as series, and displays 
+    an age/date scatterplot and a logarithmic graph of total cases 
+    over time. 
+*/
+1 source = live remote "www.coviddata.com/stream" 
+// a single record looks like this: { "case_age": 21, "case_date": 3 }
+2 map source "case_date" to number date
+3 number count = 0
+4 on new data from source count++
+5 plot xy date age called age_graph // default plot type: scatter
+6 plot line xy date log(count) called cases_log
+```
 
 ### First User Study
 1. Summary and notes:
@@ -43,7 +57,12 @@ Our first user study had six participants with similar views. Many were confused
     - Chaining was unclear
     
 ### Improved Language Design:
-TODO
+We made several changes to generalize the grammar and allow for more features in
+ our language. Such as
+ 
+ TODO
+ 
+ The latest version of our grammar can be found [here](grammar.txt).
 
 ## Milestone 2 Update (09-25-2020)
 ### Summary of Progress So Far:
