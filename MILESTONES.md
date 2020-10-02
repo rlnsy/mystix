@@ -1,3 +1,50 @@
+## Milestone 3 Update (10-02-2020)
+### First Language Grammar Mockup
+The following EBNF describes our initial language grammar as used for
+our first user study. This design leaves many things to be desired but is
+included for consistency and to accurately formalize the syntax given to our
+first user-study participants.
+```
+PROGRAM ::= LINE*
+LINE ::= LINE_CONTENT “\n”
+LINE_CONTENT ::= COMMENT | STATEMENT
+COMMENT ::= //[^\\n]+|/*.*/*
+STATEMENT ::= ASSIGNMENT | MAP | RULE | PLOT COMMENT*
+ASSIGNMENT ::= SOURCE_ASSIGNMENT | NUMBER_ASSIGNMENT
+SOURCE_ASSIGNMENT ::= SOURCE_NAME = SOURCE_TYPE SOURCE_URL
+SOURCE_NAME ::= [a-z]+
+SOURCE_TYPE ::= live remote
+SOURCE_URL ::= “.+”
+NUMBER_ASSIGNMENT ::= number NUMBER_NAME = NUMBER
+NUMBER_NAME ::= [a-z]+
+NUMBER ::= [0-9]+
+MAP ::= map SOURCE_NAME FIELD_NAME to MAP_REF
+MAP_REF ::= number NUMBER_NAME
+FIELD_NAME = “.+”
+RULE ::= on new data from SOURCE_NAME NUMBER_OPS
+NUMBER_OPS ::= ε | NUMBER_OP “,” NUMBER_OPS
+NUMBER_OP ::= NUMBER_NAME++
+PLOT ::= plot PLOT_TYPE VAL VAL called PLOT_NAME
+PLOT_TYPE ::= xy | line xy
+VAL ::= NUMBER | FUNC(NUMBER)
+PLOT_NAME ::= [a-z]+
+FUNC ::= log
+```
+
+### First User Study
+1. Summary and notes:
+Our first user study had six participants with similar views. Many were confused by the lack of highlighted function names and fixed literals; however, overall it was unanimous that the easy language like syntax would be easy to use and follow once fully developed. Changes suggested by participants included improving readability by adding highlighting, changing the “called” functionality to “titled”, and error handling. These modifications will be taken into account for the final design of the language to satisfy the design principle regarding code consistency for new users to easily understand how to use the language. We will also be looking into potential error handling to improve the user’s potential debugging process.
+2. Key feedback received:
+    - **Highlight fixed literals**
+    - “Called” to “titled”
+    - Declare multiple variables on same line
+    - Error handling
+    - **Unclear when data is being plotted and updated live or not**
+    - Chaining was unclear
+    
+### Improved Language Design:
+TODO
+
 ## Milestone 2 Update (09-25-2020)
 ### Summary of Progress So Far:
 As of today, we have completed both milestone 1 and 2. The user study has been created
