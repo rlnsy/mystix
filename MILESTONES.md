@@ -66,6 +66,7 @@ We made several changes to generalize the grammar and allow for more features in
  3. Added an array of new keywords corresponding to different types of data objects
   etc.
  4. Elaborated the structure of math and variable syntax.
+ 5. Removed comments since they seem hard to parse and are not that useful.
  
  Things we might add going forward:
  
@@ -73,6 +74,7 @@ We made several changes to generalize the grammar and allow for more features in
  2. A more visually pleasing syntax for modelling control flow.
  3. Custom functions/routines that can be applied
  4. More static type declarations.
+ 5. Add a more elegant, non-comment way to insert documentation into the program.
  
  The latest version of our grammar can be found [here](grammar.txt).
 
