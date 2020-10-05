@@ -11,6 +11,7 @@
       <sourceFolder url="file://$MODULE_DIR$/code" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests/res" type="java-test-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/tests/out" />
     </content>
     <orderEntry type="jdk" jdkName="Pipenv (cpsc410_project1_team17)" jdkType="Python SDK" />
