@@ -1,1 +1,3 @@
 *.cpython-38.pyc
+.venv
+tests/out
