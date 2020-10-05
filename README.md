@@ -54,11 +54,14 @@ See the [unittest docs](https://docs.python.org/3/library/unittest.htm)
 for more info. If you need to add a new test file, it should be placed directly
 in the tests directory and have a name starting with "test_".
 
-2. **How do I add dependencies?**
+3. **How do I add dependencies?**
 
     Ideally, consult with the team and Dev Lead first. To add to the project,
 run `pipenv install <package>` from the root directory and make sure everybody
 runs `make-update` upon getting the new Pipfile.
+
+4. **What tools do we use?**
+Python (obviously) for our central logic, [numpy](https://numpy.org/doc/stable/user/quickstart.html) for numerical computations, [PyQtGraph](https://pyqtgraph.readthedocs.io/en/latest/introduction.html#examples) for visualization.
 
 ### Git Procedure:
 - Create new branches for functionality that you're working on
