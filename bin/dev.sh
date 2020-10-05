@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export PIPENV_VENV_IN_PROJECT=1
+export PIPENV_IGNORE_VIRTUALENVS=1
 
 _routine_=$1
 
@@ -85,3 +86,4 @@ else
   echo "Unrecognized command: '$_routine_'"
   exit 1
 fi
+
