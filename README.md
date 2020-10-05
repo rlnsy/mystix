@@ -50,7 +50,7 @@ Choose to use the SDK of the main module as before. Click `OK`.
 2. **How do I add tests?**
 
     Add test cases to the files in the `test` directory where appropriate.
-See the [unittest docs](https://docs.python.org/3/library/unittest.htm)
+See the [unittest docs](https://docs.python.org/3/library/unittest.html)
 for more info. If you need to add a new test file, it should be placed directly
 in the tests directory and have a name starting with "test_".
 
