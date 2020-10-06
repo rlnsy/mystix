@@ -1,5 +1,5 @@
-from code.evaluation import dataLoader
-import pyqtgraph.examples
+from code.targets.data import dataLoader
+import pyqtgraph.examples  # type: ignore
 
 if __name__ == "__main__":
     print("Doing Main Stuff")

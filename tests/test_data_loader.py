@@ -1,5 +1,5 @@
 import unittest
-from code.evaluation.dataLoader import load_data
+from code.targets.data.dataLoader import load_data
 import filecmp
 
 
