@@ -1,5 +1,5 @@
 from .Node import Node
 
 
-class Command(Node):
+class LifeStat(Node):
     pass

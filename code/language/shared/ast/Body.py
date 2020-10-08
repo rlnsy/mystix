@@ -1,7 +1,7 @@
 from typing import List
 
 from .Node import Node
-from .Command import Command
+from .commands_ast.Command import Command
 
 
 class Body(Node):

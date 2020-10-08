@@ -1,27 +1,26 @@
-PROGRAM     ::= “<START>” BODY? “<END>”
-BODY        ::= PROGRAM_SEP COMMAND* PROGRAMM_SEP
-COMMAND     ::= LOADER | MAPPER | HOLDER | MATH | PLOTTER
-LOADER      ::= VAR “ = ” SOURCE SEP
-MAPPER      ::= “map ” VAR STRING “to” TYPE STRING SEP
-HOLDER      ::= TYPE VAR “=” VALUE SEP
-MATH        ::= “on” LIFE_STAT TBL_STRING “from” VAR MATH_FUNCS SEP
-PLOTTER     ::= “plot” GRAPH AXIS AXIS “called ” STRING SEP
+PROGRAM     ::= <START> SEP BODY <END>
+BODY        ::= (COMMAND SEP)*
+COMMAND     ::= LOADER | MAPPER | ASSIGNER | TRIGGER | PLOTTER
+LOADER      ::= VAR = SOURCE
+MAPPER      ::= map VAR STRING to DECLARE
+DECLARE     ::= TYPE VAR
+ASSIGNER    ::= DECLARE “=” VALUE
+TRIGGER     ::= on new data from VAR MATH_FUNCS
+PLOTTER     ::= plot GRAPH AXIS AXIS called STRING
 VAR         ::= “^[a-z]+” “[a-zA-Z0-9\_]*”
-SOURCE      ::= REPORTING “remote” URL
+SOURCE      ::= REPORTING remote URL
 REPORTING   ::= “live” | “static”
 URL         ::= STRING
-PROT        ::= “http” | “https”
 STRING      ::= “\S+”
-TYPE        ::= “number” | “word” | “binary”
+TYPE        ::= number | category | binary
 VALUE       ::= [0-9]+ | “\”” [.]* “\”” | BIN
-BIN         ::= “true” | “false”
-GRAPH       ::= “xy” | “line xy”
-AXIS        ::= STRING | MATH_FUNC
-LIFE_STAT   ::= “new” | “current”
-MATH_FUNCS  ::= MATH_FUNC | MATH_FUNC “ , ” MATH_FUNCS
-MATH_FUNC   ::= SIMP_FUNC | FAST_FUNC | “log(” VAR “)”
-FAST_FUNC   ::= VAR ”++” | VAR “--”
-SIMP_FUNC   ::= VAR OP [0-9]+
-OP          ::= “ + ” | “ - ” | “ * ” | “ / ” | “^”
-PROGRAM_SEP ::= “\n”
-SEP         ::= “\n” | “;”
+BIN         ::= true | false
+GRAPH       ::= xy” | line xy
+AXIS        ::= VAR | MATH_FUNC
+MATH_FUNCS  ::= MATH_FUNC | MATH_FUNC , MATH_FUNCS
+MATH_FUNC   ::= SIMP_FUNC | FAST_FUNC | MATH_BLTN VAR
+MATH_BLTN   ::= log | sin | cos | exp
+FAST_FUNC   ::= VAR++ | VAR--
+SIMP_FUNC   ::= VAR OP VALUE
+OP          ::= + | - | * | / | ^
+SEP         ::= \n | ;
