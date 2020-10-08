@@ -2,7 +2,7 @@
 <module type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Python" name="Python">
-      <configuration sdkName="" />
+      <configuration sdkName="Pipenv (cpsc410_project1_team17)" />
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
@@ -17,5 +17,6 @@
     <orderEntry type="jdk" jdkName="Pipenv (cpsc410_project1_team17)" jdkType="Python SDK" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Pipenv (cpsc410_project1_team17) interpreter library" level="application" />
   </component>
 </module>
