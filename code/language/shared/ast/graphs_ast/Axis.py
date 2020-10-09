@@ -10,7 +10,7 @@ class Axis(Node):
 class VarAxis(Axis):
 
     def __init__(self, v: Var):
-        self.var = Var
+        self.var = v
 
 
 class FuncAxis(Axis):

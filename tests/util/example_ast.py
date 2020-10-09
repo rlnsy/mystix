@@ -7,11 +7,12 @@ from code.language.shared.primitives.values import IntegerValue
 from code.language.shared.primitives.graphs import ScatterXYGraph, LineXYGraph
 from code.language.shared.primitives.numerical import NumFunction
 
-"""
-Instantiates program example 1 as a native AST
-"""
-EXAMPLE_1: ast.Program \
-    = ast.Program(
+
+def example_1() -> ast.Program:
+    """
+    Instantiates program example 1 as a native AST
+    """
+    return ast.Program(
         ast.Body([
 
             # source = live remote "www.coviddata.com/stream"

@@ -1,12 +1,15 @@
 
 
 class Graph:
-    pass
+    def equals(self, g) -> bool:
+        return False
 
 
 class LineXYGraph(Graph):
-    pass
+    def equals(self, g: Graph) -> bool:
+        return isinstance(g, LineXYGraph)
 
 
 class ScatterXYGraph(Graph):
-    pass
+    def equals(self, g: Graph) -> bool:
+        return isinstance(g, ScatterXYGraph)

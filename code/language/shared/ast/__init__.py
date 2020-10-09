@@ -20,12 +20,13 @@ from .Reporting import Reporting
 from .Type import Type
 from .Value import Value
 from .graphs_ast.Graph import Graph
+from .graphs_ast.Axis import Axis
 from .graphs_ast.Axis import VarAxis, FuncAxis
 from .LifeStat import LifeStat
 from .math_ast.MathFuncs import MathFuncs
 from .math_ast.Func import Func
 from .math_ast.SimpleFunc import SimpleFunc
-from .math_ast.FastFunc import Increment, Decrement
+from .math_ast.FastFunc import FastFunc, Increment, Decrement
 from .math_ast.BuiltinFunc import BuiltinFunc
 from .math_ast.Operand import Operand
 from .Declare import Declare
