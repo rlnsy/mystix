@@ -2,8 +2,9 @@
 
 echo "Running tests"
 ./bin/dev.sh test
-if [ $? != 0 ]; then
+status=$?
+if [ $status != 0 ]; then
     echo "One or more tests failed! Commit cancelled."
     echo "To bypass, use the --no-verify flag."
-    exit $?
+    exit status
 fi
