@@ -1,4 +1,4 @@
 #!/bin/sh
 
-echo "This is a pre-commit script. To modify the behviour, edit '.githooks/pre-commit'
-and run make-update."
+echo "Running tests"
+./bin/dev.sh test
