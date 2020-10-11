@@ -1,3 +1,36 @@
+## Milestone 4 Update (10-09-2020)
+### Status of Implementation
+As of today, we have implemented several code components of our language
+system, including
+1. An AST data structure
+2. Stubs for most main functions
+3. A system for variables and memory.
+3. Utilities and test cases for many core modules.
+
+In addition, we have a rigorous automated testing system in place for our code-base
+and are on track to completely define our system spec using tests by the start of next
+week.
+
+### Plans for Last User Study
+We have several participants lined up, some of which did not complete the first
+ user study, to help us with the final study. We plan on completing our final study
+  at the end of next week, once all of our system is implemented and mostly free
+  of bugs. For the final study, however, we plan on making the following improvements:
+  
+  1. We will attend a live call with the participant to examine how they interact
+   with the language and provide guidance where necessary.
+  2. We will develop some more complex use cases and problems to solve with our
+   language.
+   3. We will present code examples with some level of syntax highlighting in order
+   to make things slightly easier to discern for the user.
+   
+### Remaining Timeline
+(See Roadmap below) We plan on specifying full tests of the system by the start of
+ next week and be halfway done the implementation. By the end of the week we will
+  be done with our MVP implementation in order to perform the user-study. We
+   will prioritize dynamic functionality, quality, and overall usability of the
+    language over additional features.
+
 ## Milestone 3 Update (10-02-2020)
 ### First Language Grammar Mockup
 The following EBNF describes our initial language grammar as used for
