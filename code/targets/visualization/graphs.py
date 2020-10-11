@@ -22,7 +22,7 @@ class Plot:
         self.data_frag = 0
         self.add_data(init_data)
 
-        self.data = []
+        self.data: List = []
 
     def update(self):
         fragments = sorted([

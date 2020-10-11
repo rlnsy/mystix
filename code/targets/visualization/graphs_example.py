@@ -2,7 +2,7 @@ from code.targets.visualization.graphs import GraphManager
 from threading import Thread
 import time
 from math import sin, pi
-import numpy as np
+import numpy as np  # type: ignore
 
 MOCK_DATA_RESOLUTION = 1000
 MOCK_DATA_SEED = [sin(t) for t in np.linspace(0, 2*pi, MOCK_DATA_RESOLUTION)]
