@@ -1,4 +1,4 @@
-import csv, urllib.request
+import csv, urllib.request  # type: ignore
 
 
 def load_data(url: str, file: str = None):

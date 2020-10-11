@@ -1,5 +1,5 @@
-from PyQt5 import QtGui
-import pyqtgraph as pg
+from PyQt5 import QtGui  # type: ignore
+import pyqtgraph as pg  # type: ignore
 from typing import cast
 
 

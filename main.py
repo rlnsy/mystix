@@ -1,4 +1,4 @@
-from code.targets.data import dataLoader  # type: ignore
+from code.targets.data import dataLoader
 from code.targets.visualization.graphs import GraphManager
 
 if __name__ == "__main__":
