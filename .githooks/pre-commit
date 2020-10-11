@@ -6,5 +6,5 @@ status=$?
 if [ $status != 0 ]; then
     echo "One or more tests failed! Commit cancelled."
     echo "To bypass, use the --no-verify flag."
-    exit status
+    exit $status
 fi
