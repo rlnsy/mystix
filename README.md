@@ -65,7 +65,7 @@ Python (obviously) for our central logic, [numpy](https://numpy.org/doc/stable/u
 
 ### Git Procedure:
 - Create new branches for functionality that you're working on
-- Commit and push to the branch
+- Commit and push to the branch (make sure you run tests first!)
 - Create a pull request to master when you're ready
   - Try to keep pull requests small
   - Squash commits into one if your pull request includes multiple
