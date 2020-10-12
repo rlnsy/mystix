@@ -1,4 +1,10 @@
 #!/bin/sh
 
-echo "This is a pre-commit script. To modify the behviour, edit '.githooks/pre-commit'
-and run make-update."
+echo "Running tests"
+./bin/dev.sh test
+status=$?
+if [ $status != 0 ]; then
+    echo "One or more tests failed! Commit cancelled."
+    echo "To bypass, use the --no-verify flag."
+    exit $status
+fi
