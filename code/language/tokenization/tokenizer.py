@@ -28,6 +28,7 @@ def tokenize(content: str) -> List[str]:
     # TODO: optimize
     new_res = []
     for i in res:
-        new_res.append(i.strip())
+        if i.strip():
+            new_res.append(i.strip())
     print("Trimmed: ", new_res)
     return list(new_res)
