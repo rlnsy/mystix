@@ -11,7 +11,7 @@ from code.language.shared.ast import Program
 
 class ExampleParseTests(unittest.TestCase):
 
-    def test_example_1(self):
+    def test_parse_1(self):
         def run_compile(content: str) -> Program:
             return parse(tokenize(content))
         p: Program = read_program_file("tests/res/programs/example1", run_compile)
