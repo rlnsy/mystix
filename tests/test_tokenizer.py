@@ -11,3 +11,9 @@ class TestTokenizer(ut.TestCase):
             return tokenize(content)
         p: Program = read_program_file("tests/res/programs/example1", run_compile)
         self.assertTrue(p, str)
+
+    def test_tokenizer_2(self):
+        def run_compile(content: str) -> Program:
+            return tokenize(content)
+        p: Program = read_program_file("tests/res/programs/example2", run_compile)
+        self.assertTrue(p, str)

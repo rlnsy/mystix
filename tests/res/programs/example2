@@ -1,0 +1,6 @@
+<START>
+source = live remote "http://winterolympicsmedals.com/medals.csv"
+map source "Year" to number year
+map source "Medal" to number medal
+plot xy year medal called medal_graph
+<END>
