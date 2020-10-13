@@ -42,7 +42,7 @@ class tokenizer:
         return list(new_res)
 
     def check_next(self):
-        if len(tokens) == 0:
+        if len(self.tokens) == 0:
             raise Exception('Error: No tokens loaded, use tokenize()')
         if self.current_token < len(self.tokens):
             return self.tokens[self.current_token]
@@ -50,10 +50,10 @@ class tokenizer:
             return "NO MORE TOKENS"
 
     def get_next(self):
-        if len(tokens) == 0:
+        if len(self.tokens) == 0:
             raise Exception('Error: No tokens loaded, use tokenize()')
         if self.current_token < len(self.tokens):
-            token = self.tokens[current_token]
+            token = self.tokens[self.current_token]
             self.current_token += 1
         else:
             token = "NULLTOKEN"
@@ -73,4 +73,4 @@ class tokenizer:
         return s
 
     def more_tokens(self):
-        return self.current_token < self.tokens.length
+        return self.current_token < len(self.tokens)
