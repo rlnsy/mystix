@@ -46,6 +46,7 @@ class TestTokenizer(ut.TestCase):
 
     def test_tokenizer_get_next(self):
         def run_compile(content: str) -> str:
+            tokenizer(content).tokenize()
             return tokenizer(content).get_next
         p:str = read_program_file("tests/res/programs/example1", run_compile)
         self.assertTrue(p, '<START>')
@@ -56,12 +57,14 @@ class TestTokenizer(ut.TestCase):
 
     def test_tokenizer_check_next(self):
         def run_compile(content: str) -> bool:
+            tokenizer(content).tokenize()
             return tokenizer(content).check_next
         p:str = read_program_file("tests/res/programs/example1", run_compile)
         self.assertTrue(p, True)
         
     def test_tokenizer_check_next2(self):
         def run_compile(content: str) -> bool:
+            tokenizer(content).tokenize()
             return tokenizer(content).check_next
         p:str = read_program_file("tests/res/programs/empty", run_compile)
         self.assertTrue(p, False)
@@ -70,6 +73,7 @@ class TestTokenizer(ut.TestCase):
         def run_compile(content: str) -> bool:
             return tokenizer(content).check_token('<START>')
         def run_compile2(content: str) -> str:
+            tokenizer(content).tokenize()
             return tokenizer(content).get_next
         p:str = read_program_file("tests/res/programs/example1", run_compile2)
         p = read_program_file("tests/res/programs/example1", run_compile)
@@ -80,15 +84,17 @@ class TestTokenizer(ut.TestCase):
 
     def test_tokenizer_get_and_check_next(self):
         def run_compile(content: str) -> str:
+            tokenizer(content).tokenize()
             return tokenizer(content).get_and_check_next('<START>')
-        p:str = read_program_file("test/res/programs/example1", run_compile)
+        p:str = read_program_file("tests/res/programs/example1", run_compile)
         self.assertTrue(p, '<START>')
 
     def test_tokenizer_get_and_check_next2(self):
         def run_compile(content: str) -> str:
+            tokenizer(content).tokenize()
             return tokenizer(content).get_and_check_next('source')
         try:
-            p:str = read_program_file("test/res/programs/example1", run_compile)
+            p:str = read_program_file("tests/res/programs/example1", run_compile)
             self.assertTrue(False, True)
         except:
             self.assertTrue(True, True)
@@ -96,12 +102,14 @@ class TestTokenizer(ut.TestCase):
 
     def test_tokenizer_more_tokens(self):
         def run_compile(content: str) -> bool:
+            tokenizer(content).tokenize()
             return tokenizer(content).more_tokens
         p:str = read_program_file("tests/res/programs/example1", run_compile)
         self.assertTrue(p, True)
 
     def test_tokenizer_more_tokens2(self):
         def run_compile(content: str) -> bool:
+            tokenizer(content).tokenize()
             return tokenizer(content).more_tokens
         p:str = read_program_file("tests/res/programs/empty", run_compile)
         self.assertTrue(p, False)

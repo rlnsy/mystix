@@ -11,7 +11,7 @@ number cosyear = cos(year)
 number expyear = exp(year)
 number sqyear = year ^ 2
 number thing = 2000
-thing--
+thing--, addyear++
 binary bin = true
 binary bin2 = false
 plot xy cos(year) medal called cos_medal_graph
