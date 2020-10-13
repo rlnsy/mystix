@@ -1,0 +1,10 @@
+<START>
+source = "http://winterolympicsmedals.com/medals.csv"
+map source "Year" to number year
+map source "Medal" to number medal
+year = year / 100
+year = year * 10
+year = year + 23
+year = year - 12
+plot xy year medal called medal_graph
+<END>
