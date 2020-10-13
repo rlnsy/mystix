@@ -4,7 +4,7 @@ import unittest
 from tests.util.example_ast import example_1
 from tests.util import ast_equal
 from code.ui.util import read_program_file
-from code.language.tokenization import tokenize
+from code.language.tokenization import tokenizer
 from code.language.parsing import parse
 from code.language.shared.ast import Program
 
@@ -13,6 +13,7 @@ class ExampleParseTests(unittest.TestCase):
 
     def test_parse_1(self):
         def run_compile(content: str) -> Program:
-            return parse(tokenize(content))
-        p: Program = read_program_file("tests/res/programs/example1", run_compile)
+            return parse(tokenizer(content).tokenize())
+        p: Program = read_program_file(
+            "tests/res/programs/example1", run_compile)
         self.assertTrue(ast_equal(p, example_1()))
