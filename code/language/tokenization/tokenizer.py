@@ -64,3 +64,14 @@ class tokenizer:
         s = self.check_next()
         print(f"Comparing {s} to {regexp}")
         return re.match(regexp, s)
+
+    def get_and_check_next(self, regexp):
+        s = self.get_next()
+        if (!re.match(regexp, s)):
+            raise Exception(
+                f"Unexpected token! Expected something matching {regexp}, got {s}")
+        print(f"Matched {s} to {regexp}")
+        return s
+
+    def more_tokens(self):
+        return self.current_token < self.tokens.length
