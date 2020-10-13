@@ -41,3 +41,13 @@ class TestTokenizer(ut.TestCase):
         'thing', '=', '2000', ';', 'thing--', ';', 'binary', 'bin', '=', 'true', ';', 'binary', 'bin2', '=', 
         'false', ';', 'plot', 'xy', 'cos(year)', 'medal', 'called', 'cos_medal_graph', ';', '<END>']
         self.assertTrue(p, res)
+
+    def test_tokenizer_getNext(self):
+        def run_compile(content: str) -> str:
+            return tokenizer(content).getNext
+        p:str = read_program_file("tests/res/programs/example1", run_compile)
+        self.assertTrue(p, '<START>')
+        p = read_program_file("tests/res/programs/example1", run_compile)
+        self.assertTrue(p, ';')
+        p = read_program_file("tests/res/programs/example1", run_compile)
+        self.assertTrue(p, 'source')
