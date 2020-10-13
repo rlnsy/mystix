@@ -48,7 +48,6 @@ class tokenizer:
             return self.tokens[self.current_token]
         else:
             return "NO MORE TOKENS"
-        # print('ah ', self.current_token)
 
     def get_next(self):
         if len(tokens) == 0:
@@ -67,7 +66,7 @@ class tokenizer:
 
     def get_and_check_next(self, regexp):
         s = self.get_next()
-        if (!re.match(regexp, s)):
+        if (re.match(regexp, s) == None):
             raise Exception(
                 f"Unexpected token! Expected something matching {regexp}, got {s}")
         print(f"Matched {s} to {regexp}")
