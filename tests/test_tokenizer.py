@@ -1,6 +1,5 @@
 
 import unittest as ut
-import code.language.tokenization
 from typing import List
 from code.ui.util import read_program_file
 from code.language.tokenization import tokenizer
@@ -45,12 +44,66 @@ class TestTokenizer(ut.TestCase):
                'false', ';', 'plot', 'xy', 'cos(year)', 'medal', 'called', 'cos_medal_graph', ';', '<END>']
         self.assertTrue(p, res)
 
-    def test_tokenizer_getNext(self):
+    def test_tokenizer_get_next(self):
         def run_compile(content: str) -> str:
-            return tokenizer(content).getNext
+            return tokenizer(content).get_next
         p:str = read_program_file("tests/res/programs/example1", run_compile)
         self.assertTrue(p, '<START>')
         p = read_program_file("tests/res/programs/example1", run_compile)
         self.assertTrue(p, ';')
         p = read_program_file("tests/res/programs/example1", run_compile)
         self.assertTrue(p, 'source')
+
+    def test_tokenizer_check_next(self):
+        def run_compile(content: str) -> bool:
+            return tokenizer(content).check_next
+        p:str = read_program_file("tests/res/programs/example1", run_compile)
+        self.assertTrue(p, True)
+        
+    def test_tokenizer_check_next2(self):
+        def run_compile(content: str) -> bool:
+            return tokenizer(content).check_next
+        p:str = read_program_file("tests/res/programs/empty", run_compile)
+        self.assertTrue(p, False)
+
+    def test_tokenizer_check_token(self):
+        def run_compile(content: str) -> bool:
+            return tokenizer(content).check_token('<START>')
+        def run_compile2(content: str) -> str:
+            return tokenizer(content).get_next
+        p:str = read_program_file("tests/res/programs/example1", run_compile2)
+        p = read_program_file("tests/res/programs/example1", run_compile)
+        self.assertTrue(p, True)
+        p = read_program_file("tests/res/programs/example1", run_compile2)
+        p = read_program_file("tests/res/programs/example1", run_compile)
+        self.assertTrue(p, False)
+
+    def test_tokenizer_get_and_check_next(self):
+        def run_compile(content: str) -> str:
+            return tokenizer(content).get_and_check_next('<START>')
+        p:str = read_program_file("test/res/programs/example1", run_compile)
+        self.assertTrue(p, '<START>')
+
+    def test_tokenizer_get_and_check_next2(self):
+        def run_compile(content: str) -> str:
+            return tokenizer(content).get_and_check_next('source')
+        try:
+            p:str = read_program_file("test/res/programs/example1", run_compile)
+            self.assertTrue(False, True)
+        except:
+            self.assertTrue(True, True)
+
+
+    def test_tokenizer_more_tokens(self):
+        def run_compile(content: str) -> bool:
+            return tokenizer(content).more_tokens
+        p:str = read_program_file("tests/res/programs/example1", run_compile)
+        self.assertTrue(p, True)
+
+    def test_tokenizer_more_tokens2(self):
+        def run_compile(content: str) -> bool:
+            return tokenizer(content).more_tokens
+        p:str = read_program_file("tests/res/programs/empty", run_compile)
+        self.assertTrue(p, False)
+    
+    
