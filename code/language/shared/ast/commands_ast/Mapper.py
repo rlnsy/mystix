@@ -1,6 +1,7 @@
 from .Command import Command
 from ..Var import Var
 from ..Declare import Declare
+from ....evaluation.visitor import Visitor
 
 
 class Mapper(Command):
@@ -8,3 +9,9 @@ class Mapper(Command):
         self.src: Var = src
         self.tbl_field: str = tbl_field
         self.decl = decl
+        
+
+    def accept(self, v: Visitor):
+        return v.visit_mapper(self)
+
+    pass

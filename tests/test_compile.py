@@ -5,7 +5,7 @@ from code.language.shared.ast import Program
 from code.language.evaluation.errors import LanguageError
 from code.language.tokenization import tokenize
 from code.language.parsing import parse
-from code.language.evaluation import evaluate
+from code.language.evaluation import Evaluator
 
 
 class CompilePipelineTests(unittest.TestCase):
@@ -18,7 +18,7 @@ class CompilePipelineTests(unittest.TestCase):
         try:
             tokens: List[str] = tokenize(content)
             program: Program = parse(tokens)
-            result: int = evaluate(program)
+            result: int = Evaluator.evaluate(self, program)
             print(result)
         except LanguageError:
             self.fail()

@@ -1,1 +1,2 @@
-from .evaluator import evaluate
+from .evaluator import Evaluator
+from .visitor import Visitor

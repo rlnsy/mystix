@@ -2,6 +2,7 @@ from .Func import Func
 from ..Var import Var
 from .Operand import Operand
 from ..Value import Value
+from ....evaluation.visitor import Visitor
 
 
 class SimpleFunc(Func):
@@ -11,6 +12,9 @@ class SimpleFunc(Func):
         self.op: Operand = op
         self.rhs = v
         pass
+
+    def accept(self, v: Visitor):
+        return v.visit_simple_func(self)
 
     operations = dict({
         "+": "__calcSum",

@@ -1,5 +1,6 @@
 from .Func import Func
 from ..Var import Var
+from ....evaluation.visitor import Visitor
 
 
 class FastFunc(Func):
@@ -8,8 +9,14 @@ class FastFunc(Func):
 
 
 class Increment(FastFunc):
+    def accept(self, v: Visitor):
+        return v.visit_increment(self)
+
     pass
 
 
 class Decrement(FastFunc):
+    def accept(self, v: Visitor):
+        return v.visit_decrement(self)
+    
     pass

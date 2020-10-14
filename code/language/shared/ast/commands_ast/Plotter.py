@@ -1,6 +1,7 @@
 from .Command import Command
 from ..graphs_ast.Graph import Graph
 from ..graphs_ast.Axis import Axis
+from ....evaluation.visitor import Visitor
 
 
 class Plotter(Command):
@@ -9,4 +10,10 @@ class Plotter(Command):
         self.x: Axis = x_axis
         self.y: Axis = y_axis
         self.graph_name: str = name
+        
+
+    def accept(self, v: Visitor):
+        return v.visit_plotter(self)
+
+    pass
 
