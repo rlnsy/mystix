@@ -1,11 +1,6 @@
 from code.language.shared.ast import *
 from typing import cast
-
-
-class NonExhaustiveTypeCaseError(Exception):
-    def __init__(self):
-        super(Exception, self).__init__(
-            "Reached end of type cases without a match.")
+from code.util.errors import NonExhaustiveTypeCaseError
 
 
 def value_equal(v1: Value, v2: Value) -> bool:
