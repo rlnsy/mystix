@@ -1,5 +1,16 @@
+"""
+To provide type checking for this file (and subclasses of Visitor)
+and avoid a circular import between Node types and the Visitor class
+itself, we do a dynamic import only in the case of static type
+checking.
+Per this post:
+https://stackoverflow.com/questions/39740632/python-type-hinting-without-cyclic-imports
+"""
+from __future__ import annotations
+from typing import TYPE_CHECKING as STATIC_CHECK
+if STATIC_CHECK:
+    from ..shared.ast import *
 from abc import ABC, abstractmethod
-from ..shared.ast import *
 
 
 class Visitor(ABC):
