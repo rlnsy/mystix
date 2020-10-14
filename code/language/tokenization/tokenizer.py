@@ -49,6 +49,16 @@ class tokenizer:
         else:
             return "NO MORE TOKENS"
 
+    def get_line(self):
+        line = []
+        cur_token = self.current_token
+        next_token = self.get_next()
+        while(next_token != ';'):
+            line.append(next_token)
+            next_token = self.get_next()
+        self.current_token = cur_token
+        return line
+
     def get_next(self):
         if len(self.tokens) == 0:
             raise Exception('Error: No tokens loaded, use tokenize()')
