@@ -5,6 +5,11 @@ itself, we do a dynamic import only in the case of static type
 checking.
 Per this post:
 https://stackoverflow.com/questions/39740632/python-type-hinting-without-cyclic-imports
+
+To implement the visitor pattern structure, we set this file as the "interface"
+in an informal structure.
+Using this post for reference:
+https://refactoring.guru/design-patterns/visitor/python/example
 """
 from __future__ import annotations
 from typing import TYPE_CHECKING as STATIC_CHECK
