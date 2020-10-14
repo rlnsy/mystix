@@ -10,9 +10,5 @@ class Assigner(Command):
         self.decl = decl
         self.value: Value = value
 
-
     def accept(self, v: Visitor):
         return v.visit_assigner(self)
-
-    pass
-

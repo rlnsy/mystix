@@ -1,10 +1,13 @@
 from ..Node import Node
+from ..visitor import Visitor
 
 
 class Command(Node):
     """
     Parent class to Loader, Mapper, Holder, Math, and Plotter
-
-    Evaluate needed?
+    We assume all visitors visit the subclasses, but provide
+    the accept stub for static analysis.
     """
-    pass
+
+    def accept(self, v: Visitor):
+        pass

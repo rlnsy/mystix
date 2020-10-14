@@ -11,5 +11,3 @@ class Operand(Node):
 
     def accept(self, v: Visitor):
         return v.visit_operand(self)
-
-    pass

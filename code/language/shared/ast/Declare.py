@@ -9,9 +9,6 @@ class Declare(Node):
     def __init__(self, t: Type, v: Var):
         self.type = t
         self.var = v
-        
 
     def accept(self, v: Visitor):
         return v.visit_declare(self)
-
-    pass
