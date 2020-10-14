@@ -1,5 +1,4 @@
 from ..Node import Node
-from ....evaluation.visitor import Visitor
 
 
 class Command(Node):

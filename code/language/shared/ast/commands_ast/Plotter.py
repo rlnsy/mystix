@@ -1,7 +1,7 @@
 from .Command import Command
 from ..graphs_ast.Graph import Graph
 from ..graphs_ast.Axis import Axis
-from ....evaluation.visitor import Visitor
+from code.language.shared.ast.visitor import Visitor
 
 
 class Plotter(Command):

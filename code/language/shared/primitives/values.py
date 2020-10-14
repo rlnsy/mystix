@@ -25,6 +25,9 @@ class IntegerValue(NumericalValue):
         super(NumericalValue, self).__init__()
         self.value = val
 
+    def __repr__(self):
+        return "%d" % self.value
+
 
 class FloatValue(NumericalValue):
 

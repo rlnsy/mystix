@@ -1,6 +1,6 @@
 from .Node import Node
 from code.language.shared.primitives import Types
-from ...evaluation.visitor import Visitor
+from code.language.shared.ast.visitor import Visitor
 
 
 class Type(Node):

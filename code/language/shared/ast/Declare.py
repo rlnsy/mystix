@@ -1,7 +1,7 @@
 from .Node import Node
 from .Type import Type
 from .Var import Var
-from ...evaluation.visitor import Visitor
+from code.language.shared.ast.visitor import Visitor
 
 
 class Declare(Node):

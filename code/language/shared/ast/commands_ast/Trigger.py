@@ -1,7 +1,7 @@
 from .Command import Command
 from ..Var import Var
 from ..math_ast.MathFuncs import MathFuncs
-from ....evaluation.visitor import Visitor
+from code.language.shared.ast.visitor import Visitor
 
 
 class Trigger(Command):

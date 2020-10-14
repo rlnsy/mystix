@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING as STATIC_CHECK
 if STATIC_CHECK:
     from code.language.shared.ast import *
-from .visitor import Visitor
+from code.language.shared.ast.visitor import Visitor
 
 
 class Evaluator(Visitor):

@@ -2,7 +2,7 @@ from typing import List
 
 from ..Node import Node
 from .Func import Func
-from ....evaluation.visitor import Visitor
+from code.language.shared.ast.visitor import Visitor
 
 
 class MathFuncs(Node):

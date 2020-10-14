@@ -1,6 +1,6 @@
 from .Node import Node
 from .Reporting import Reporting
-from ...evaluation.visitor import Visitor
+from code.language.shared.ast.visitor import Visitor
 
 
 class Source(Node):

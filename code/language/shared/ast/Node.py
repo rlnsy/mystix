@@ -1,4 +1,4 @@
-from ...evaluation.visitor import Visitor
+from code.language.shared.ast.visitor import Visitor
 from abc import ABC, abstractmethod
 
 class Node(ABC):

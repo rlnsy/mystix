@@ -1,7 +1,7 @@
 from .Command import Command
 from ..Var import Var
 from ..Declare import Declare
-from ....evaluation.visitor import Visitor
+from code.language.shared.ast.visitor import Visitor
 
 
 class Mapper(Command):

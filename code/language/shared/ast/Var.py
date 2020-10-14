@@ -1,5 +1,5 @@
 from .Node import Node
-from ...evaluation.visitor import Visitor
+from code.language.shared.ast.visitor import Visitor
 
 
 class Var(Node):

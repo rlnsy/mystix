@@ -2,7 +2,7 @@ from .Func import Func
 from ..Var import Var
 from .Operand import Operand
 from ..Value import Value
-from ....evaluation.visitor import Visitor
+from code.language.shared.ast.visitor import Visitor
 
 
 class SimpleFunc(Func):

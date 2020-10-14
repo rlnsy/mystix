@@ -1,7 +1,7 @@
 from .Func import Func
 from ..Var import Var
 from code.language.shared.primitives.numerical import NumFunction
-from ....evaluation.visitor import Visitor
+from code.language.shared.ast.visitor import Visitor
 
 
 class BuiltinFunc(Func):

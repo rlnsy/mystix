@@ -2,7 +2,7 @@ from typing import List
 
 from .Node import Node
 from .commands_ast.Command import Command
-from ...evaluation.visitor import Visitor
+from code.language.shared.ast.visitor import Visitor
 
 
 class Body(Node):

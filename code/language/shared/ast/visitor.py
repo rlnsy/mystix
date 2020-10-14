@@ -14,7 +14,7 @@ https://refactoring.guru/design-patterns/visitor/python/example
 from __future__ import annotations
 from typing import TYPE_CHECKING as STATIC_CHECK
 if STATIC_CHECK:
-    from ..shared.ast import *
+    from code.language.shared.ast import *
 from abc import ABC, abstractmethod
 
 
