@@ -4,10 +4,11 @@ if STATIC_CHECK:
     from code.language.shared.ast import *
 from .visitor import Visitor
 
+
 class Evaluator(Visitor):
 
-    def evaluate(self, p: Program) -> int:
-        return 0  # stub
+    def evaluate(self, p: Program):
+        return self.visit_program(p)
 
     def visit_program(self, p: Program):
         pass
