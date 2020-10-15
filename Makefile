@@ -14,5 +14,8 @@ update:
 test:
 	./bin/dev.sh test
 
+test-gui:
+	./bin/dev.sh test --graphics
+
 run:
 	./bin/dev.sh run python main.py

@@ -2,13 +2,14 @@ from collections import defaultdict
 import random
 
 from code.language.shared.primitives.values import Value, IntegerValue
+from code.language.evaluation.errors import LanguageError
 
 
-class OutOfMemoryError(Exception):
+class OutOfMemoryError(LanguageError):
     pass
 
 
-class SegmentationFault(Exception):
+class SegmentationFault(LanguageError):
     pass
 
 
@@ -57,7 +58,7 @@ class Memory:
             self._map_.pop(loc)
 
 
-class UndefinedVariableError(Exception):
+class UndefinedVariableError(LanguageError):
     pass
 
 
