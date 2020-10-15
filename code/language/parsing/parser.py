@@ -13,9 +13,12 @@ class Parser:
 
     def parseProgram(self):
         commands = []
+        self.tokenizer.get_and_check_next("<START>")
+        self.tokenizer.get_and_check_next(";")
         while(self.tokenizer.more_tokens()):
             command = self.parseCommand()
             commands.append(command)
+        self.tokenizer.get_and_check_next("<END>")
         return Program(Body(commands))
     
     def parseCommand(self):
