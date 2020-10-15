@@ -1,6 +1,7 @@
 from .Command import Command
 from ..Value import Value
 from ..Declare import Declare
+from code.language.shared.ast.visitor import Visitor
 
 
 class Assigner(Command):
@@ -9,3 +10,5 @@ class Assigner(Command):
         self.decl = decl
         self.value: Value = value
 
+    def accept(self, v: Visitor):
+        return v.visit_assigner(self)

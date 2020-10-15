@@ -7,13 +7,30 @@ class Value:
         return False
 
 
-class IntegerValue(Value):
+class NumericalValue(Value):
 
-    def __init__(self, val: int):
-        self.value = val
+    def __init__(self):
+        self.value = 0
 
     def equals(self, v: Value) -> bool:
-        if type(v) is IntegerValue:
-            return self.value == cast(IntegerValue, v).value
+        if isinstance(v, NumericalValue):
+            return self.value == cast(NumericalValue, v).value
         else:
             return False
+
+
+class IntegerValue(NumericalValue):
+
+    def __init__(self, val: int):
+        super(NumericalValue, self).__init__()
+        self.value = val
+
+    def __repr__(self):
+        return "%d" % self.value
+
+
+class FloatValue(NumericalValue):
+
+    def __init__(self, val: float):
+        super(NumericalValue, self).__init__()
+        self.value = val

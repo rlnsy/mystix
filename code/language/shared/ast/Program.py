@@ -1,5 +1,6 @@
 from .Node import Node
 from .Body import Body
+from code.language.shared.ast.visitor import Visitor
 
 
 class Program(Node):
@@ -9,3 +10,7 @@ class Program(Node):
     """
     def __init__(self, b: Body):
         self.body: Body = b
+        
+
+    def accept(self, v: Visitor):
+        return v.visit_program(self)
