@@ -2,6 +2,7 @@ from typing import List
 
 from .Node import Node
 from .commands_ast.Command import Command
+from code.language.shared.ast.visitor import Visitor
 
 
 class Body(Node):
@@ -10,3 +11,7 @@ class Body(Node):
     """
     def __init__(self, cs: List[Command]):
         self.commands: List[Command] = cs
+        
+
+    def accept(self, v: Visitor):
+        return v.visit_body(self)

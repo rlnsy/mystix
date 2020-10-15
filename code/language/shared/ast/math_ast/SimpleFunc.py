@@ -2,6 +2,7 @@ from .Func import Func
 from ..Var import Var
 from .Operand import Operand
 from ..Value import Value
+from code.language.shared.ast.visitor import Visitor
 
 
 class SimpleFunc(Func):
@@ -10,3 +11,6 @@ class SimpleFunc(Func):
         self.impacted_var: Var = impacted_var
         self.op: Operand = op
         self.rhs = v
+
+    def accept(self, v: Visitor):
+        return v.visit_simple_func(self)
