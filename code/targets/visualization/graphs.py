@@ -18,11 +18,14 @@ class Plot:
 
     CONST_DATA_LIMIT = 20000
 
-    def __init__(self, name: str, plot: PlotItem):
+    def __init__(self, name: str, plot: PlotItem, line: bool):
         self.name = name
         self.fr_fmt = re.compile("%s_([0-9]+)" % self.name)
         self.graphics: PlotItem = plot
-        self.plot_data = self.graphics.plot()
+        self.plot_data \
+            = self.graphics.plot() if line \
+            else self.graphics.plot(pen=None, symbol='x', symbolPen=None,
+                                    symbolSize=10)
         self.data_frag = 0
 
         self.x_data: List = []
@@ -85,7 +88,7 @@ class GraphManager:
         self.graphics.add_window("410 DSL", 600, 600)
         self.graphics.add_window("410 DSL 2", 600, 600)
 
-    def add_plot(self, plot_name: str):
+    def add_plot(self, plot_name: str, line_plot: bool = False):
         if ' ' in plot_name:
             raise GraphManagerError("Plot name cannot contain spaces")
         if plot_name in self.plots:
@@ -93,7 +96,7 @@ class GraphManager:
         else:
             p: Plot = Plot(plot_name, self.graphics
                            .get_window("410 DSL 2")
-                           .addPlot(title=plot_name))
+                           .addPlot(title=plot_name), line_plot)
             self.plots[plot_name] = p
             self.graphics.add_update(lambda: self.plots[plot_name].update())
 

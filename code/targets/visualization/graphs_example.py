@@ -24,7 +24,7 @@ MOCK_DATA_RESOLUTION = 50
 #     mock_ptr = mock_ptr + count
 #     return x_data, y_data
 
-t = 0
+t = 0.0
 
 
 def get_mock_data(count: int):
@@ -40,7 +40,7 @@ def get_mock_data(count: int):
 
 def run():
     gm = GraphManager()
-    gm.add_plot("example_plot")
+    gm.add_plot("example_plot", line_plot=True)
 
     def run_mock_logic():
         for i in range(100): # ten seconds of playback
