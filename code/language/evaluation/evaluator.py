@@ -46,13 +46,13 @@ class Evaluator(Visitor):
         pass
 
     def visit_trigger(self, t: Trigger):
-        try:
-            data_source = self.data[t.var]
-            # implement Observer Pattern to watch for data updates
-        except:
-            raise KeyError("Cannot run mathematics on invalid data")
-        else:
-            t.math_funcs.accept()
+        # try:
+        #     # data_source = self.data[t.var]
+        #     # implement Observer Pattern to watch for data updates
+        # except:
+        #     raise KeyError("Cannot run mathematics on invalid data")
+        # else:
+        t.math_funcs.accept(self)
 
     def visit_plotter(self, pltr: Plotter):
         pass
