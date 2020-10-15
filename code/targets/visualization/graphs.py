@@ -3,6 +3,7 @@ from typing import Callable, List
 from os import path, listdir, remove
 import pickle
 import re
+from pyqtgraph import PlotItem  # type: ignore
 
 
 class GraphManagerError(Exception):
@@ -15,14 +16,17 @@ CONST_DEBUG_OUTPUT = "tmp/vis_trace"
 
 class Plot:
 
-    def __init__(self, name: str, plot, init_data: List):
+    CONST_DATA_LIMIT = 20000
+
+    def __init__(self, name: str, plot: PlotItem):
         self.name = name
         self.fr_fmt = re.compile("%s_([0-9]+)" % self.name)
-        self.graphics = plot
+        self.graphics: PlotItem = plot
+        self.plot_data = self.graphics.plot()
         self.data_frag = 0
-        self.add_data(init_data)
 
-        self.data: List = []
+        self.x_data: List = []
+        self.y_data: List = []
 
     def update(self):
         fragments = sorted([
@@ -34,16 +38,18 @@ class Plot:
             fn = self.num_fragment(fr)
             with open(fn, "rb") as f:
                 try:
-                    data: List = pickle.loads(f.read())
-                    self.log("Read from disk (%d): %s" % (fr, str(data)))
-                    self.data = self.data + data
+                    x_data, y_data = pickle.loads(f.read())
+                    # slicing
+                    index = min(len(x_data), Plot.CONST_DATA_LIMIT)
+                    self.x_data = (self.x_data + x_data)[-index:]
+                    self.y_data = (self.y_data + y_data)[-index:]
+                    assert(len(self.x_data) <= Plot.CONST_DATA_LIMIT)
                     read = True
                 except EOFError:
                     continue
             if read:
                 remove(fn)
-        curve = self.graphics.plot(pen='y')
-        curve.setData(self.data)
+        self.plot_data.setData(self.x_data, self.y_data)
 
     def num_fragment(self, i: int):
         return path.join(CONST_FRAGMENT_CACHE, self.name + "_%d" % i)
@@ -55,10 +61,11 @@ class Plot:
     def name_fragment(self):
         return self.num_fragment(self.data_frag)
 
-    def add_data(self, data: List):
+    def add_data(self, x_data: List, y_data: List):
+        if len(x_data) != len(y_data):
+            raise GraphManagerError("New data arrays are not the same length")
         with open(self.name_fragment(), "wb") as frag:
-            frag.write(pickle.dumps(data))
-        self.log("Wrote to disk (%d): %s" % (self.data_frag, str(data)))
+            frag.write(pickle.dumps((x_data,y_data)))
         self.data_frag = self.data_frag + 1
 
     def clear_cache(self):
@@ -86,7 +93,7 @@ class GraphManager:
         else:
             p: Plot = Plot(plot_name, self.graphics
                            .get_window("410 DSL 2")
-                           .addPlot(title=plot_name), [])
+                           .addPlot(title=plot_name))
             self.plots[plot_name] = p
             self.graphics.add_update(lambda: self.plots[plot_name].update())
 
@@ -96,9 +103,9 @@ class GraphManager:
         else:
             return p(self.plots[plot_name])
 
-    def add_plot_data(self, plot_name: str, data: List):
+    def add_plot_data(self, plot_name: str, x_data: List, y_data: List):
         def add(p: Plot):
-            p.add_data(data)
+            p.add_data(x_data, y_data)
         return self._confirm_plot_(plot_name, add)
 
     def clean(self):
