@@ -16,7 +16,7 @@ def example_1() -> ast.Program:
         ast.Body([
 
             # source = live remote "www.coviddata.com/stream"
-            ast.commands_ast.Loader(ast.Var("source"),
+            ast.Loader(ast.Var("source"),
                                     ast.Source(ast.Reporting(ReportingMode.LIVE),
                                                "www.coviddata.com/stream")),
 
