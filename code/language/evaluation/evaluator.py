@@ -7,15 +7,25 @@ from code.language.shared.primitives import values, numerical
 from code.targets.analysis.math import apply_fn, apply_op, apply_qk
 from .errors import LanguageError
 from .vars import Environment
+from code.targets.visualization.graphs import GraphManager
+from threading import Thread
 
 
 class Evaluator(Visitor):
 
-    def __init__(self):
+    def __init__(self, graphics: bool = False):
         self.env = Environment()
+        self.graphics_enabled: bool = graphics
+        self.gm = GraphManager()
 
-    def evaluate(self, p: Program):
-        return self.visit_program(p)
+    def evaluate(self, p: Program) -> int:
+        logic = Thread(target=lambda: self.visit_program(p))
+        logic.start()
+        if self.graphics_enabled:
+            self.gm.graphics.display(ttl=3000)  # every program lasts 3 seconds TODO
+        logic.join()    # TODO: find a way to get the return value
+        self.gm.clean()
+        return 0
 
     def visit_program(self, p: Program):
         pass
