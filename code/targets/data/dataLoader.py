@@ -29,6 +29,12 @@ class DataSource:
 
     """
     Encapsulates a data source that updates over time
+    Current implementation is limited to supporting http
+    URLs.
+    We are also still limited in the format of data received -
+    namely, an error will be thrown if the responses returned
+    by the source do not match a preset format (e.g. is valid JSON
+    and contains a 'data' field)
     """
 
     def __init__(self, url: str):
