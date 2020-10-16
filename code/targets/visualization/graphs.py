@@ -16,7 +16,7 @@ CONST_DEBUG_OUTPUT = "tmp/vis_trace"
 
 class Plot:
 
-    CONST_DATA_LIMIT = 20000
+    CONST_DATA_LIMIT = 10000
 
     def __init__(self, name: str, plot: PlotItem, line: bool):
         self.name = name
@@ -42,11 +42,13 @@ class Plot:
             with open(fn, "rb") as f:
                 try:
                     x_data, y_data = pickle.loads(f.read())
-                    # slicing
-                    index = min(len(x_data), Plot.CONST_DATA_LIMIT)
-                    self.x_data = (self.x_data + x_data)[-index:]
-                    self.y_data = (self.y_data + y_data)[-index:]
-                    assert(len(self.x_data) <= Plot.CONST_DATA_LIMIT)
+                    self.x_data = (self.x_data + x_data)
+                    self.y_data = (self.y_data + y_data)
+                    # data limiting
+                    if len(self.x_data) > Plot.CONST_DATA_LIMIT:
+                        self.x_data = (self.x_data + x_data)[-Plot.CONST_DATA_LIMIT:]
+                    if len(self.y_data) > Plot.CONST_DATA_LIMIT:
+                        self.y_data = (self.y_data + y_data)[-Plot.CONST_DATA_LIMIT:]
                     read = True
                 except EOFError:
                     continue
