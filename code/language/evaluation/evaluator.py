@@ -37,7 +37,7 @@ class Evaluator(Visitor):
                 a2: Axis = pl[2]
                 x = a1.accept(self)
                 y = a2.accept(self)
-                self.gm.add_plot_data(g, [0.0], [0.0])
+                self.gm.add_plot_data(g, [x.value], [y.value])
             time.sleep(1)
         return 0, None
 
@@ -69,7 +69,7 @@ class Evaluator(Visitor):
             print("Program execution completed!")
             if exit_val != 0:
                 print("\nERROR: %s\n" % str(err))
-            self.gm.clean()
+            #self.gm.clean()
         return exit_val, err
 
     def visit_program(self, p: Program):

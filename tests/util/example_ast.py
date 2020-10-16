@@ -49,7 +49,7 @@ def example_1() -> ast.Program:
 def simple_plot_example() -> ast.Program:
 
     return ast.Program(ast.Body([
-        ast.Plotter(ast.Graph(LineXYGraph()),
+        ast.Plotter(ast.Graph(ScatterXYGraph()),
                     ast.VarAxis(ast.Var("t")),
                     ast.FuncAxis(ast.BuiltinFunc(NumFunction.SIN, ast.Var(
                         "t"))),
