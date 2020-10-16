@@ -69,7 +69,7 @@ class Evaluator(Visitor):
             print("Program execution completed!")
             if exit_val != 0:
                 print("\nERROR: %s\n" % str(err))
-            #self.gm.clean()
+            self.gm.clean()
         return exit_val, err
 
     def visit_program(self, p: Program):
