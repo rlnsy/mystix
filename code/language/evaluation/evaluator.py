@@ -4,15 +4,28 @@ if STATIC_CHECK:
     from code.language.shared.ast import *
 from code.language.shared.ast.visitor import Visitor
 from code.language.shared.primitives import values, numerical
+from code.language.shared.primitives.types import Types
 from code.targets.analysis.math import apply_fn, apply_op, apply_qk
 from .errors import LanguageError
 from .vars import Environment
+from collections import defaultdict
+
+
+TYPES = {
+    Types.NUMBER: values.NumericalValue,
+    Types.BINARY: values.BinaryValue,
+    Types.CATEGORY: values.CategoricalValue
+}
 
 
 class Evaluator(Visitor):
 
     def __init__(self):
         self.env = Environment()
+        # maps a source name to a field mapping dict
+        self.maps = defaultdict(lambda: {})
+        # for source name provide a list of procedures to execute
+        self.events = defaultdict(lambda: [])
 
     def evaluate(self, p: Program):
         return self.visit_program(p)
@@ -27,16 +40,25 @@ class Evaluator(Visitor):
         pass
 
     def visit_mapper(self, m: Mapper):
-        pass
+        v_name = m.decl.accept(self)
+        # TODO: source should be stored in environment
+        s_name = m.src.name
+        self.maps[s_name][m.tbl_field] = v_name
 
-    def visit_declare(self, d: Declare):
-        pass
+    def visit_declare(self, d: Declare) -> str:
+        t: Types = d.type.accept(self)
+        # Enumerate the type cases
+        c = TYPES[t]
+        self.env.extend(d.var.name, c())
+        return d.var.name
 
-    def visit_assigner(self, a: Assigner):
-        pass
+    def visit_assigner(self, a: Assigner) -> values.Value:
+        n: str = a.decl.accept(self)
+        return self.env.set_val(n, a.value)
 
     def visit_trigger(self, t: Trigger):
-        t.math_funcs.accept(self)
+        # TODO: source should be stored in environment
+        self.events[t.var1.name].append(lambda: t.math_funcs.accept(self))
 
     def visit_plotter(self, pltr: Plotter):
         pass
@@ -51,7 +73,7 @@ class Evaluator(Visitor):
         pass
 
     def visit_type(self, t: Type):
-        pass
+        return t.type
 
     def visit_value(self, v: Value):
         pass

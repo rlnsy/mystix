@@ -19,6 +19,30 @@ class NumericalValue(Value):
             return False
 
 
+class CategoricalValue(Value):
+
+    def __init__(self):
+        self.value = None
+
+    def equals(self, v: Value) -> bool:
+        if isinstance(v, CategoricalValue):
+            return self.value == cast(CategoricalValue, v).value
+        else:
+            return False
+
+
+class BinaryValue(Value):
+
+    def __init__(self):
+        self.value: bool = False
+
+    def equals(self, v: Value) -> bool:
+        if isinstance(v, BinaryValue):
+            return self.value == cast(BinaryValue, v).value
+        else:
+            return False
+
+
 class IntegerValue(NumericalValue):
 
     def __init__(self, val: int):
