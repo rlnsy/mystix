@@ -75,6 +75,7 @@ class Parser:
         self.tokenizer.get_and_check_next("plot")
         graph = self.parseGraph()
         x_axis = self.parseAxis()
+        self.tokenizer.get_and_check_next(',')
         y_axis = self.parseAxis()
         self.tokenizer.get_and_check_next("called")
         name = self.tokenizer.get_next()
@@ -122,10 +123,13 @@ class Parser:
         return SimpleFunc(var, op, value)
     
     def parseFastFunc(self):
-        token = self.tokenizer.get_next()
-        var = token[:-2]
-        operator = token[-2:]
-        return FastFunc(var, operator)
+        var = Var(self.tokenizer.get_next())
+        operator = self.tokenizer.get_next()
+        operator += self.tokenizer.get_next()
+        if operator == '++':
+            return Increment(var)
+        else:
+            return Decrement(var)
     
     def parseBltnFunc(self):
         op = self.tokenizer.get_next()
