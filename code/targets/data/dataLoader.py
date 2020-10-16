@@ -2,13 +2,6 @@ import csv, urllib.request, requests, json  # type: ignore
 from typing import List
 
 
-""" 
-Mock hard-coded URL
-This endpoint returns daily case reports.
-"""
-STUB_COMPATIBLE_URL = "https://covid-api.com/api/reports"
-
-
 class DataLoaderError(Exception):
     pass
 
@@ -36,6 +29,12 @@ class DataSource:
 
     """
     Encapsulates a data source that updates over time
+    Current implementation is limited to supporting http
+    URLs.
+    We are also still limited in the format of data received -
+    namely, an error will be thrown if the responses returned
+    by the source do not match a preset format (e.g. is valid JSON
+    and contains a 'data' field)
     """
 
     def __init__(self, url: str):
@@ -46,18 +45,26 @@ class DataSource:
         """
         Returns a list of JSON-like dicts whose field names
         correspond to mappable headers
-        Data url and format are hardcoded until we introduce
+        Data format expectation is hardcoded until we introduce
         features to match data appropriately
         simulates a stream by getting data for new dates each time
         """
         d: str = self.dates.get()
-        req = requests.get(STUB_COMPATIBLE_URL, params={'date': d})
+        try:
+            req = requests.get(self.url, params={'date': d})
+        except requests.exceptions.ConnectionError:
+            raise DataLoaderError("Could not reach provided host")
         res = req.text
         if req.status_code != 200:
-            raise DataLoaderError("Could not fetch new data")
+            raise DataLoaderError("Remote responded with error invalid code")
         with open("tmp/load_cache/api_response_%s.json" % d, "w") as cache:
             cache.write(res)
-        obj = json.loads(res)
+        try:
+            obj = json.loads(res)
+        except json.decoder.JSONDecodeError:
+            raise DataLoaderError("Remote source produced non-json")
+        if 'data' not in obj or type(obj['data']) is not list:
+            raise DataLoaderError("New data did not match expected format")
         return obj['data']
 
 
