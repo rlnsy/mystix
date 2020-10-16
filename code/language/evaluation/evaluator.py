@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING as STATIC_CHECK, List
+from typing import TYPE_CHECKING as STATIC_CHECK, List, Callable
 if STATIC_CHECK:
     from code.language.shared.ast import *
 from code.language.shared.ast.visitor import Visitor
@@ -33,14 +33,17 @@ class Evaluator(Visitor):
         will simply not occur.
         """
         self.env = Environment()
-        self.graphics_enabled: bool = graphics
-        self.gm = GraphManager()
+        self.gm = GraphManager() if graphics else None
         self.plots: List = []
         self.data = DataLoader()
         # maps a source name to a field mapping dict
         self.maps: defaultdict = defaultdict(lambda: {})
         # for source name provide a list of procedures to execute
         self.events: defaultdict = defaultdict(lambda: [])
+
+    def do_graphics(self, p: Callable):
+        if self.gm is not None:
+            p(self.gm)
 
     def execute(self, p: Program, duration: int):
         # internal clock
@@ -51,7 +54,10 @@ class Evaluator(Visitor):
                 a2: Axis = pl[2]
                 x = a1.accept(self)
                 y = a2.accept(self)
-                self.gm.add_plot_data(g, [x.value], [y.value])
+
+                def add(m: GraphManager):
+                    m.add_plot_data(g, [x.value], [y.value])
+                self.do_graphics(add)
             time.sleep(1)
         return 0, None
 
@@ -68,22 +74,28 @@ class Evaluator(Visitor):
                 return self.execute(p, duration)
             except LanguageError as e:
                 print("Detected a language error")
-                self.gm.close()
+
+                def close(m: GraphManager):
+                    m.close()
+                self.do_graphics(close)
+
                 return 1, e
         with ThreadPoolExecutor() as threads:
             logic = threads.submit(runtime)
-        # logic = Thread(target=runtime)
-        # logic.start()
-            if self.graphics_enabled:
-                # TODO: running without graphics currently breaks tests
-                print("Running graphics features")
-                self.gm.graphics.display(ttl=duration)
-        # logic.join()
+
+            def start(m: GraphManager):
+                m.graphics.display(ttl=duration)
+            self.do_graphics(start)
+
             exit_val, err = logic.result()
             print("Program execution completed!")
             if exit_val != 0:
                 print("\nERROR: %s\n" % str(err))
-            self.gm.clean()
+
+            def clean(m: GraphManager):
+                m.clean()
+            self.do_graphics(clean)
+
         return exit_val, err
 
     def visit_program(self, p: Program):
@@ -122,7 +134,11 @@ class Evaluator(Visitor):
     def visit_plotter(self, pltr: Plotter):
         graph: ConcreteGraphType = pltr.graph.accept(self)
         line: bool = isinstance(graph, LineXYGraph)
-        self.gm.add_plot(pltr.graph_name, line_plot=line)
+
+        def add_data(m: GraphManager):
+            m.add_plot(pltr.graph_name, line_plot=line)
+        self.do_graphics(add_data)
+
         self.plots.append((pltr.graph_name, pltr.x, pltr.y))
 
     def visit_reporting(self, r: Reporting):
