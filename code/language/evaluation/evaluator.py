@@ -65,8 +65,9 @@ class Evaluator(Visitor):
             data: List[dict] = self.data.get_new(s)
             maps = self.maps[s]
             for d in data:
-                for f in d:
-                    if f in maps:
+                rs = [e() for e in self.events[s]]
+                for f in maps:
+                    if f in d:
                         val = self.env.get_val(maps[f])
                         d_val = d[f]
                         if isinstance(val, values.NumericalValue):
@@ -93,6 +94,9 @@ class Evaluator(Visitor):
                                                     % (str(d_val), maps[f]))
                         self.env.set_val(maps[f], val)
                         self.update_plots()
+                    else:
+                        raise LanguageError("Source %s does not have a field %s"
+                                            % (s, f))
 
     def execute(self, p: Program, duration: int):
         # internal clock
@@ -228,16 +232,20 @@ class Evaluator(Visitor):
             raise LanguageError("Simple Functions only accept numbers.")
 
     def visit_increment(self, i: Increment) -> values.Value:
-        v: values.Value = self.env.get_val(i.impacted_var.name)
+        n = i.impacted_var.name
+        v: values.Value = self.env.get_val(n)
         if isinstance(v, values.NumericalValue):
-            return apply_qk("inc",v)
+            result: values.NumericalValue = apply_qk("inc", v)
+            return self.env.set_val(n, result)
         else:
             raise LanguageError("Fast Functions only accept numbers.")
 
     def visit_decrement(self, d: Decrement) -> values.Value:
-        v: values.Value = self.env.get_val(d.impacted_var.name)
+        n = d.impacted_var.name
+        v: values.Value = self.env.get_val(n)
         if isinstance(v, values.NumericalValue):
-            return apply_qk("dec",v)
+            result: values.NumericalValue = apply_qk("dec", v)
+            return self.env.set_val(n, result)
         else:
             raise LanguageError("Fast Functions only accept numbers.")
 
