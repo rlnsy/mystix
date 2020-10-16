@@ -4,16 +4,16 @@ COMMAND     ::= LOADER | MAPPER | ASSIGNER | TRIGGER | PLOTTER
 LOADER      ::= VAR = SOURCE
 MAPPER      ::= map VAR STRING to DECLARE
 DECLARE     ::= TYPE VAR
-ASSIGNER    ::= DECLARE “=” VALUE
+ASSIGNER    ::= DECLARE = VALUE
 TRIGGER     ::= on new data from VAR MATH_FUNCS
-PLOTTER     ::= plot GRAPH AXIS AXIS called STRING
-VAR         ::= “^[a-z]+” “[a-zA-Z0-9\_]*”
+PLOTTER     ::= plot GRAPH AXIS , AXIS called STRING
+VAR         ::= [a-z]+[a-zA-Z0-9\_]*
 SOURCE      ::= REPORTING remote URL
-REPORTING   ::= “live” | “static”
+REPORTING   ::= live | static
 URL         ::= STRING
-STRING      ::= “\S+”
+STRING      ::= \”[.]*\”
 TYPE        ::= number | category | binary
-VALUE       ::= [0-9]+ | “\”” [.]* “\”” | BIN
+VALUE       ::= [0-9]+ | STRING | BIN
 BIN         ::= true | false
 GRAPH       ::= xy | line xy
 AXIS        ::= VAR | MATH_FUNC
