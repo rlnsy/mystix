@@ -54,8 +54,10 @@ class DataSource:
         d: str = self.dates.get()
         try:
             req = requests.get(self.url, params={'date': d})
+        except requests.exceptions.MissingSchema:
+            raise DataLoaderError("Source URL %s is invalid" % self.url)
         except requests.exceptions.ConnectionError:
-            raise DataLoaderError("Could not reach provided host")
+            raise DataLoaderError("Could not reach host %s" % self.url)
         res = req.text
         if req.status_code != 200:
             raise DataLoaderError("Remote responded with error invalid code")
