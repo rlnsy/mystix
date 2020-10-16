@@ -83,10 +83,12 @@ class Plot:
 class GraphManager:
 
     def __init__(self):
+        self.closed = False
         self.graphics = Graphics()
         self.plots = {}
         self.graphics.add_window("410 DSL", 600, 600)
         self.graphics.add_window("410 DSL 2", 600, 600)
+        self.graphics.add_update(lambda: self.update_plots())
 
     def add_plot(self, plot_name: str, line_plot: bool = False):
         if ' ' in plot_name:
@@ -98,7 +100,14 @@ class GraphManager:
                            .get_window("410 DSL 2")
                            .addPlot(title=plot_name), line_plot)
             self.plots[plot_name] = p
-            self.graphics.add_update(lambda: self.plots[plot_name].update())
+
+    def update_plots(self):
+        if not self.graphics.to_close and not self.closed:
+            try:
+                for p in self.plots:
+                    self.plots[p].update()
+            except RuntimeError:
+                print("Warning: plots attempted to update after close")
 
     def _confirm_plot_(self,  plot_name: str, p: Callable):
         if plot_name not in self.plots:
@@ -114,3 +123,8 @@ class GraphManager:
     def clean(self):
         for p in self.plots.values():
             p.clear_cache()
+
+    def close(self):
+        print("Closing graph manager")
+        self.closed = True
+        self.graphics.close()

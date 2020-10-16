@@ -1,9 +1,15 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING as STATIC_CHECK
+from typing import TYPE_CHECKING as STATIC_CHECK, List, Callable
 if STATIC_CHECK:
     from code.language.shared.ast import *
 from code.language.shared.ast.visitor import Visitor
 from code.language.shared.primitives import values, numerical
+from code.language.shared.primitives.graphs import (
+    Graph as ConcreteGraphType, LineXYGraph)
+from code.targets.visualization.graphs import GraphManager
+from concurrent.futures import ThreadPoolExecutor
+import time
+from code.targets.data import DataLoader
 from code.language.shared.primitives.types import Types
 from code.targets.analysis.math import apply_fn, apply_op, apply_qk
 from .errors import LanguageError
@@ -20,24 +26,89 @@ TYPES = {
 
 class Evaluator(Visitor):
 
-    def __init__(self):
+    def __init__(self, graphics: bool = False):
+        """
+        :param graphics: Controls graphics functionality
+        if set to False, any behaviour involving graphics
+        will simply not occur.
+        """
         self.env = Environment()
+        self.gm = GraphManager() if graphics else None
+        self.plots: List = []
+        self.data = DataLoader()
         # maps a source name to a field mapping dict
-        self.maps = defaultdict(lambda: {})
+        self.maps: defaultdict = defaultdict(lambda: {})
         # for source name provide a list of procedures to execute
-        self.events = defaultdict(lambda: [])
+        self.events: defaultdict = defaultdict(lambda: [])
+
+    def do_graphics(self, p: Callable):
+        if self.gm is not None:
+            p(self.gm)
+
+    def execute(self, p: Program, duration: int):
+        # internal clock
+        for i in range(int(duration/1000)):
+            for pl in self.plots:
+                g: str = pl[0]
+                a1: Axis = pl[1]
+                a2: Axis = pl[2]
+                x = a1.accept(self)
+                y = a2.accept(self)
+
+                def add(m: GraphManager):
+                    m.add_plot_data(g, [x.value], [y.value])
+                self.do_graphics(add)
+            time.sleep(1)
+        return 0, None
 
     def evaluate(self, p: Program):
-        return self.visit_program(p)
+
+        # perform the initial traversal
+        self.visit_program(p)
+
+        duration = 5000  # every program lasts 10 seconds TODO
+        exit_val = 0
+
+        def runtime():
+            try:
+                return self.execute(p, duration)
+            except LanguageError as e:
+                print("Detected a language error")
+
+                def close(m: GraphManager):
+                    m.close()
+                self.do_graphics(close)
+
+                return 1, e
+        with ThreadPoolExecutor() as threads:
+            logic = threads.submit(runtime)
+
+            def start(m: GraphManager):
+                m.graphics.display(ttl=duration)
+            self.do_graphics(start)
+
+            exit_val, err = logic.result()
+            print("Program execution completed!")
+            if exit_val != 0:
+                print("\nERROR: %s\n" % str(err))
+
+            def clean(m: GraphManager):
+                m.clean()
+            self.do_graphics(clean)
+
+        return exit_val, err
 
     def visit_program(self, p: Program):
-        pass
+        p.body.accept(self)
 
     def visit_body(self, b: Body):
-        pass
+        for c in b.commands:
+            c.accept(self)
     
     def visit_loader(self, l: Loader):
-        pass
+        # TODO: add source as a value in environment?
+        v: Var = l.name
+        self.data.register_source(l.source.accept(self), v.name)
 
     def visit_mapper(self, m: Mapper):
         v_name = m.decl.accept(self)
@@ -54,38 +125,45 @@ class Evaluator(Visitor):
 
     def visit_assigner(self, a: Assigner) -> values.Value:
         n: str = a.decl.accept(self)
-        return self.env.set_val(n, a.value)
+        return self.env.set_val(n, a.value.value)
 
     def visit_trigger(self, t: Trigger):
         # TODO: source should be stored in environment
         self.events[t.var1.name].append(lambda: t.math_funcs.accept(self))
 
     def visit_plotter(self, pltr: Plotter):
-        pass
+        graph: ConcreteGraphType = pltr.graph.accept(self)
+        line: bool = isinstance(graph, LineXYGraph)
+
+        def add_data(m: GraphManager):
+            m.add_plot(pltr.graph_name, line_plot=line)
+        self.do_graphics(add_data)
+
+        self.plots.append((pltr.graph_name, pltr.x, pltr.y))
 
     def visit_reporting(self, r: Reporting):
         pass
 
-    def visit_var(self, v: Var):
-        pass
+    def visit_var(self, v: Var) -> values.Value:
+        return self.env.get_val(v.name)
 
-    def visit_source(self, s: Source):
-        pass
+    def visit_source(self, s: Source) -> str:
+        return s.url
 
     def visit_type(self, t: Type):
         return t.type
 
-    def visit_value(self, v: Value):
-        pass
+    def visit_value(self, v: Value) -> values.Value:
+        return v.value
 
-    def visit_graph(self, g: Graph):
-        pass
+    def visit_graph(self, g: Graph) -> ConcreteGraphType:
+        return g.graph
 
-    def visit_var_axis(self, va: VarAxis):
-        pass
+    def visit_var_axis(self, va: VarAxis) -> values.Value:
+        return va.var.accept(self)
 
     def visit_func_axis(self, fa: FuncAxis):
-        pass
+        return fa.fun.accept(self)
 
     def visit_math_funcs(self, mf: MathFuncs):
         for func in mf.mth_func_lst:

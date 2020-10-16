@@ -2,13 +2,14 @@ from collections import defaultdict
 import random
 
 from code.language.shared.primitives.values import Value, IntegerValue
+from code.language.evaluation.errors import LanguageError
 
 
-class OutOfMemoryError(Exception):
+class OutOfMemoryError(LanguageError):
     pass
 
 
-class SegmentationFault(Exception):
+class SegmentationFault(LanguageError):
     pass
 
 
@@ -57,8 +58,10 @@ class Memory:
             self._map_.pop(loc)
 
 
-class UndefinedVariableError(Exception):
-    pass
+class UndefinedVariableError(LanguageError):
+    def __init__(self, var_name: str):
+        super(LanguageError, self).__init__(
+            "Variable '%s' was referenced out of scope!" % var_name)
 
 
 class Environment:
@@ -77,7 +80,7 @@ class Environment:
         locations = self._map_[name]
         q = len(locations)
         if q == 0:
-            raise UndefinedVariableError()
+            raise UndefinedVariableError(name)
         else:
             return self._mem_.read(locations[q-1])
 
@@ -85,7 +88,7 @@ class Environment:
         locations = self._map_[name]
         q = len(locations)
         if q == 0:
-            raise UndefinedVariableError()
+            raise UndefinedVariableError(name)
         else:
             return self._mem_.write(locations[q-1], val)
 
@@ -93,7 +96,7 @@ class Environment:
         locations = self._map_[name]
         q = len(locations)
         if q == 0:
-            raise UndefinedVariableError()
+            raise UndefinedVariableError(name)
         else:
             l: int = locations[q-1]
             self._map_[name] = locations[:q-1]
