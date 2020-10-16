@@ -13,6 +13,7 @@ from code.targets.visualization.graphs import GraphManager
 from threading import Thread, Lock
 from concurrent.futures import ThreadPoolExecutor
 import time
+from code.targets.data import DataLoader
 
 
 class Evaluator(Visitor):
@@ -27,6 +28,7 @@ class Evaluator(Visitor):
         self.graphics_enabled: bool = graphics
         self.gm = GraphManager()
         self.plots: List = []
+        self.data = DataLoader()
 
     def execute(self, p: Program, duration: int):
         # internal clock
@@ -80,7 +82,9 @@ class Evaluator(Visitor):
             c.accept(self)
     
     def visit_loader(self, l: Loader):
-        pass
+        # TODO: add source as a value in environment?
+        v: Var = l.name
+        self.data.register_source(l.source.accept(self), v.name)
 
     def visit_mapper(self, m: Mapper):
         pass
@@ -106,8 +110,8 @@ class Evaluator(Visitor):
     def visit_var(self, v: Var) -> values.Value:
         return self.env.get_val(v.name)
 
-    def visit_source(self, s: Source):
-        pass
+    def visit_source(self, s: Source) -> str:
+        return s.url
 
     def visit_type(self, t: Type):
         pass
