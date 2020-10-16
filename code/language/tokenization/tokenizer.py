@@ -49,11 +49,12 @@ class tokenizer:
         else:
             return "NO MORE TOKENS"
 
-    def get_line(self):
+    def get_line(self, stopper = ';'):
         line = []
         cur_token = self.current_token
         next_token = self.get_next()
-        while(next_token != ';'):
+        stoppers = [';', stopper]
+        while(next_token not in stoppers):
             line.append(next_token)
             next_token = self.get_next()
         self.current_token = cur_token

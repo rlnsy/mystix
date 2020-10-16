@@ -1,1 +1,1 @@
-plot line xy x log y called line
+plot line xy x, log y called line

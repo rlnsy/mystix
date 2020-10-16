@@ -1,0 +1,5 @@
+<START>
+plot line xy x, log y called line;
+on new data from triggerVar triggerVar++, triggerVar + 1;
+category A = 123456;
+<END>

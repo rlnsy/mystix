@@ -9,11 +9,28 @@ from code.language.shared.primitives import *
 
 class TestParse(ut.TestCase):
 
+    def test_program(self):
+        tokens, parser = self.setup("parse_program")
+        res = parser.parseProgram()
+        commands = res.body.commands
+        self.assertEqual(commands[0].graph.graph, 'line xy')
+        self.assertEqual(commands[0].x.var.name, 'x')
+        self.assertEqual(commands[0].y.fun.fun, 'log')
+        self.assertEqual(commands[0].graph_name, 'line')
+        self.assertEqual(commands[1].var1.name, 'triggerVar')
+        self.assertEqual(len(commands[1].math_funcs.mth_func_lst), 2)
+        self.assertEqual(commands[1].math_funcs.mth_func_lst[0].impacted_var.name, 'triggerVar')
+        self.assertEqual(commands[1].math_funcs.mth_func_lst[1].impacted_var.name, 'triggerVar')
+        self.assertEqual(commands[1].math_funcs.mth_func_lst[1].op.op, '+')
+        self.assertEqual(commands[1].math_funcs.mth_func_lst[1].rhs.value, '1')
+        self.assertEqual(commands[2].decl.type.type, 'category')
+        self.assertEqual(commands[2].decl.var.name, 'A')
+        self.assertEqual(commands[2].value.value, '123456')
+
+
     def test_loader(self):
         tokens, parser = self.setup("parse_loader")
-        print(tokens)
         res = parser.parseLoader()
-        print(res)
         self.assertEqual(res.name.name, "x")
         self.assertEqual(res.source.reporting.mode, "live")
         self.assertEqual(res.source.url, "www.coviddata.com/stream")
@@ -25,11 +42,10 @@ class TestParse(ut.TestCase):
         self.assertIsInstance(res, Increment)
     
     def test_mapper(self):
-        # TODO: Test again after Adrian fixes tokenizer
         tokens, parser = self.setup("parse_mapper")
         res = parser.parseMapper()
-        self.assertEqual(res.src.name, 'x')
-        self.assertEqual(res.tbl_field, 'x-axis')
+        self.assertEqual(res.src.name, 'testVar')
+        self.assertEqual(res.tbl_field, 'testingAxis')
         self.assertEqual(res.decl.type.type, 'category')
         self.assertEqual(res.decl.var.name, 'A')
 
@@ -39,20 +55,32 @@ class TestParse(ut.TestCase):
         self.assertEqual(res.decl.type.type, 'category')
         self.assertEqual(res.decl.var.name, 'A')
         self.assertEqual(res.value.value, '123456')
+    
+    def test_math_funcs(self):
+        tokens, parser = self.setup("parse_math_funcs")
+        res = parser.parseMathFuncs()
+        self.assertEqual(len(res.mth_func_lst), 3)
+        self.assertIsInstance(res.mth_func_lst[0], Increment)
+        self.assertIsInstance(res.mth_func_lst[1], SimpleFunc)
+        self.assertIsInstance(res.mth_func_lst[2], BuiltinFunc)
 
     def test_trigger(self):
-        # TODO
         tokens, parser = self.setup("parse_trigger")
         res = parser.parseTrigger()
         self.assertEqual(res.var1.name, 'triggerVar')
         self.assertEqual(len(res.math_funcs.mth_func_lst), 2)
-        self.assertEqual(res.math_funcs.mth_func_lst[0].var.name, 'triggerVar')
+        self.assertEqual(res.math_funcs.mth_func_lst[0].impacted_var.name, 'triggerVar')
+        self.assertEqual(res.math_funcs.mth_func_lst[1].impacted_var.name, 'triggerVar')
+        self.assertEqual(res.math_funcs.mth_func_lst[1].op.op, '+')
+        self.assertEqual(res.math_funcs.mth_func_lst[1].rhs.value, '1')
     
     def test_plotter(self):
-        # TODO
         tokens, parser = self.setup("parse_plotter")
         res = parser.parsePlotter()
-        self.assertTrue(true)
+        self.assertEqual(res.graph.graph, 'line xy')
+        self.assertEqual(res.x.var.name, 'x')
+        self.assertEqual(res.y.fun.fun, 'log')
+        self.assertEqual(res.graph_name, 'line')
 
 
     def setup(self, input = None):
