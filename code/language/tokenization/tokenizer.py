@@ -8,7 +8,7 @@ class tokenizer:
         self.current_token = 0
         self.content = content
         self.fixed_literals = [',', ';', '+', '-', '/', '^', '*', 'log', 'sin', 'cos', 'exp', 'xy"', 'line xy', 'true', 'false', 'number', 'category',
-                               'binary', '"live"', '"static"', 'remote', 'plot', 'called', 'on new data from', 'map', 'to', '<START>', '<END>', '"="', '=']
+                               'binary', '"live"', '"static"', 'remote', 'plot', 'called', 'on new data from', 'map', 'to', '<START>', '<END>', '"="', '=', ' ']
         self.tokens: List[str] = []
 
     def tokenize(self) -> List[str]:
