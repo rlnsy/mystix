@@ -18,6 +18,7 @@ class GraphicsEvaluationTests(TestCase):
         """
         Should briefly create a plot then error
         """
+        print("Tesing undefined variable in Axis")
         program = simple_plot_example()
         e = Evaluator(graphics=True)
         code, err = e.evaluate(program)
@@ -29,8 +30,9 @@ class GraphicsEvaluationTests(TestCase):
         Should successfully create a plot and update with
         a constant value
         """
+        print("Tesing hard-coded variable value")
         program = simple_plot_example()
-        e = Evaluator(graphics=False)
+        e = Evaluator(graphics=True)
         e.env.extend('t', FloatValue(0.5))
         code, err = e.evaluate(program)
         self.assertEqual(0, code)

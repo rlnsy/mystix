@@ -17,7 +17,7 @@ class Graphics:
         self.windows = {}
         self.close_timer = pg.QtCore.QTimer()
         self.update_timer = pg.QtCore.QTimer()
-        self.close_timer.timeout.connect(lambda: self.app.closeAllWindows())
+        self.close_timer.timeout.connect(lambda: self.close())
         self.to_close: bool = False
 
         def check_close(instance):

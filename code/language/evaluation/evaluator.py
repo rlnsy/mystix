@@ -37,7 +37,7 @@ class Evaluator(Visitor):
                 a2: Axis = pl[2]
                 x = a1.accept(self)
                 y = a2.accept(self)
-                self.gm.add_plot_data(g, [x], [y])
+                self.gm.add_plot_data(g, [0.0], [0.0])
             time.sleep(1)
         return 0, None
 
@@ -46,27 +46,30 @@ class Evaluator(Visitor):
         # perform the initial traversal
         self.visit_program(p)
 
-        duration = 10000  # every program lasts 10 seconds TODO
+        duration = 5000  # every program lasts 10 seconds TODO
         exit_val = 0
 
         def runtime():
             try:
                 return self.execute(p, duration)
             except LanguageError as e:
-                self.gm.graphics.close()
+                print("Detected a language error")
+                self.gm.close()
                 return 1, e
         with ThreadPoolExecutor() as threads:
             logic = threads.submit(runtime)
         # logic = Thread(target=runtime)
         # logic.start()
             if self.graphics_enabled:
-                print("Enabling graphics features")
+                # TODO: running without graphics currently breaks tests
+                print("Running graphics features")
                 self.gm.graphics.display(ttl=duration)
         # logic.join()
-            self.gm.clean()
             exit_val, err = logic.result()
+            print("Program execution completed!")
             if exit_val != 0:
                 print("\nERROR: %s\n" % str(err))
+            self.gm.clean()
         return exit_val, err
 
     def visit_program(self, p: Program):
