@@ -69,7 +69,8 @@ class DataSource:
             raise DataLoaderError("Remote source produced non-json")
         if 'data' not in obj or type(obj['data']) is not list:
             raise DataLoaderError("New data did not match expected format")
-        return obj['data']
+        # hard-coded filter TODO should add this as a feature
+        return [r for r in obj['data'] if r['region']['iso'] == "CAN"]
 
 
 class DataLoader:
