@@ -1,8 +1,10 @@
 import csv, urllib.request, requests, json  # type: ignore
 from typing import List
 
+from code.language.evaluation.errors import LanguageError
 
-class DataLoaderError(Exception):
+
+class DataLoaderError(LanguageError):
     pass
 
 

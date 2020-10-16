@@ -40,31 +40,75 @@ class Evaluator(Visitor):
         self.maps: defaultdict = defaultdict(lambda: {})
         # for source name provide a list of procedures to execute
         self.events: defaultdict = defaultdict(lambda: [])
+        self.sources: List[str] = []
 
     def do_graphics(self, p: Callable):
         if self.gm is not None:
             p(self.gm)
 
+    def update_plots(self):
+        # vars -> plots
+        for pl in self.plots:
+            g: str = pl[0]
+            a1: Axis = pl[1]
+            a2: Axis = pl[2]
+            x = a1.accept(self)
+            y = a2.accept(self)
+
+            def add(m: GraphManager):
+                m.add_plot_data(g, [x.value], [y.value])
+            self.do_graphics(add)
+
+    def update_sources(self):
+        # loader -> vars
+        for s in self.sources:
+            data: List[dict] = self.data.get_new(s)
+            maps = self.maps[s]
+            for d in data:
+                for f in d:
+                    if f in maps:
+                        val = self.env.get_val(maps[f])
+                        d_val = d[f]
+                        if isinstance(val, values.NumericalValue):
+                            if type(d_val) is int:
+                                val = values.IntegerValue(d_val)
+                            elif type(d_val) is float:
+                                val = values.FloatValue(d_val)
+                            else:
+                                raise LanguageError(
+                                    "Cannot map %s to number %s"
+                                    % (str(d_val), maps[f]))
+                        elif isinstance(val, values.BinaryValue):
+                            if type(d_val) is bool:
+                                val = values.BinaryValue(d_val)
+                            else:
+                                raise LanguageError(
+                                    "Cannot map %s to binary %s"
+                                    % (str(d_val), maps[f]))
+                        else:  # CategoricalValue
+                            if type(d_val) is not dict and type(d_val) is not list:
+                                val = values.CategoricalValue(str(d_val))
+                            else:
+                                raise LanguageError("Cannot map %s to %s"
+                                                    % (str(d_val), maps[f]))
+                        self.env.set_val(maps[f], val)
+                        self.update_plots()
+
     def execute(self, p: Program, duration: int):
         # internal clock
         for i in range(int(duration/1000)):
-            for pl in self.plots:
-                g: str = pl[0]
-                a1: Axis = pl[1]
-                a2: Axis = pl[2]
-                x = a1.accept(self)
-                y = a2.accept(self)
-
-                def add(m: GraphManager):
-                    m.add_plot_data(g, [x.value], [y.value])
-                self.do_graphics(add)
+            self.update_sources()
             time.sleep(1)
         return 0, None
 
     def evaluate(self, p: Program):
 
         # perform the initial traversal
-        self.visit_program(p)
+        try:
+            self.visit_program(p)
+        except LanguageError as e:
+            print("\nERROR: %s\n" % str(e))
+            return 1, e
 
         duration = 5000  # every program lasts 10 seconds TODO
         exit_val = 0
@@ -109,6 +153,7 @@ class Evaluator(Visitor):
         # TODO: add source as a value in environment?
         v: Var = l.name
         self.data.register_source(l.source.accept(self), v.name)
+        self.sources.append(v.name)
 
     def visit_mapper(self, m: Mapper):
         v_name = m.decl.accept(self)

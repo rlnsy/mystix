@@ -21,8 +21,8 @@ class NumericalValue(Value):
 
 class CategoricalValue(Value):
 
-    def __init__(self):
-        self.value = None
+    def __init__(self, val: str):
+        self.value = val
 
     def equals(self, v: Value) -> bool:
         if isinstance(v, CategoricalValue):
@@ -33,7 +33,7 @@ class CategoricalValue(Value):
 
 class BinaryValue(Value):
 
-    def __init__(self):
+    def __init__(self, val: bool):
         self.value: bool = False
 
     def equals(self, v: Value) -> bool:
