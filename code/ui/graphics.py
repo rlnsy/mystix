@@ -18,6 +18,12 @@ class Graphics:
         self.close_timer = pg.QtCore.QTimer()
         self.update_timer = pg.QtCore.QTimer()
         self.close_timer.timeout.connect(lambda: self.app.closeAllWindows())
+        self.to_close: bool = False
+
+        def check_close(instance):
+            if instance.to_close:
+                instance.app.closeAllWindows()
+        self.add_update(lambda: check_close(self))
 
     def add_window(self, name: str, width: int = 500, height: int = 500) -> None:
         if name in self.windows:
@@ -45,3 +51,6 @@ class Graphics:
             raise GraphicsError("Window '%s' does not exist" % window_name)
         else:
             return cast(pg.GraphicsLayoutWidget, self.windows[window_name])
+
+    def close(self):
+        self.to_close = True

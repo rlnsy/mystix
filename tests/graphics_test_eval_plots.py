@@ -19,8 +19,6 @@ class GraphicsEvaluationTests(TestCase):
         """
         program = simple_plot_example()
         e = Evaluator(graphics=True)
-        try:
-            e.evaluate(program)
-            self.fail()
-        except LanguageError as e:
-            self.assertTrue(isinstance(e, UndefinedVariableError))
+        code, err = e.evaluate(program)
+        self.assertNotEqual(0, code)
+        self.assertTrue(isinstance(err, UndefinedVariableError))

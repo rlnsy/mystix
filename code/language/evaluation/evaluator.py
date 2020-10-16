@@ -1,37 +1,76 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING as STATIC_CHECK
+from typing import TYPE_CHECKING as STATIC_CHECK, List
 if STATIC_CHECK:
     from code.language.shared.ast import *
 from code.language.shared.ast.visitor import Visitor
 from code.language.shared.primitives import values, numerical
+from code.language.shared.primitives.graphs import Graph as ConcreteGraphType, \
+    LineXYGraph, ScatterXYGraph
 from code.targets.analysis.math import apply_fn, apply_op, apply_qk
 from .errors import LanguageError
 from .vars import Environment
 from code.targets.visualization.graphs import GraphManager
-from threading import Thread
+from threading import Thread, Lock
+from concurrent.futures import ThreadPoolExecutor
+import time
 
 
 class Evaluator(Visitor):
 
     def __init__(self, graphics: bool = False):
+        """
+        :param graphics: Controls graphics functionality
+        if set to False, any behaviour involving graphics
+        will simply not occur.
+        """
         self.env = Environment()
         self.graphics_enabled: bool = graphics
         self.gm = GraphManager()
+        self.plots: List = []
 
-    def evaluate(self, p: Program) -> int:
-        logic = Thread(target=lambda: self.visit_program(p))
-        logic.start()
-        if self.graphics_enabled:
-            self.gm.graphics.display(ttl=3000)  # every program lasts 3 seconds TODO
-        logic.join()    # TODO: find a way to get the return value
-        self.gm.clean()
-        return 0
+    def execute(self, p: Program, duration: int):
+        self.visit_program(p)
+        # internal clock
+        for i in range(int(duration/1000)):
+            for pl in self.plots:
+                g: str = pl[0]
+                a1: Axis = pl[1]
+                a2: Axis = pl[2]
+                x = a1.accept(self)
+                y = a2.accept(self)
+                self.gm.add_plot_data(g, [x], [y])
+            time.sleep(1)
+        return 0, None
+
+    def evaluate(self, p: Program):
+        duration = 10000  # every program lasts 10 seconds TODO
+        exit_val = 0
+
+        def runtime():
+            try:
+                return self.execute(p, duration)
+            except LanguageError as e:
+                self.gm.graphics.close()
+                return 1, e
+        with ThreadPoolExecutor() as threads:
+            logic = threads.submit(runtime)
+        # logic = Thread(target=runtime)
+        # logic.start()
+            if self.graphics_enabled:
+                self.gm.graphics.display(ttl=duration)
+        # logic.join()
+            self.gm.clean()
+            exit_val, err = logic.result()
+            if exit_val != 0:
+                print("\nERROR: %s\n" % str(err))
+        return exit_val, err
 
     def visit_program(self, p: Program):
-        pass
+        p.body.accept(self)
 
     def visit_body(self, b: Body):
-        pass
+        for c in b.commands:
+            c.accept(self)
     
     def visit_loader(self, l: Loader):
         pass
@@ -49,13 +88,16 @@ class Evaluator(Visitor):
         t.math_funcs.accept(self)
 
     def visit_plotter(self, pltr: Plotter):
-        pass
+        graph: ConcreteGraphType = pltr.graph.accept(self)
+        line: bool = isinstance(graph, LineXYGraph)
+        self.gm.add_plot(pltr.graph_name, line_plot=line)
+        self.plots.append((pltr.graph_name, pltr.x, pltr.y))
 
     def visit_reporting(self, r: Reporting):
         pass
 
-    def visit_var(self, v: Var):
-        pass
+    def visit_var(self, v: Var) -> values.Value:
+        return self.env.get_val(v.name)
 
     def visit_source(self, s: Source):
         pass
@@ -63,17 +105,17 @@ class Evaluator(Visitor):
     def visit_type(self, t: Type):
         pass
 
-    def visit_value(self, v: Value):
-        pass
+    def visit_value(self, v: Value) -> values.Value:
+        return v.value
 
-    def visit_graph(self, g: Graph):
-        pass
+    def visit_graph(self, g: Graph) -> ConcreteGraphType:
+        return g.graph
 
-    def visit_var_axis(self, va: VarAxis):
-        pass
+    def visit_var_axis(self, va: VarAxis) -> values.Value:
+        return va.var.accept(self)
 
     def visit_func_axis(self, fa: FuncAxis):
-        pass
+        return fa.fun.accept(self)
 
     def visit_math_funcs(self, mf: MathFuncs):
         for func in mf.mth_func_lst:
