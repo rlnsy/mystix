@@ -29,7 +29,6 @@ class Evaluator(Visitor):
         self.plots: List = []
 
     def execute(self, p: Program, duration: int):
-        self.visit_program(p)
         # internal clock
         for i in range(int(duration/1000)):
             for pl in self.plots:
@@ -43,6 +42,10 @@ class Evaluator(Visitor):
         return 0, None
 
     def evaluate(self, p: Program):
+
+        # perform the initial traversal
+        self.visit_program(p)
+
         duration = 10000  # every program lasts 10 seconds TODO
         exit_val = 0
 
@@ -57,6 +60,7 @@ class Evaluator(Visitor):
         # logic = Thread(target=runtime)
         # logic.start()
             if self.graphics_enabled:
+                print("Enabling graphics features")
                 self.gm.graphics.display(ttl=duration)
         # logic.join()
             self.gm.clean()
