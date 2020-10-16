@@ -232,16 +232,20 @@ class Evaluator(Visitor):
             raise LanguageError("Simple Functions only accept numbers.")
 
     def visit_increment(self, i: Increment) -> values.Value:
-        v: values.Value = self.env.get_val(i.impacted_var.name)
+        n = i.impacted_var.name
+        v: values.Value = self.env.get_val(n)
         if isinstance(v, values.NumericalValue):
-            return apply_qk("inc",v)
+            result: values.NumericalValue = apply_qk("inc", v)
+            return self.env.set_val(n, result)
         else:
             raise LanguageError("Fast Functions only accept numbers.")
 
     def visit_decrement(self, d: Decrement) -> values.Value:
-        v: values.Value = self.env.get_val(d.impacted_var.name)
+        n = d.impacted_var.name
+        v: values.Value = self.env.get_val(n)
         if isinstance(v, values.NumericalValue):
-            return apply_qk("dec",v)
+            result: values.NumericalValue = apply_qk("dec", v)
+            return self.env.set_val(n, result)
         else:
             raise LanguageError("Fast Functions only accept numbers.")
 
