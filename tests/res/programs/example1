@@ -2,7 +2,7 @@ program:
 source = remote("www.coviddata.com/stream")
 map(source) "case_date" to number date
 number count = 0
-on new data from source count++
+observe(source) do count++
 plot xy date age called age_graph
 plot line xy date log(count) titled "cases_log"
 start!

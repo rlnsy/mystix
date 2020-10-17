@@ -5,7 +5,7 @@ LOADER      ::= VAR = SOURCE
 MAPPER      ::= map(VAR) STRING to DECLARE
 DECLARE     ::= TYPE VAR
 ASSIGNER    ::= DECLARE = VALUE
-TRIGGER     ::= on new data from VAR MATH_FUNCS
+TRIGGER     ::= observe(VAR) do MATH_FUNCS
 PLOTTER     ::= plot GRAPH AXIS , AXIS titled STRING
 VAR         ::= [a-z]+[a-zA-Z0-9\_]*
 SOURCE      ::= remote(URL)
