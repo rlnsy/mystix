@@ -1,26 +1,25 @@
-PROGRAM     ::= <START> SEP BODY <END>
+PROGRAM     ::= program: SEP BODY start!
 BODY        ::= (COMMAND SEP)*
 COMMAND     ::= LOADER | MAPPER | ASSIGNER | TRIGGER | PLOTTER
 LOADER      ::= VAR = SOURCE
-MAPPER      ::= map VAR STRING to DECLARE
+MAPPER      ::= map(VAR) STRING to DECLARE
 DECLARE     ::= TYPE VAR
 ASSIGNER    ::= DECLARE = VALUE
-TRIGGER     ::= on new data from VAR MATH_FUNCS
-PLOTTER     ::= plot GRAPH AXIS , AXIS called STRING
+TRIGGER     ::= observe(VAR) do MATH_FUNCS
+PLOTTER     ::= plot GRAPH(AXIS,AXIS) titled STRING
 VAR         ::= [a-z]+[a-zA-Z0-9\_]*
-SOURCE      ::= REPORTING remote URL
-REPORTING   ::= live | static
+SOURCE      ::= remote(URL)
 URL         ::= STRING
 STRING      ::= \”[.]*\”
 TYPE        ::= number | category | binary
 VALUE       ::= [0-9]+ | STRING | BIN
 BIN         ::= true | false
-GRAPH       ::= xy | line xy
+GRAPH       ::= xy | line_xy
 AXIS        ::= VAR | MATH_FUNC
 MATH_FUNCS  ::= MATH_FUNC | MATH_FUNC , MATH_FUNCS
 MATH_FUNC   ::= SIMP_FUNC | FAST_FUNC | MATH_BLTN VAR
 MATH_BLTN   ::= log | sin | cos | exp
 FAST_FUNC   ::= VAR++ | VAR--
 SIMP_FUNC   ::= VAR OP VALUE
-OP          ::= + | - | * | / | ^
+OP          ::= += | -= | *= | /= | ^=
 SEP         ::= \n | ;

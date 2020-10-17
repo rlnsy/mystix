@@ -52,10 +52,6 @@ class Visitor(ABC):
         pass
 
     @abstractmethod
-    def visit_reporting(self, r: Reporting):
-        pass
-
-    @abstractmethod
     def visit_var(self, v: Var):
         pass
 
