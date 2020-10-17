@@ -125,7 +125,6 @@ class Evaluator(Visitor):
             try:
                 return self.execute(p, duration)
             except LanguageError as e:
-                print("Detected a language error")
 
                 def close(m: GraphManager):
                     m.close()
