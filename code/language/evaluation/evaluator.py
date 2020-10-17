@@ -237,11 +237,13 @@ class Evaluator(Visitor):
         pass
 
     def visit_simple_func(self, smp: SimpleFunc) -> values.Value:
+        n: str = smp.impacted_var.name
         if isinstance(smp.rhs.value, values.NumericalValue):
-            v: values.Value = self.env.get_val(smp.impacted_var.name)
+            v: values.Value = self.env.get_val(n)
             if isinstance(v, values.NumericalValue):
                 operand = smp.op.accept(self)
-                return apply_op(operand,v, smp.rhs.value)
+                result: values.NumericalValue = apply_op(operand,v, smp.rhs.value)
+                return self.env.set_val(n, result)
             else:
                 raise LanguageError("Simple Functions only accept numbers.")
         else:

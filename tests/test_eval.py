@@ -1,10 +1,11 @@
 from unittest import TestCase
+from typing import cast
 from code.language.evaluation import Evaluator
 from code.language.shared import ast
 from code.language.shared.primitives.misc import ReportingMode
 from code.targets.data.dataLoader import DataLoaderError
-from code.language.shared.primitives import Types
-from code.language.shared.primitives.values import IntegerValue
+from code.language.shared.primitives import Types, ConcreteNumOp
+from code.language.shared.primitives.values import IntegerValue, FloatValue
 
 
 class LoaderEvaluationTests(TestCase):
@@ -64,3 +65,55 @@ class LoaderEvaluationTests(TestCase):
             ]))
         code, err = e.evaluate(p, duration=4000)
         self.assertEqual(0, code)
+
+
+class MiscEvaluationTests(TestCase):
+
+    def test_simple_func_baseline(self):
+        e = Evaluator()
+        p = ast.Program(
+            ast.Body([
+                ast.Loader(ast.Var("source"),
+                           ast.Source(ast.Reporting(ReportingMode.LIVE),
+                                      "https://covid-api.com/api/reports")),
+                ast.Assigner(ast.Declare(ast.Type(Types.NUMBER), ast.Var("count")),
+                             ast.Value(IntegerValue(20))),
+                ast.Trigger(ast.Var("source"), ast.MathFuncs([])),
+            ]))
+        code, err = e.evaluate(p, duration=7000)
+        self.assertEqual(0, code)
+        self.assertEqual(20, cast(IntegerValue, e.env.get_val("count")).value)
+
+    def test_simple_func_divide(self):
+        e = Evaluator()
+        p = ast.Program(
+            ast.Body([
+                ast.Loader(ast.Var("source"),
+                           ast.Source(ast.Reporting(ReportingMode.LIVE),
+                                      "https://covid-api.com/api/reports")),
+                ast.Assigner(ast.Declare(ast.Type(Types.NUMBER), ast.Var("count")),
+                             ast.Value(IntegerValue(20))),
+                ast.Trigger(ast.Var("source"), ast.MathFuncs([ast.SimpleFunc(
+                    ast.Var("count"), ast.Operand(ConcreteNumOp.DIV),
+                    ast.Value(IntegerValue(2)))])),
+            ]))
+        code, err = e.evaluate(p, duration=7000)
+        self.assertEqual(0, code)
+        self.assertTrue(cast(IntegerValue, e.env.get_val("count")).value < 20)
+
+    def test_simple_func_pow(self):
+        e = Evaluator()
+        p = ast.Program(
+            ast.Body([
+                ast.Loader(ast.Var("source"),
+                           ast.Source(ast.Reporting(ReportingMode.LIVE),
+                                      "https://covid-api.com/api/reports")),
+                ast.Assigner(ast.Declare(ast.Type(Types.NUMBER), ast.Var("count")),
+                             ast.Value(FloatValue(1.1))),
+                ast.Trigger(ast.Var("source"), ast.MathFuncs([ast.SimpleFunc(
+                    ast.Var("count"), ast.Operand(ConcreteNumOp.EXP),
+                    ast.Value(IntegerValue(2)))])),
+            ]))
+        code, err = e.evaluate(p, duration=7000)
+        self.assertEqual(0, code)
+        self.assertTrue(cast(IntegerValue, e.env.get_val("count")).value > 1)
