@@ -148,7 +148,9 @@ class Evaluator(Visitor):
             def start(m: GraphManager):
                 m.graphics.display(ttl=duration)
             self.do_graphics(start)
-            self.stopped = True
+            def stop(m: GraphManager):
+                self.stopped = True
+            self.do_graphics(stop)
             exit_val, err = logic.result()
             print("Program execution completed!")
             if exit_val != 0:
