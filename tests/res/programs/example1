@@ -1,6 +1,6 @@
 program:
 source = remote("www.coviddata.com/stream")
-map source "case_date" to number date
+map(source) "case_date" to number date
 number count = 0
 on new data from source count++
 plot xy date age called age_graph

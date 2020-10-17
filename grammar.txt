@@ -2,7 +2,7 @@ PROGRAM     ::= program: SEP BODY start!
 BODY        ::= (COMMAND SEP)*
 COMMAND     ::= LOADER | MAPPER | ASSIGNER | TRIGGER | PLOTTER
 LOADER      ::= VAR = SOURCE
-MAPPER      ::= map VAR STRING to DECLARE
+MAPPER      ::= map(VAR) STRING to DECLARE
 DECLARE     ::= TYPE VAR
 ASSIGNER    ::= DECLARE = VALUE
 TRIGGER     ::= on new data from VAR MATH_FUNCS
