@@ -5,8 +5,10 @@ import pickle
 import re
 from pyqtgraph import PlotItem  # type: ignore
 
+from code.language.evaluation.errors import LanguageError
 
-class GraphManagerError(Exception):
+
+class GraphManagerError(LanguageError):
     pass
 
 

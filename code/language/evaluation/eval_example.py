@@ -33,7 +33,9 @@ def run():
                 # plot xy date age called age_graph
                 ast.Plotter(ast.Graph(LineXYGraph()),
                             ast.VarAxis(ast.Var("count")),
-                            ast.VarAxis(ast.Var("confirmed")), "age_graph"),
+                            ast.VarAxis(ast.Var("confirmed")), "Cases_Confirmed_by_"
+                                                               "Date_since_March_"
+                                                               "1st"),
 
             ]))
     code, err = e.evaluate(p)
