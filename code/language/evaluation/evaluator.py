@@ -102,7 +102,7 @@ class Evaluator(Visitor):
         # internal clock
         for i in range(int(duration/1000)):
             self.update_sources()
-            time.sleep(1)
+            time.sleep(0.5)
         return 0, None
 
     def evaluate(self, p: Program):
@@ -114,7 +114,7 @@ class Evaluator(Visitor):
             print("\nERROR: %s\n" % str(e))
             return 1, e
 
-        duration = 5000  # every program lasts 10 seconds TODO
+        duration = 10000  # every program lasts 10 seconds TODO
         exit_val = 0
 
         def runtime():
