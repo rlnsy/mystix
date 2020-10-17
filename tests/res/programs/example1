@@ -1,5 +1,5 @@
 program:
-source = live remote "www.coviddata.com/stream"
+source = remote("www.coviddata.com/stream")
 map source "case_date" to number date
 number count = 0
 on new data from source count++
