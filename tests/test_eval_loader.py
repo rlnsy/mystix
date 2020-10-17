@@ -20,7 +20,7 @@ class LoaderEvaluationTests(TestCase):
                            ast.Source(ast.Reporting(ReportingMode.LIVE),
                                       "www.source2.com")),
             ]))
-        code, err = e.evaluate(p)
+        code, err = e.evaluate(p, duration=4000)
         self.assertNotEqual(0, code)
         self.assertTrue(isinstance(err, DataLoaderError))
 
@@ -32,7 +32,7 @@ class LoaderEvaluationTests(TestCase):
                            ast.Source(ast.Reporting(ReportingMode.LIVE),
                                       "https://covid-apiiii.com/api/reports")),
             ]))
-        code, err = e.evaluate(p)
+        code, err = e.evaluate(p, duration=4000)
         self.assertNotEqual(0, code)
         self.assertTrue(isinstance(err, DataLoaderError))
 
@@ -46,7 +46,7 @@ class LoaderEvaluationTests(TestCase):
                 ast.Trigger(ast.Var("source"), ast.MathFuncs([ast.Increment(ast.Var(
                     "count"))])),
             ]))
-        code, err = e.evaluate(p)
+        code, err = e.evaluate(p, duration=4000)
         self.assertNotEqual(0, code)
         self.assertTrue(isinstance(err, DataLoaderError))
 
@@ -62,5 +62,5 @@ class LoaderEvaluationTests(TestCase):
                 ast.Trigger(ast.Var("source"), ast.MathFuncs([ast.Increment(ast.Var(
                     "count"))])),
             ]))
-        code, err = e.evaluate(p)
+        code, err = e.evaluate(p, duration=4000)
         self.assertEqual(0, code)

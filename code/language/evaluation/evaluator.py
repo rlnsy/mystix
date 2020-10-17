@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING as STATIC_CHECK, List, Callable
+from typing import TYPE_CHECKING as STATIC_CHECK, List, Callable, Optional
 if STATIC_CHECK:
     from code.language.shared.ast import *
 from code.language.shared.ast.visitor import Visitor
@@ -41,6 +41,7 @@ class Evaluator(Visitor):
         # for source name provide a list of procedures to execute
         self.events: defaultdict = defaultdict(lambda: [])
         self.sources: List[str] = []
+        self.stopped = False  # TODO: use mutex?
 
     def do_graphics(self, p: Callable):
         if self.gm is not None:
@@ -98,14 +99,29 @@ class Evaluator(Visitor):
                         raise LanguageError("Source %s does not have a field %s"
                                             % (s, f))
 
-    def execute(self, p: Program, duration: int):
+    def execute(self, p: Program, duration: Optional[int]):
         # internal clock
-        for i in range(int(duration/1000)):
-            self.update_sources()
-            time.sleep(0.5)
+        t_init = time.time()
+        update_interval = 3
+        if duration is not None:
+            for i in range(int(duration/(1000*update_interval))):
+                self.update_sources()
+                if (time.time()-t_init) * 1000 > duration or self.stopped:
+                    break
+                else:
+                    time.sleep(update_interval)
+        else:
+            while not self.stopped:
+                self.update_sources()
+                time.sleep(update_interval)
         return 0, None
 
-    def evaluate(self, p: Program):
+    def evaluate(self, p: Program, duration=None):
+        """
+        :param p: Program to evaluate
+        :param duration: length of time to execute for (in milliseconds).
+        A None value will result in program running until graphics are closed.
+        """
 
         # perform the initial traversal
         try:
@@ -114,14 +130,12 @@ class Evaluator(Visitor):
             print("\nERROR: %s\n" % str(e))
             return 1, e
 
-        duration = 10000  # every program lasts 10 seconds TODO
         exit_val = 0
 
         def runtime():
             try:
                 return self.execute(p, duration)
             except LanguageError as e:
-                print("Detected a language error")
 
                 def close(m: GraphManager):
                     m.close()
@@ -134,7 +148,7 @@ class Evaluator(Visitor):
             def start(m: GraphManager):
                 m.graphics.display(ttl=duration)
             self.do_graphics(start)
-
+            self.stopped = True
             exit_val, err = logic.result()
             print("Program execution completed!")
             if exit_val != 0:
