@@ -86,8 +86,8 @@ class Parser:
         print("X AXIS GOTTEN")
         self.tokenizer.get_and_check_next(',')
         print("COMMA CONFIRMED")
-        y_axis = self.parseAxis('called')
-        self.tokenizer.get_and_check_next("called")
+        y_axis = self.parseAxis('titled')
+        self.tokenizer.get_and_check_next("titled")
         name = self.tokenizer.get_next()
         return Plotter(graph, x_axis, y_axis, name)
 
