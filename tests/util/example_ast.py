@@ -32,7 +32,7 @@ def example_1() -> ast.Program:
             ast.Trigger(ast.Var("source"), ast.MathFuncs([ast.Increment(ast.Var(
                 "count"))])),
 
-            # plot xy date age called age_graph
+            # plot xy date age titled age_graph
             ast.Plotter(ast.Graph(ScatterXYGraph()),
                         ast.VarAxis(ast.Var("date")),
                         ast.VarAxis(ast.Var("age")), "age_graph"),
