@@ -1,4 +1,4 @@
-PROGRAM     ::= <START> SEP BODY <END>
+PROGRAM     ::= program: SEP BODY start!
 BODY        ::= (COMMAND SEP)*
 COMMAND     ::= LOADER | MAPPER | ASSIGNER | TRIGGER | PLOTTER
 LOADER      ::= VAR = SOURCE
