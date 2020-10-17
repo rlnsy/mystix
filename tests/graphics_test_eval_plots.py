@@ -22,12 +22,12 @@ class GraphicsEvaluationTests(TestCase):
 
     def test_plot_undefined_axis_no_source(self):
         """
-        Should briefly create a plot then error
+        Should return without error
         """
-        print("Testing undefined variable in Axis")
+        print("Testing undefined variable in Axis - no source")
         program = simple_plot_example()
         e = Evaluator(graphics=False)
-        code, err = e.evaluate(program)
+        code, err = e.evaluate(program, duration=4000)
         self.assertEqual(0, code)
 
     def test_plot_undefined_axis(self):
@@ -49,7 +49,7 @@ class GraphicsEvaluationTests(TestCase):
 
         ]))
         e = Evaluator(graphics=False)
-        code, err = e.evaluate(program)
+        code, err = e.evaluate(program, duration=4000)
         self.assertNotEqual(0, code)
         self.assertTrue(isinstance(err, UndefinedVariableError))
 
@@ -67,7 +67,7 @@ class GraphicsEvaluationTests(TestCase):
         program = simple_plot_example()
         e = Evaluator(graphics=False)
         e.env.extend('t', FloatValue(0.5))
-        code, err = e.evaluate(program)
+        code, err = e.evaluate(program, duration=7000)
         self.assertEqual(0, code)
 
     def test_plot_manual_define_2(self):
@@ -79,5 +79,5 @@ class GraphicsEvaluationTests(TestCase):
         program = simple_plot_example()
         e = Evaluator(graphics=True)
         e.env.extend('t', FloatValue(1.0))
-        code, err = e.evaluate(program)
+        code, err = e.evaluate(program, duration=7000)
         self.assertEqual(0, code)
