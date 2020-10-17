@@ -80,12 +80,8 @@ def mapper_equal(m1: Mapper, m2: Mapper) -> bool:
         declare_equal(m1.decl, m2.decl)
 
 
-def reporting_equal(r1: Reporting, r2: Reporting) -> bool:
-    return r1.mode == r2.mode
-
-
 def source_equal(s1: Source, s2: Source) -> bool:
-    return reporting_equal(s1.reporting, s2.reporting) and s1.url == s2.url
+    return s1.url == s2.url
 
 
 def loader_equal(l1: Loader, l2: Loader) -> bool:

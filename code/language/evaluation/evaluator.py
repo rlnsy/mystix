@@ -34,9 +34,6 @@ class Evaluator(Visitor):
     def visit_plotter(self, pltr: Plotter):
         pass
 
-    def visit_reporting(self, r: Reporting):
-        pass
-
     def visit_var(self, v: Var):
         pass
 
