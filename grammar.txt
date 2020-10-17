@@ -6,7 +6,7 @@ MAPPER      ::= map(VAR) STRING to DECLARE
 DECLARE     ::= TYPE VAR
 ASSIGNER    ::= DECLARE = VALUE
 TRIGGER     ::= observe(VAR) do MATH_FUNCS
-PLOTTER     ::= plot GRAPH AXIS , AXIS titled STRING
+PLOTTER     ::= plot GRAPH(AXIS,AXIS) titled STRING
 VAR         ::= [a-z]+[a-zA-Z0-9\_]*
 SOURCE      ::= remote(URL)
 URL         ::= STRING
@@ -14,7 +14,7 @@ STRING      ::= \”[.]*\”
 TYPE        ::= number | category | binary
 VALUE       ::= [0-9]+ | STRING | BIN
 BIN         ::= true | false
-GRAPH       ::= xy | line xy
+GRAPH       ::= xy | line_xy
 AXIS        ::= VAR | MATH_FUNC
 MATH_FUNCS  ::= MATH_FUNC | MATH_FUNC , MATH_FUNCS
 MATH_FUNC   ::= SIMP_FUNC | FAST_FUNC | MATH_BLTN VAR
