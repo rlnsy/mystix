@@ -8,8 +8,7 @@ ASSIGNER    ::= DECLARE = VALUE
 TRIGGER     ::= on new data from VAR MATH_FUNCS
 PLOTTER     ::= plot GRAPH AXIS , AXIS titled STRING
 VAR         ::= [a-z]+[a-zA-Z0-9\_]*
-SOURCE      ::= REPORTING remote URL
-REPORTING   ::= live | static
+SOURCE      ::= remote(URL)
 URL         ::= STRING
 STRING      ::= \”[.]*\”
 TYPE        ::= number | category | binary

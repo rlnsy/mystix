@@ -1,7 +1,6 @@
 
 
 from code.language.shared import ast
-from code.language.shared.primitives.misc import ReportingMode
 from code.language.shared.primitives import Types
 from code.language.shared.primitives.values import IntegerValue
 from code.language.shared.primitives.graphs import ScatterXYGraph, LineXYGraph
@@ -17,8 +16,7 @@ def example_1() -> ast.Program:
 
             # source = live remote "www.coviddata.com/stream"
             ast.Loader(ast.Var("source"),
-                                    ast.Source(ast.Reporting(ReportingMode.LIVE),
-                                               "www.coviddata.com/stream")),
+                                    ast.Source("www.coviddata.com/stream")),
 
             # map source "case_date" to number date
             ast.Mapper(ast.Var("source"), "case_date",
