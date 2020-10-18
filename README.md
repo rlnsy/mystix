@@ -1,6 +1,24 @@
-# Data Visualization DSL :chart_with_downwards_trend:
+# Mystix
 Access the powerful data-processing and visualization capabilities of the python 
 ecosystem as well as programmatic dynamic updating using a friendly syntax.
+
+# How to use:
+1. If you haven't already, install the package:
+```
+pip3 install mystix
+```
+or upgrade to the latests version:
+```
+pip3 install mystix --upgrade
+```
+2. Write a program. For example:
+```
+vim example.mstx
+```
+3. Run the program:
+```
+python3 -m mystix example.mstx
+```
 
 ## Development
 ### Getting started
