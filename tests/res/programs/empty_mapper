@@ -1,0 +1,4 @@
+program:
+source = remote("www.coviddata.com/stream")
+map() "case_date" to number date
+start!

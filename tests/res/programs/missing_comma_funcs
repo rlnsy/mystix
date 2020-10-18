@@ -1,0 +1,6 @@
+program:
+source = "http://winterolympicsmedals.com/medals.csv"
+item2 = 0
+item = 10
+observe(source) do item-- item2 *= 20
+start!
