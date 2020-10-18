@@ -170,7 +170,9 @@ class Parser:
     
     def parseBltnFunc(self) -> BuiltinFunc:
         op = self.tokenizer.get_next()
+        self.tokenizer.get_and_check_next("\(")
         var = self.tokenizer.get_next()
+        self.tokenizer.get_and_check_next("\)")
         return BuiltinFunc(op, var)
 
     def parseGraph(self) -> Graph:
@@ -207,6 +209,6 @@ class Parser:
         return False
 
     def isBltnFunc(self, line):
-        if (len(line) == 2 and line[0] in self.bltn):
+        if (line[0] in self.bltn):
             return True
         return False
