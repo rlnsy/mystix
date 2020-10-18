@@ -3,6 +3,8 @@ from typing import List, Optional
 from code.language.shared.ast import *
 from code.language.shared.primitives import *
 from code.language.shared.primitives.values import *
+from code.language.shared.primitives.numerical import *
+from code.language.shared.primitives.graphs import *
 from code.language.tokenization import Tokenizer
 
 
@@ -13,7 +15,7 @@ class ParseError(Exception):
 class Parser:
     operators = ['+=', '-=', '*=', '/=', '^=']
     bltn = ['log', 'sin', 'cos', 'exp']
-
+    
     def __init__(self, tokenizer: Tokenizer):
         self.tokenizer = tokenizer
 
@@ -183,7 +185,12 @@ class Parser:
         return string_token
 
     def parseGraph(self) -> Graph:
-        return Graph(self.tokenizer.get_next())
+        graph = self.tokenizer.get_next()
+        if graph == 'scatter_xy':
+            return ScatterXYGraph(graph)
+        elif graph == 'line_xy':
+            return LineXYGraph(graph)
+        return Graph(graph)
 
     def parseVar(self) -> Var:
         return Var(self.tokenizer.get_next())
