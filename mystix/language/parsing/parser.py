@@ -45,21 +45,21 @@ class Parser:
         next_token = self.tokenizer.check_next()
         command: Optional[ast.Command] = None
         if (next_token == "map"):
-            print("Parsing Map")
+            #print("Parsing Map")
             command = self.parseMapper()
         elif (next_token == "observe"):
-            print("Parsing Trigger")
+            #print("Parsing Trigger")
             command = self.parseTrigger()
         elif (next_token == "plot"):
-            print("Parsing Plotter")
+            #print("Parsing Plotter")
             command = self.parsePlotter()
         # Line is either Loader or Assigner
         line = self.tokenizer.get_line()
         if ("remote" in line):
-            print('Parsing Loader')
+            #print('Parsing Loader')
             command = self.parseLoader()
         elif ("=" in line and "remote" not in line):
-            print('Parsing Assigner')
+            #print('Parsing Assigner')
             command = self.parseAssigner()
         while (self.tokenizer.check_next() in ['\n', ';']):
             self.tokenizer.get_next()
@@ -109,9 +109,9 @@ class Parser:
         graph = self.parseGraph()
         self.tokenizer.get_and_check_next("\(")
         x_axis = self.parseAxis(',')
-        print("X AXIS GOTTEN")
+        #print("X AXIS GOTTEN")
         self.tokenizer.get_and_check_next(',')
-        print("COMMA CONFIRMED")
+        #print("COMMA CONFIRMED")
         y_axis = self.parseAxis(')')
         self.tokenizer.get_and_check_next("\)")
         self.tokenizer.get_and_check_next("titled")
@@ -130,7 +130,7 @@ class Parser:
     def parseMathFuncs(self) -> ast.MathFuncs:
         functions = []
         line = self.tokenizer.get_line(',')
-        print(line)
+        #print(line)
         functions.append(self.parseFunc(line))
         next_token = self.tokenizer.get_next()
         while(next_token not in ['\n', ';'] and next_token == ','):
@@ -141,7 +141,7 @@ class Parser:
     
     def parseAxis(self, endline = ',') -> ast.Axis:
         line = self.tokenizer.get_line(endline)
-        print(line)
+        #print(line)
         if(len(line) == 1):
             return ast.VarAxis(ast.Var(self.tokenizer.get_next()))
         elif self.isMathFunc(line):
@@ -158,8 +158,8 @@ class Parser:
             func = self.parseSimpFunc()
         elif (self.isBltnFunc(line)):
             func = self.parseBltnFunc()
-        print(func)
-        print(self.tokenizer.check_next())
+        #print(func)
+        #print(self.tokenizer.check_next())
         if func is not None:
             return func
         else:
