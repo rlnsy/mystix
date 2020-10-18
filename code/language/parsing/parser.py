@@ -2,6 +2,7 @@ from typing import List, Optional
 
 from code.language.shared.ast import *
 from code.language.shared.primitives import *
+from code.language.shared.primitives.values import *
 from code.language.tokenization import Tokenizer
 
 
@@ -154,7 +155,7 @@ class Parser:
         op = self.tokenizer.get_next()
         op += self.tokenizer.get_next()
         op = Operand(op)
-        value = Value(self.tokenizer.get_next())
+        value = self.parseValue()
         return SimpleFunc(var, op, value)
     
     def parseFastFunc(self) -> FastFunc:
@@ -188,7 +189,26 @@ class Parser:
         return Var(self.tokenizer.get_next())
 
     def parseValue(self) -> Value:
-        return Value(self.tokenizer.get_next())
+        next_token = self.tokenizer.get_next()
+        val = next_token
+        # String Case
+        if next_token == '"':
+            val = ''
+            next_token = self.tokenizer.get_next()
+            val += next_token
+            while (next_token != '"'):
+                val += self.tokenizer.get_next()
+            return CategoricalValue(val)
+        # Binary Boolean case
+        elif next_token.lower() == 'true':
+            return BinaryValue(True)
+        elif next_token.lower() == 'false':
+            return BinaryValue(False)
+        elif "." in val:
+            return FloatValue(val)
+        else:
+            return IntegerValue(val)
+        
 
     def parseType(self) -> Type:
         return Type(self.tokenizer.get_next())
