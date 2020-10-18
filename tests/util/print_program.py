@@ -43,15 +43,11 @@ class ProgramPrinter(Visitor):
              pltr.x.accept(self),
              pltr.y.accept(self), pltr.graph_name)
 
-    def visit_reporting(self, r: Reporting) -> str:
-        return "(Reporting %s)" % r.mode
-
     def visit_var(self, v: Var) -> str:
         return "(Var '%s')" % v.name
 
     def visit_source(self, s: Source) -> str:
-        return "(Source %s '%s')" % \
-            (s.reporting.accept(self), s.url)
+        return "(Source '%s')" % s.url
 
     def visit_type(self, t: Type) -> str:
         return "(Type %s)" % t.type

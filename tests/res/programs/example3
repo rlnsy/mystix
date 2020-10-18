@@ -14,5 +14,5 @@ number thing = 2000
 thing--, addyear++
 binary bin = true
 binary bin2 = false
-plot xy cos(year) medal called cos_medal_graph
+plot xy cos(year) medal titled cos_medal_graph
 <END>

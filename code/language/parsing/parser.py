@@ -2,13 +2,13 @@ from typing import List
 
 from code.language.shared.ast import *
 from code.language.shared.primitives import *
-from code.language.tokenization import tokenizer
+from code.language.tokenization import Tokenizer
 
 class Parser:
     operators = ['+', '-', '*', '/', '^']
     bltn = ['log', 'sin', 'cos', 'exp']
 
-    def __init__(self, tokenizer: tokenizer):
+    def __init__(self, tokenizer: Tokenizer):
         self.tokenizer = tokenizer
 
     def parseProgram(self) -> Program:
@@ -156,9 +156,6 @@ class Parser:
             graph += self.tokenizer.get_next()
             return Graph(graph)
         return Graph(self.tokenizer.get_next())
-
-    def parseReporting(self) -> Reporting:
-        return Reporting(self.tokenizer.get_next())
 
     def parseVar(self) -> Var:
         return Var(self.tokenizer.get_next())

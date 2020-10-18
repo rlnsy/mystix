@@ -3,8 +3,8 @@ from typing import List
 
 from code.language.shared.ast import Program
 from code.language.evaluation.errors import LanguageError
-from code.language.tokenization import tokenizer
 from code.language.parsing import Parser
+from code.language.tokenization import Tokenizer
 from code.language.evaluation import Evaluator
 
 
@@ -17,8 +17,10 @@ class CompilePipelineTests(unittest.TestCase):
     def test(self):
         content = "NOT A REAL PROGRAM"
         try:
-            program: Program = Parser(tokenizer(content)).parseProgram()
-            result: int = Evaluator().evaluate(program)
-            print(result)
+            t = Tokenizer(content)
+            t.tokenize()
+            program: Program = Parser(t).parseProgram()
+            result: int = Evaluator(graphics=False).evaluate(program, duration=5000)
+            self.fail()
         except LanguageError:
             self.fail()

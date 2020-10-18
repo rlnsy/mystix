@@ -33,6 +33,11 @@ functions = dict({
     NumFunction.EXP: lambda x: math.exp(x)
 })
 
+quick_func = dict({
+    "inc": lambda x: x + 1,
+    "dec": lambda x: x - 1
+})
+
 
 def apply_op(o: NumOp, a: NumericalValue, b: NumericalValue) -> NumericalValue:
     if o in operations:
@@ -55,3 +60,11 @@ def apply_fn(f: NumFunction, x: NumericalValue) -> FloatValue:
 
     else:
         raise NonExhaustiveTypeCaseError()
+
+
+def apply_qk(f: str, x: NumericalValue) -> NumericalValue:
+    result = quick_func[f](x.value)
+    if type(x) is IntegerValue:
+        return cast(NumericalValue, IntegerValue(int(result)))
+    else:
+        return cast(NumericalValue, FloatValue(float(result)))

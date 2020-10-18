@@ -12,7 +12,6 @@ class VisitorInterfaceTests(TestCase):
                     "(Loader "
                     "(Var 'source') "
                     "(Source "
-                        "(Reporting ReportingMode.LIVE) "
                         "'www.coviddata.com/stream')) "
                     "(Mapper "
                         "(Var 'source') "

@@ -71,6 +71,10 @@ _run_tests_ () {
   pipenv run python -m unittest discover -s tests -p "test_*.py"
 }
 
+_run_graphical_tests_ () {
+  pipenv run python -m unittest discover -s tests -p "graphics_test_*.py"
+}
+
 if [ "$_routine_" = "init" ]; then
   _run_init_
 elif [ "$_routine_" = "run" ]; then
@@ -83,6 +87,9 @@ elif [ "$_routine_" = "add-dependency" ]; then
   _run_add_dep_ "$2"
 elif [ "$_routine_" = "test" ]; then
   _run_tests_
+  if [ "$2" = "--graphics" ]; then
+    _run_graphical_tests_
+  fi
 else
   echo "Unrecognized command: '$_routine_'"
   exit 1

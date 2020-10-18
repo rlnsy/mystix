@@ -3,7 +3,6 @@ from unittest import TestCase
 from tests.util import ast_equal
 from tests.util.example_ast import example_1
 from code.language.shared import ast
-from code.language.shared.primitives.misc import ReportingMode
 from code.language.shared.primitives import Types
 from code.language.shared.primitives.values import IntegerValue
 from code.language.shared.primitives.graphs import ScatterXYGraph, LineXYGraph
@@ -25,14 +24,12 @@ class EquivalenceUtilTests(TestCase):
                 ast.Program(
                     ast.Body([
                         ast.commands_ast.Loader(ast.Var("source"),
-                                                ast.Source(ast.Reporting(ReportingMode.LIVE),
-                                                           "www.coviddata.com/stream")),
+                                                ast.Source("www.coviddata.com/stream")),
                     ])),
         ast.Program(
             ast.Body([
                 ast.commands_ast.Loader(ast.Var("source"),
-                                        ast.Source(ast.Reporting(ReportingMode.LIVE),
-                                                   "www.coviddata.com/stream")),
+                                        ast.Source("www.coviddata.com/stream")),
             ]))))
 
     def test_diff_num_commands(self):
@@ -41,8 +38,7 @@ class EquivalenceUtilTests(TestCase):
                 ast.Program(
                     ast.Body([
                         ast.commands_ast.Loader(ast.Var("source"),
-                                                ast.Source(ast.Reporting(ReportingMode.LIVE),
-                                                           "www.coviddata.com/stream")),
+                                                ast.Source("www.coviddata.com/stream")),
                     ])),
                 ast.Program(
                     ast.Body([]))))
@@ -53,8 +49,7 @@ class EquivalenceUtilTests(TestCase):
                 ast.Program(
                     ast.Body([
                         ast.commands_ast.Loader(ast.Var("source"),
-                                                ast.Source(ast.Reporting(ReportingMode.LIVE),
-                                                           "www.coviddata.com/stream")),
+                                                ast.Source("www.coviddata.com/stream")),
                     ])),
                 ast.Program(
                     ast.Body([ast.Mapper(ast.Var("source"), "case_date",
@@ -66,16 +61,14 @@ class EquivalenceUtilTests(TestCase):
                 ast.Program(
                     ast.Body([
                         ast.commands_ast.Loader(ast.Var("source"),
-                                                ast.Source(ast.Reporting(ReportingMode.LIVE),
-                                                           "www.coviddata.com/stream")),
+                                                ast.Source("www.coviddata.com/stream")),
                         ast.Mapper(ast.Var("source"), "case_date",
                                    ast.Declare(ast.Type(Types.NUMBER), ast.Var("date")))
                     ])),
                 ast.Program(
                     ast.Body([
                         ast.commands_ast.Loader(ast.Var("source"),
-                                                ast.Source(ast.Reporting(ReportingMode.LIVE),
-                                                           "www.coviddata.com/stream")),
+                                                ast.Source("www.coviddata.com/stream")),
                         ast.Mapper(ast.Var("source"), "case_date",
                                    ast.Declare(ast.Type(Types.NUMBER), ast.Var("date")))
                     ]))))
@@ -86,8 +79,7 @@ class EquivalenceUtilTests(TestCase):
                 ast.Program(
                     ast.Body([
                         ast.commands_ast.Loader(ast.Var("source"),
-                                                ast.Source(ast.Reporting(ReportingMode.LIVE),
-                                                           "www.coviddata.com/stream")),
+                                                ast.Source("www.coviddata.com/stream")),
                         ast.Mapper(ast.Var("source"), "case_date",
                                    ast.Declare(ast.Type(Types.NUMBER), ast.Var("date")))
                     ])),
@@ -97,8 +89,7 @@ class EquivalenceUtilTests(TestCase):
                                    ast.Declare(ast.Type(Types.NUMBER), ast.Var(
                                        "date"))),
                         ast.commands_ast.Loader(ast.Var("source"),
-                                                ast.Source(ast.Reporting(ReportingMode.LIVE),
-                                                           "www.coviddata.com/stream")),
+                                                ast.Source("www.coviddata.com/stream")),
                     ]))))
 
     def test_different_load_var_names(self):
@@ -107,31 +98,12 @@ class EquivalenceUtilTests(TestCase):
                 ast.Program(
                     ast.Body([
                         ast.commands_ast.Loader(ast.Var("source"),
-                                                ast.Source(ast.Reporting(ReportingMode.LIVE),
-                                                           "www.coviddata.com/stream")),
+                                                ast.Source("www.coviddata.com/stream")),
                     ])),
                 ast.Program(
                     ast.Body([
                         ast.commands_ast.Loader(ast.Var("source1"),
-                                                ast.Source(ast.Reporting(ReportingMode.LIVE),
-                                                           "www.coviddata.com/stream")),
-                    ]))))
-
-    def test_different_load_reporting_type(self):
-        self.assertFalse(
-            ast_equal(
-                ast.Program(
-                    ast.Body([
-                        ast.commands_ast.Loader(ast.Var("source"),
-                                                ast.Source(ast.Reporting(
-                                                    ReportingMode.STATIC),
-                                                           "www.coviddata.com/stream")),
-                    ])),
-                ast.Program(
-                    ast.Body([
-                        ast.commands_ast.Loader(ast.Var("source"),
-                                                ast.Source(ast.Reporting(ReportingMode.LIVE),
-                                                           "www.coviddata.com/stream")),
+                                                ast.Source("www.coviddata.com/stream")),
                     ]))))
 
     def test_diff_load_url(self):
@@ -140,14 +112,12 @@ class EquivalenceUtilTests(TestCase):
                 ast.Program(
                     ast.Body([
                         ast.commands_ast.Loader(ast.Var("source"),
-                                                ast.Source(ast.Reporting(ReportingMode.LIVE),
-                                                           "https://www.coviddata.com/stream")),
+                                                ast.Source("https://www.coviddata.com/stream")),
                     ])),
                 ast.Program(
                     ast.Body([
                         ast.commands_ast.Loader(ast.Var("source"),
-                                                ast.Source(ast.Reporting(ReportingMode.LIVE),
-                                                           "www.coviddata.com/stream")),
+                                                ast.Source("www.coviddata.com/stream")),
                     ]))))
 
     def test_diff_map_var(self):
