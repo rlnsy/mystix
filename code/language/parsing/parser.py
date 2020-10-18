@@ -1,8 +1,13 @@
-from typing import List
+from typing import List, Optional
 
 from code.language.shared.ast import *
 from code.language.shared.primitives import *
 from code.language.tokenization import Tokenizer
+
+
+class ParseError(Exception):
+    pass
+
 
 class Parser:
     operators = ['+=', '-=', '*=', '/=', '^=']
@@ -23,7 +28,7 @@ class Parser:
     
     def parseCommand(self) -> Command:
         next_token = self.tokenizer.check_next()
-        command = None
+        command: Optional[Command] = None
         if (next_token == "map"):
             print("Parsing Map")
             command = self.parseMapper()
@@ -43,7 +48,10 @@ class Parser:
             command = self.parseAssigner()
         while (self.tokenizer.check_next() in ['\n', ';']):
             self.tokenizer.get_next()
-        return command
+        if command is not None:
+            return command
+        else:
+            raise ParseError("Could not determine command")
     
     def parseLoader(self) -> Loader:
         var = self.parseVar()
@@ -125,7 +133,7 @@ class Parser:
         return Axis()
 
     def parseFunc(self, line) -> Func:
-        func = None
+        func: Optional[Func] = None
         if (self.isFastFunc(line)):
             func = self.parseFastFunc()
         elif (self.isSimpFunc(line)):
@@ -134,7 +142,10 @@ class Parser:
             func = self.parseBltnFunc()
         print(func)
         print(self.tokenizer.check_next())
-        return func
+        if func is not None:
+            return func
+        else:
+            raise ParseError("Could not determine function")
 
     def parseSimpFunc(self) -> SimpleFunc:
         var = Var(self.tokenizer.get_next())

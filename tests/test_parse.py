@@ -90,14 +90,16 @@ class TestParse(ut.TestCase):
 
 
     def setup(self, input = None):
-        def run_compile(content: str) -> List[str]:
+        def run_compile(content: str) -> Tokenizer:
             tk = Tokenizer(content)
-            return tk, tk.tokenize()
+            tk.tokenize()
+            return tk
         if (input is not None):
-            tk, tokens = read_program_file(f"tests/res/programs/{input}", run_compile)
+            tk = read_program_file(f"tests/res/programs/{input}", run_compile)
         else:
-            tk, tokens = read_program_file("tests/res/programs/example1", run_compile)
+            tk = read_program_file("tests/res/programs/example1", run_compile)
         print("GOT TOKENS")
+        tokens = tk.tokens
         print(tokens)
         parser = Parser(tk)
         return tokens, parser
