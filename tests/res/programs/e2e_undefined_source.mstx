@@ -1,0 +1,8 @@
+program:
+map(source) "case_date" to number date
+number count = 0
+number younger_age = 0
+observe(source) do count++, younger_age /= 4
+plot xy(date, younger_age) titled "age_graph"
+plot line_xy(date, log(count)) titled "cases_log"
+start!
