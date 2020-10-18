@@ -1,6 +1,7 @@
 import unittest
 from typing import List
 
+
 from mystix.language.shared.ast import Program
 from mystix.language.parsing import Parser
 from mystix.language.tokenization import Tokenizer, TokenizationError
