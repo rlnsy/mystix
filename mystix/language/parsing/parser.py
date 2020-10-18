@@ -3,7 +3,7 @@ from typing import Optional
 
 from mystix.language.shared.ast import *
 from mystix.language.tokenization import Tokenizer
-from mystix.language.shared.primitives import Types
+from mystix.language.shared.primitives import Types, values
 
 
 class ParseError(Exception):
@@ -63,7 +63,7 @@ class Parser:
     def parseMapper(self) -> Mapper:
         self.tokenizer.get_and_check_next("map")
         self.tokenizer.get_and_check_next("\(")
-        var = Var(self.tokenizer.get_next())
+        var = self.parseVar()
         self.tokenizer.get_and_check_next("\)")
         map_from = self.parseString()
         self.tokenizer.get_and_check_next("to")
@@ -79,7 +79,7 @@ class Parser:
         declare = self.parseDeclare()
         self.tokenizer.get_and_check_next("=")
         value = self.parseValue()
-        return Assigner(declare, value)
+        return Assigner(declare,value)
 
     def parseTrigger(self) -> Trigger:
         self.tokenizer.get_and_check_next("observe")
@@ -102,6 +102,8 @@ class Parser:
         self.tokenizer.get_and_check_next("\)")
         self.tokenizer.get_and_check_next("titled")
         name = self.parseString()
+        if not name:
+            raise ParseError("No graph title was set")
         return Plotter(graph, x_axis, y_axis, name)
 
     def parseSource(self) -> Source:
@@ -109,9 +111,12 @@ class Parser:
         self.tokenizer.get_and_check_next("\(")
         self.tokenizer.get_and_check_next("\"")
         url = self.tokenizer.get_next()
-        self.tokenizer.get_and_check_next("\"")
-        self.tokenizer.get_and_check_next("\)")
-        return Source(url)
+        if not url.isdigit():
+            self.tokenizer.get_and_check_next("\"")
+            self.tokenizer.get_and_check_next("\)")
+            return Source(url)
+        else:
+            raise ParseError("Sources must come from a URL")
 
     def parseMathFuncs(self) -> MathFuncs:
         functions = []
@@ -186,7 +191,15 @@ class Parser:
         return Graph(self.tokenizer.get_next())
 
     def parseVar(self) -> Var:
-        return Var(self.tokenizer.get_next())
+        v = self.tokenizer.get_next()
+        if v.startswith(")") or not v:
+            raise ParseError("No variable found")
+        elif v[0].isupper():
+            raise ParseError("Variables must start with a lowercase")
+        elif v[0].isdigit():
+            raise ParseError("Variables cannot start with a number")
+        else:
+            return Var(v)
 
     def parseValue(self) -> Value:
         return Value(self.tokenizer.get_next())
@@ -197,8 +210,10 @@ class Parser:
             return Type(Types.NUMBER)
         elif t == 'binary':
             return Type(Types.BINARY)
-        else:
+        elif t == 'category':
             return Type(Types.CATEGORY)
+        else:
+            raise ParseError("Invalid type")
 
     def isSep(self, input: str) -> bool:
         if (input == ';' or input == '\n'):

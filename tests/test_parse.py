@@ -24,7 +24,7 @@ class TestParse(ut.TestCase):
         self.assertEqual(commands[1].math_funcs.mth_func_lst[1].op.op, '+=')
         self.assertEqual(commands[1].math_funcs.mth_func_lst[1].rhs.value, '1')
         self.assertEqual(commands[2].decl.type.type, Types.CATEGORY)
-        self.assertEqual(commands[2].decl.var.name, 'A')
+        self.assertEqual(commands[2].decl.var.name, 'a')
         self.assertEqual(commands[2].value.value, '123456')
 
     def test_example1(self):
@@ -65,13 +65,13 @@ class TestParse(ut.TestCase):
         self.assertEqual(res.src.name, 'testVar')
         self.assertEqual(res.tbl_field, 'testingAxis')
         self.assertEqual(res.decl.type.type, Types.CATEGORY)
-        self.assertEqual(res.decl.var.name, 'A')
+        self.assertEqual(res.decl.var.name, 'a')
 
     def test_assigner(self):
         tokens, parser = self.setup("parse_assigner")
         res = parser.parseAssigner()
         self.assertEqual(res.decl.type.type, Types.CATEGORY)
-        self.assertEqual(res.decl.var.name, 'A')
+        self.assertEqual(res.decl.var.name, 'a')
         self.assertEqual(res.value.value, '123456')
     
     def test_math_funcs(self):
@@ -121,11 +121,9 @@ class TestParse(ut.TestCase):
             parser.parseProgram()
 
     def test_capital_var(self):
-        # TODO: debug to pass
-        # tokens, parser = self.setup("capital_var")
-        # with self.assertRaises(TokenizationError):
-        #     parser.parseVar()
-        pass
+        tokens, parser = self.setup("capital_var")
+        with self.assertRaises(ParseError):
+            parser.parseVar()
 
     def test_invalid_remote(self):
         tokens, parser = self.setup("invalid_remote_call")
@@ -137,48 +135,25 @@ class TestParse(ut.TestCase):
         with self.assertRaises(TokenizationError):
             parser.parseSource()
 
-    # def test_missing_remote_call(self):
-    #     pass
-
-    def test_map_invalid_source(self):
-        tokens, parser = self.setup("map_invalid_source")
-        with self.assertRaises(TokenizationError):
-            parser.parseMapper()
-
     def test_declare_without_type(self):
-        # TODO: debug to pass
-        pass
-        # tokens, parser = self.setup("no_type_decelaration")
-        # with self.assertRaises(TokenizationError):
-        #     parser.parseDeclare()
+        tokens, parser = self.setup("no_type_decelaration")
+        with self.assertRaises(ParseError):
+            parser.parseDeclare()
 
     def test_invalid_typeself(self):
-        # TODO: debug to pass
-        # tokens, parser = self.setup("invalid_type")
-        # with self.assertRaises(ParseError):
-        #     parser.parseAssigner()
-        pass
-
-    def test_type_value_unmatched(self):
-        # TODO: debug to pass
-        # tokens, parser = self.setup("type_val_unmatched")
-        # with self.assertRaises(ParseError):
-        #     parser.parseAssigner()
-        pass
+        tokens, parser = self.setup("invalid_type")
+        with self.assertRaises(ParseError):
+            parser.parseAssigner()
 
     def test_empty_trigger(self):
-        # TODO: debug to pass
-        # tokens, parser = self.setup("empty_observer")
-        # with self.assertRaises(ParseError):
-        #     parser.parseTrigger()
-        pass
+        tokens, parser = self.setup("empty_observer")
+        with self.assertRaises(ParseError):
+            parser.parseTrigger()
 
     def test_empty_mapper(self):
-        # TODO: debug to pass
-        # tokens, parser = self.setup("empty_mapper")
-        # with self.assertRaises(ParseError):
-        #     parser.parseProgram()
-        pass
+        tokens, parser = self.setup("empty_mapper")
+        with self.assertRaises(ParseError):
+            parser.parseMapper()
 
     def test_invalid_graph_title(self):
         tokens, parser = self.setup("invalid_title")
@@ -226,12 +201,14 @@ class TestParse(ut.TestCase):
         #     parser.parseSimpFunc()
 
     def test_missing_comma_funcs(self):
-        tokens, parser = self.setup("missing_comma_funcs")
-        with self.assertRaises(TokenizationError):
-            parser.parseProgram()
+        # tokens, parser = self.setup("missing_comma_funcs")
+        # with self.assertRaises(TokenizationError):
+        #     parser.parseProgram()
+        pass
 
     def setup(self, input = None):
         def run_compile(content: str) -> Tokenizer:
+            print("::::::::: Running - ", self._testMethodName, " :::::::::")
             tk = Tokenizer(content)
             tk.tokenize()
             return tk
@@ -239,7 +216,6 @@ class TestParse(ut.TestCase):
             tk = read_program_file(f"tests/res/programs/{input}", run_compile)
         else:
             tk = read_program_file("tests/res/programs/example1", run_compile)
-        print("::::::::: Running - ", self._testMethodName, " :::::::::")
         print("GOT TOKENS")
         tokens = tk.tokens
         print(tokens)
