@@ -1,1 +1,1 @@
-x = remote(www.coviddata.com/stream)
+x = remote("www.coviddata.com/stream")
