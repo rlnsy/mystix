@@ -7,7 +7,7 @@ from mypy import api
 class TypingTests(unittest.TestCase):
 
     def test_types(self):
-        result = api.run(["main.py", "mystix", "tests"])
+        result = api.run(["mystix", "tests"])
         if result[0]:
             print('\nType checking report:\n')
             print(result[0])  # stdout

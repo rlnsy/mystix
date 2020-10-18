@@ -20,7 +20,7 @@ class TestTokenizer(ut.TestCase):
                'observe', "(", 'source', ")", "do", 'count++', ';', 'plot',
                'scatter_xy',"(" ,
                'date', ",", 'age', ")",
-               'titled', 'age_graph', ';',
+               'titled', '"', 'age_graph', '"', ';',
                'plot', 'line_xy', "(",'date', ",",'log','(', 'count', ')',")",
                'titled',
                '"', 'cases_', 'log', '"', ';', 'start!']

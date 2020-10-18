@@ -1,0 +1,1 @@
+plot line_xy(x, log(y)) titled "line"

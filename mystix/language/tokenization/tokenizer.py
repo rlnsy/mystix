@@ -73,3 +73,14 @@ class Tokenizer:
         if len(self.tokens) == 0:
             return False
         return self.current_token < len(self.tokens)
+        
+    def get_line(self, stopper = ';'):
+        line = []
+        cur_token = self.current_token
+        next_token = self.get_next()
+        stoppers = [';', stopper]
+        while(next_token not in stoppers):
+            line.append(next_token)
+            next_token = self.get_next()
+        self.current_token = cur_token
+        return line
