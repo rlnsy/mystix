@@ -35,7 +35,7 @@ def example_1() -> ast.Program:
                         ast.VarAxis(ast.Var("date")),
                         ast.VarAxis(ast.Var("age")), "age_graph"),
 
-            # plot line xy date log(count) called cases_log
+            # plot line xy date log(count) titled cases_log
             ast.Plotter(ast.Graph(LineXYGraph()),
                         ast.VarAxis(ast.Var("date")),
                         ast.FuncAxis(ast.BuiltinFunc(NumFunction.LOG, ast.Var(

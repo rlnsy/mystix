@@ -57,7 +57,7 @@ FIELD_NAME = “.+”
 RULE ::= on new data from SOURCE_NAME NUMBER_OPS
 NUMBER_OPS ::= ε | NUMBER_OP “,” NUMBER_OPS
 NUMBER_OP ::= NUMBER_NAME++
-PLOT ::= plot PLOT_TYPE VAL VAL called PLOT_NAME
+PLOT ::= plot PLOT_TYPE VAL VAL titled PLOT_NAME
 PLOT_TYPE ::= xy | line xy
 VAL ::= NUMBER | FUNC(NUMBER)
 PLOT_NAME ::= [a-z]+
@@ -74,8 +74,8 @@ Example program:
 2 map source "case_date" to number date
 3 number count = 0
 4 on new data from source count++
-5 plot xy date age called age_graph // default plot type: scatter
-6 plot line xy date log(count) called cases_log
+5 plot xy date age titled age_graph // default plot type: scatter
+6 plot line xy date log(count) titled cases_log
 ```
 
 ### First User Study
@@ -215,13 +215,13 @@ refresh source every 60 minutes // default setting is 5 min
 map source “case_age” to number age 
 map source “case_date” to number date
 // creates graph with data on x-axis and age on y-axis:
-plot xy date age called age_graph
+plot xy date age titled age_graph
 // creates histogram with age in bins of 10 years (0-10,11-20,...):
-plot histogram age with range 10 called age_hist
+plot histogram age with range 10 titled age_hist
 variable count = 0 // create a numerical variable called count
 on new data from source count++ // updates count whenever data is received
 // a log graph of total cases, will update when count is updated:
-plot xy date log(count) called cases_log
+plot xy date log(count) titled cases_log
 // specify layout - default: stacked:
 display (age_graph left of age_hist) on top of cases_log
 // colours bins in hues of blue - default grays
