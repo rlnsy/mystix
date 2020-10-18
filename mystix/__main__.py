@@ -32,7 +32,7 @@ def run_compile(content: str):
     t = Tokenizer(content)
     t.tokenize()
     p: Program = Parser(t).parseProgram()
-    Evaluator(graphics=False).evaluate(p)
+    Evaluator(graphics=True).evaluate(p)
 
 
 if len(sys.argv) >= 2:
