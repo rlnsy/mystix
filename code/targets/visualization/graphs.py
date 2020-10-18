@@ -5,8 +5,10 @@ import pickle
 import re
 from pyqtgraph import PlotItem  # type: ignore
 
+from code.language.evaluation.errors import LanguageError
 
-class GraphManagerError(Exception):
+
+class GraphManagerError(LanguageError):
     pass
 
 
@@ -16,7 +18,7 @@ CONST_DEBUG_OUTPUT = "tmp/vis_trace"
 
 class Plot:
 
-    CONST_DATA_LIMIT = 20000
+    CONST_DATA_LIMIT = 10000
 
     def __init__(self, name: str, plot: PlotItem, line: bool):
         self.name = name
@@ -42,11 +44,13 @@ class Plot:
             with open(fn, "rb") as f:
                 try:
                     x_data, y_data = pickle.loads(f.read())
-                    # slicing
-                    index = min(len(x_data), Plot.CONST_DATA_LIMIT)
-                    self.x_data = (self.x_data + x_data)[-index:]
-                    self.y_data = (self.y_data + y_data)[-index:]
-                    assert(len(self.x_data) <= Plot.CONST_DATA_LIMIT)
+                    self.x_data = (self.x_data + x_data)
+                    self.y_data = (self.y_data + y_data)
+                    # data limiting
+                    if len(self.x_data) > Plot.CONST_DATA_LIMIT:
+                        self.x_data = (self.x_data + x_data)[-Plot.CONST_DATA_LIMIT:]
+                    if len(self.y_data) > Plot.CONST_DATA_LIMIT:
+                        self.y_data = (self.y_data + y_data)[-Plot.CONST_DATA_LIMIT:]
                     read = True
                 except EOFError:
                     continue
@@ -83,10 +87,12 @@ class Plot:
 class GraphManager:
 
     def __init__(self):
+        self.closed = False
         self.graphics = Graphics()
         self.plots = {}
         self.graphics.add_window("410 DSL", 600, 600)
         self.graphics.add_window("410 DSL 2", 600, 600)
+        self.graphics.add_update(lambda: self.update_plots())
 
     def add_plot(self, plot_name: str, line_plot: bool = False):
         if ' ' in plot_name:
@@ -98,7 +104,14 @@ class GraphManager:
                            .get_window("410 DSL 2")
                            .addPlot(title=plot_name), line_plot)
             self.plots[plot_name] = p
-            self.graphics.add_update(lambda: self.plots[plot_name].update())
+
+    def update_plots(self):
+        if not self.graphics.to_close and not self.closed:
+            try:
+                for p in self.plots:
+                    self.plots[p].update()
+            except RuntimeError:
+                print("Warning: plots attempted to update after close")
 
     def _confirm_plot_(self,  plot_name: str, p: Callable):
         if plot_name not in self.plots:
@@ -114,3 +127,8 @@ class GraphManager:
     def clean(self):
         for p in self.plots.values():
             p.clear_cache()
+
+    def close(self):
+        print("Closing graph manager")
+        self.closed = True
+        self.graphics.close()

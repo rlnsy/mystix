@@ -18,7 +18,7 @@ class CompilePipelineTests(unittest.TestCase):
         try:
             tokens: List[str] = tokenize(content)
             program: Program = parse(tokens)
-            result: int = Evaluator().evaluate(program)
+            result: int = Evaluator(graphics=False).evaluate(program, duration=5000)
             print(result)
         except LanguageError:
             self.fail()
