@@ -1,11 +1,11 @@
 import unittest
 from typing import List
 
-from code.language.shared.ast import Program
-from code.language.evaluation.errors import LanguageError
-from code.language.tokenization import Tokenizer
-from code.language.parsing import parse
-from code.language.evaluation import Evaluator
+from mystix.language.shared.ast import Program
+from mystix.language.evaluation.errors import LanguageError
+from mystix.language.tokenization import Tokenizer
+from mystix.language.parsing import parse
+from mystix.language.evaluation import Evaluator
 
 
 class CompilePipelineTests(unittest.TestCase):

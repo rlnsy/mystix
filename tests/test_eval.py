@@ -1,10 +1,10 @@
 from unittest import TestCase
 from typing import cast
-from code.language.evaluation import Evaluator
-from code.language.shared import ast
-from code.targets.data.dataLoader import DataLoaderError
-from code.language.shared.primitives import Types, ConcreteNumOp
-from code.language.shared.primitives.values import IntegerValue, FloatValue
+from mystix.language.evaluation import Evaluator
+from mystix.language.shared import ast
+from mystix.targets.data.dataLoader import DataLoaderError
+from mystix.language.shared.primitives import Types, ConcreteNumOp
+from mystix.language.shared.primitives.values import IntegerValue, FloatValue
 
 
 class LoaderEvaluationTests(TestCase):

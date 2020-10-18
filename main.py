@@ -1,5 +1,5 @@
-from code.targets.data import dataLoader
-from code.targets.visualization import graphs_example
+from mystix.targets.data import dataLoader
+from mystix.targets.visualization import graphs_example
 
 
 if __name__ == "__main__":
