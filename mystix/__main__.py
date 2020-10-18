@@ -21,11 +21,12 @@
 
 import sys
 
-from mystix.ui.util import read_program_file
-from mystix.language.tokenization import Tokenizer
-from mystix.language.parsing import Parser
-from mystix.language.shared.ast import Program
-from mystix.language.evaluation import Evaluator
+
+from .ui.util import read_program_file
+from .language.tokenization import Tokenizer
+from .language.parsing import Parser
+from .language.shared.ast import Program
+from .language.evaluation import Evaluator
 
 
 def run_compile(content: str):
@@ -37,6 +38,6 @@ def run_compile(content: str):
 
 if len(sys.argv) >= 2:
     if sys.argv[1] == "-v":
-        print("Mystix v0.0.3")
+        print("Mystix v0.0.8")
     else:
         read_program_file(sys.argv[1], run_compile)

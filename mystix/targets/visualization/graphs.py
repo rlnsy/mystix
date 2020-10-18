@@ -1,6 +1,6 @@
 from mystix.ui.graphics import Graphics
 from typing import Callable, List
-from os import path, listdir, remove
+from os import path, listdir, remove, mkdir
 import pickle
 import re
 from pyqtgraph import PlotItem  # type: ignore
@@ -12,8 +12,8 @@ class GraphManagerError(LanguageError):
     pass
 
 
-CONST_FRAGMENT_CACHE = "tmp/vis_cache"
-CONST_DEBUG_OUTPUT = "tmp/vis_trace"
+CONST_FRAGMENT_CACHE = "/tmp/mystix_vis_cache"
+CONST_DEBUG_OUTPUT = "/tmp/mystix_vis_trace"
 
 
 class Plot:
@@ -93,6 +93,12 @@ class GraphManager:
         self.graphics.add_window("410 DSL", 600, 600)
         self.graphics.add_window("410 DSL 2", 600, 600)
         self.graphics.add_update(lambda: self.update_plots())
+        for d in [CONST_DEBUG_OUTPUT, CONST_FRAGMENT_CACHE]:
+            try:
+                with open(d) as file:
+                    pass
+            except FileNotFoundError:
+                mkdir(d)
 
     def add_plot(self, plot_name: str, line_plot: bool = False):
         if ' ' in plot_name:
