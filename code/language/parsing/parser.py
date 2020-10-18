@@ -92,12 +92,13 @@ class Parser:
         return Plotter(graph, x_axis, y_axis, name)
 
     def parseSource(self) -> Source:
-        reporting = self.parseReporting()
         self.tokenizer.get_and_check_next("remote")
+        self.tokenizer.get_and_check_next("(")
         url = ''
         while(self.tokenizer.check_next() != ';'):
             url += self.tokenizer.get_next()
-        return Source(reporting, url)
+        self.tokenizer.get_and_check_next(")")
+        return Source(url)
 
     def parseMathFuncs(self) -> MathFuncs:
         functions = []
@@ -137,9 +138,9 @@ class Parser:
         return SimpleFunc(var, op, value)
     
     def parseFastFunc(self) -> FastFunc:
-        var = Var(self.tokenizer.get_next())
-        operator = self.tokenizer.get_next()
-        operator += self.tokenizer.get_next()
+        token = self.tokenizer.get_next()
+        var = Var(token[:-2])
+        operator = token[-2:]
         if operator == '++':
             return Increment(var)
         else:

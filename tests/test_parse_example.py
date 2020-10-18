@@ -13,6 +13,8 @@ class ExampleParseTests(unittest.TestCase):
 
     def test_parse_1(self):
         def run_compile(content: str) -> Program:
-            return Parser(Tokenizer(content).tokenize()).parseProgram()
+            t = Tokenizer(content)
+            t.tokenize()
+            return Parser(t).parseProgram()
         p: Program = read_program_file("tests/res/programs/example1", run_compile)
         #self.assertTrue(ast_equal(p, example_1()))

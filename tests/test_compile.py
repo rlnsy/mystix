@@ -4,7 +4,7 @@ from typing import List
 from code.language.shared.ast import Program
 from code.language.evaluation.errors import LanguageError
 from code.language.parsing import Parser
-from code.language.tokenization import Tokenizer
+from code.language.tokenization import Tokenizer, TokenizationError
 from code.language.evaluation import Evaluator
 
 
@@ -22,5 +22,5 @@ class CompilePipelineTests(unittest.TestCase):
             program: Program = Parser(t).parseProgram()
             result: int = Evaluator(graphics=False).evaluate(program, duration=5000)
             self.fail()
-        except LanguageError:
-            self.fail()
+        except TokenizationError:
+            pass
