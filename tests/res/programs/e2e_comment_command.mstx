@@ -1,0 +1,8 @@
+program:
+source = remote("https://covid-api.com/api/reports")
+// a comment
+map(source) "confirmed" to number confirmed
+number count = 0
+observe(source) do count++
+plot line_xy(count,confirmed) titled "confirmed_cases"
+start!
