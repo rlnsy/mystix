@@ -64,9 +64,7 @@ class Parser:
         self.tokenizer.get_and_check_next("\(")
         var = Var(self.tokenizer.get_next())
         self.tokenizer.get_and_check_next("\)")
-        self.tokenizer.get_and_check_next("\"")
-        map_from = str(self.tokenizer.get_next())
-        self.tokenizer.get_and_check_next("\"")
+        map_from = self.parseString()
         self.tokenizer.get_and_check_next("to")
         declare = self.parseDeclare()
         return Mapper(var, map_from, declare)
@@ -102,7 +100,7 @@ class Parser:
         y_axis = self.parseAxis(')')
         self.tokenizer.get_and_check_next("\)")
         self.tokenizer.get_and_check_next("titled")
-        name = self.tokenizer.get_next()
+        name = self.parseString()
         return Plotter(graph, x_axis, y_axis, name)
 
     def parseSource(self) -> Source:
@@ -174,6 +172,14 @@ class Parser:
         var = self.tokenizer.get_next()
         self.tokenizer.get_and_check_next("\)")
         return BuiltinFunc(op, var)
+
+    def parseString(self) -> str:
+        self.tokenizer.get_and_check_next('"')
+        string_token = ''
+        while(self.tokenizer.check_next() != '"'):
+            string_token += self.tokenizer.get_next()
+        self.tokenizer.get_and_check_next('"')
+        return string_token
 
     def parseGraph(self) -> Graph:
         return Graph(self.tokenizer.get_next())

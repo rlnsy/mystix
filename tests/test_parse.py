@@ -27,6 +27,18 @@ class TestParse(ut.TestCase):
         self.assertEqual(commands[2].decl.var.name, 'A')
         self.assertEqual(commands[2].value.value, '123456')
 
+    def test_example1(self):
+        tokens, parser = self.setup("example1")
+        res = parser.parseProgram()
+        print("Parsed")
+        commands = res.body.commands
+        self.assertIsInstance(commands[0], Loader)
+        self.assertIsInstance(commands[1], Mapper)
+        self.assertIsInstance(commands[2], Assigner)
+        self.assertIsInstance(commands[3], Trigger)
+        self.assertIsInstance(commands[4], Plotter)
+        self.assertIsInstance(commands[5], Plotter)
+
 
     def test_loader(self):
         tokens, parser = self.setup("parse_loader")

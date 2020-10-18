@@ -1,5 +1,5 @@
 program:
-plot line_xy(x, log y) titled line
+plot line_xy(x, log(y)) titled "line"
 observe(triggerVar) do triggerVar++, triggerVar += 1;
 category A = 123456;
 start!
