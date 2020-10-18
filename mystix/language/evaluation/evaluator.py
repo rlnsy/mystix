@@ -207,7 +207,7 @@ class Evaluator(Visitor):
         self.plots.append((pltr.graph_name, pltr.x, pltr.y))
 
     def visit_var(self, v: Var):
-        pass
+        return self.env.get_val(v.name)
 
     def visit_source(self, s: Source) -> str:
         return s.url
