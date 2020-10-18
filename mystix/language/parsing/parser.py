@@ -231,7 +231,7 @@ class Parser:
                     return ast.Value(values.FloatValue(float(val)))
                 else:
                     return ast.Value(values.IntegerValue(int(val)))
-            except TypeError:
+            except (TypeError, ValueError):
                 raise ParseError("Could not parse value '%s'" % val)
 
     def parseType(self) -> ast.Type:
