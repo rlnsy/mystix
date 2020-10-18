@@ -3,6 +3,7 @@ from typing import Optional
 
 from mystix.language.shared.ast import *
 from mystix.language.tokenization import Tokenizer
+from mystix.language.shared.primitives import Types
 
 
 class ParseError(Exception):
@@ -70,7 +71,7 @@ class Parser:
         return Mapper(var, map_from, declare)
     
     def parseDeclare(self) -> Declare:
-        var_type = Type(self.tokenizer.get_next())
+        var_type = self.parseType()
         var = self.parseVar()
         return Declare(var_type, var)
 
@@ -191,7 +192,13 @@ class Parser:
         return Value(self.tokenizer.get_next())
 
     def parseType(self) -> Type:
-        return Type(self.tokenizer.get_next())
+        t = self.tokenizer.get_next()
+        if t == 'number':
+            return Type(Types.NUMBER)
+        elif t == 'binary':
+            return Type(Types.BINARY)
+        else:
+            return Type(Types.CATEGORY)
 
     def isSep(self, input: str) -> bool:
         if (input == ';' or input == '\n'):
