@@ -27,6 +27,6 @@ from .language.evaluation.main import run_program
 
 if len(sys.argv) >= 2:
     if sys.argv[1] == "-v":
-        print("Mystix v0.1.1")
+        print("Mystix v0.1.2")
     else:
         run_program(sys.argv[1])
