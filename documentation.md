@@ -86,6 +86,27 @@ plot {xy|line_xy}({AXIS}, {AXIS}) titled {STRING}
 ```
 Plots either a scatterplot or line graph with the specified axes and title. 
 
+
+### Quickstart
+For example, let's load some data (sorry, it's not a real link) to get data related to the growth of a cute puppy, named Buster. We will plot Buster's weight over the course of a range of days with a scatter plot. To start, we need to start the program with 'program:', we need to load a data source. 
+```
+start!
+test_source = live remote "www.myawesomedogmeasurements.com/data"
+```
+From the data (we named it test_source), let's focus on the attributes that we care about, and map them to newly defined variables.
+
+```
+map(test_source) "buster_weight" to number weight
+map(test_source) "day" to number day
+```
+Next we will plot the scatter plot of the data (named "My awesome pup") using the new variables that we defined, then end the program with 'start!'.
+```
+plot scatter_xy(date, weight) titled "My Awesome Pup"
+start!
+```
+
+
 ## TODO:
 - Quick Start Guide
 - Example Code
+
