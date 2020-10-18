@@ -1,6 +1,6 @@
-from code.language.shared.ast import *
+from mystix.language.shared.ast import *
 from typing import cast
-from code.util.errors import NonExhaustiveTypeCaseError
+from mystix.util.errors import NonExhaustiveTypeCaseError
 
 
 def value_equal(v1: Value, v2: Value) -> bool:

@@ -1,14 +1,14 @@
 from unittest import TestCase
 
-from code.language.shared.primitives.graphs import ScatterXYGraph
-from code.language.shared.primitives.numerical import NumFunction
-from code.language.shared.primitives import Types
+from mystix.language.shared.primitives.graphs import ScatterXYGraph
+from mystix.language.shared.primitives.numerical import NumFunction
+from mystix.language.shared.primitives import Types
 from tests.util.example_ast import simple_plot_example
-import code.language.shared.ast as ast
-from code.language.evaluation import Evaluator
-from code.language.evaluation.errors import LanguageError
-from code.language.evaluation.vars import UndefinedVariableError
-from code.language.shared.primitives.values import FloatValue
+import mystix.language.shared.ast as ast
+from mystix.language.evaluation import Evaluator
+from mystix.language.evaluation.errors import LanguageError
+from mystix.language.evaluation.vars import UndefinedVariableError
+from mystix.language.shared.primitives.values import FloatValue
 
 
 class GraphicsEvaluationTests(TestCase):

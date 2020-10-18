@@ -1,8 +1,8 @@
 import unittest
 from typing import cast
 
-from code.language.evaluation.vars import Environment, UndefinedVariableError
-from code.language.shared.primitives.values import IntegerValue, Value
+from mystix.language.evaluation.vars import Environment, UndefinedVariableError
+from mystix.language.shared.primitives.values import IntegerValue, Value
 
 
 class EnvironmentTests(unittest.TestCase):

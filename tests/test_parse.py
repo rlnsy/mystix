@@ -1,11 +1,10 @@
 
 import unittest as ut
-from typing import List
-from code.ui.util import read_program_file
-from code.language.tokenization.tokenizer import Tokenizer, TokenizationError
-from code.language.parsing.parser import Parser
-from code.language.shared.ast import *
-from code.language.shared.primitives import *
+from mystix.ui.util import read_program_file
+from mystix.language.tokenization.tokenizer import Tokenizer, TokenizationError
+from mystix.language.parsing.parser import Parser
+from mystix.language.shared.ast import *
+
 
 class TestParse(ut.TestCase):
 

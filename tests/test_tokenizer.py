@@ -1,9 +1,9 @@
 
 import unittest as ut
 from typing import List
-from code.ui.util import read_program_file
-from code.language.tokenization import Tokenizer, TokenizationError
-from code.language.shared.ast import Program
+from mystix.ui.util import read_program_file
+from mystix.language.tokenization import Tokenizer, TokenizationError
+from mystix.language.shared.ast import Program
 
 
 class TestTokenizer(ut.TestCase):

@@ -1,5 +1,5 @@
 import unittest
-from code.targets.data import DataLoader, DataLoaderError
+from mystix.targets.data import DataLoader, DataLoaderError
 import filecmp
 from typing import List
 
