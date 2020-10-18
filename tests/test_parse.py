@@ -6,6 +6,9 @@ from code.language.tokenization.tokenizer import Tokenizer, TokenizationError
 from code.language.parsing.parser import Parser
 from code.language.shared.ast import *
 from code.language.shared.primitives import *
+from code.language.shared.primitives.values import *
+from code.language.shared.primitives.numerical import *
+from code.language.shared.primitives.graphs import *
 
 class TestParse(ut.TestCase):
 
@@ -13,7 +16,7 @@ class TestParse(ut.TestCase):
         tokens, parser = self.setup("parse_program")
         res = parser.parseProgram()
         commands = res.body.commands
-        self.assertEqual(commands[0].graph.graph, 'line_xy')
+        self.assertIsInstance(commands[0].graph, LineXYGraph)
         self.assertEqual(commands[0].x.var.name, 'x')
         self.assertEqual(commands[0].y.fun.fun, 'log')
         self.assertEqual(commands[0].graph_name, 'line')
@@ -95,7 +98,7 @@ class TestParse(ut.TestCase):
     def test_plotter(self):
         tokens, parser = self.setup("parse_plotter")
         res = parser.parsePlotter()
-        self.assertEqual(res.graph.graph, 'line_xy')
+        self.assertIsInstance(res.graph, LineXYGraph)
         self.assertEqual(res.x.var.name, 'x')
         self.assertEqual(res.y.fun.fun, 'log')
         self.assertEqual(res.graph_name, 'line')

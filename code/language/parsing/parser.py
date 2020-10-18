@@ -109,9 +109,7 @@ class Parser:
     def parseSource(self) -> Source:
         self.tokenizer.get_and_check_next("remote")
         self.tokenizer.get_and_check_next("\(")
-        self.tokenizer.get_and_check_next("\"")
-        url = self.tokenizer.get_next()
-        self.tokenizer.get_and_check_next("\"")
+        url = self.parseString()
         self.tokenizer.get_and_check_next("\)")
         return Source(url)
 
@@ -187,9 +185,9 @@ class Parser:
     def parseGraph(self) -> Graph:
         graph = self.tokenizer.get_next()
         if graph == 'scatter_xy':
-            return ScatterXYGraph(graph)
+            return ScatterXYGraph()
         elif graph == 'line_xy':
-            return LineXYGraph(graph)
+            return LineXYGraph()
         return Graph(graph)
 
     def parseVar(self) -> Var:
