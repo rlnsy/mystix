@@ -100,6 +100,77 @@ class TestParse(ut.TestCase):
         self.assertEqual(res.y.fun.fun, 'log')
         self.assertEqual(res.graph_name, 'line')
 
+    def test_empty_program(self):
+        tokens, parser = self.setup("empty_program")
+        res = parser.parseProgram()
+        self.assertEqual(res.body.commands, [])
+        pass
+
+    def test_two_body_program(self):
+        pass
+
+    def test_string_program(self):
+        pass
+    
+    def test_missing_command_sep(self):
+        pass
+
+    def test_capital_var(self):
+        pass
+
+    def test_invalid_remote(self):
+        pass
+
+    def test_missing_parenth_remote(self):
+        pass
+
+    # def test_missing_remote_call(self):
+    #     pass
+
+    def test_map_invalid_source(self):
+        pass
+
+    def test_declare_without_type(self):
+        pass
+
+    def test_invalid_typeself(self):
+        pass
+
+    def test_type_value_unmatched(self):
+        pass
+
+    def test_empty_trigger(self):
+        pass
+
+    def test_empty_mapper(self):
+        pass
+
+    def test_invalid_graph_title(self):
+        pass
+
+    def test_invalid_no_graph_title(self):
+        pass
+
+    def test_empty_axis(self):
+        pass
+
+    def test_unsupported_graph_type(self):
+        pass
+
+    def test_unsupported_bltn_func(self):
+        pass
+
+    def test_invalid_bltn_func(self):
+        pass
+
+    def test_string_math_func(self):
+        pass
+
+    def test_double_var_simp_func(self):
+        pass
+
+    def test_missing_comma_funcs(self):
+        pass
 
     def setup(self, input = None):
         def run_compile(content: str) -> Tokenizer:
