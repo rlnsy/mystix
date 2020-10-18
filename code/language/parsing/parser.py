@@ -5,7 +5,7 @@ from code.language.shared.primitives import *
 from code.language.tokenization import Tokenizer
 
 class Parser:
-    operators = ['+', '-', '*', '/', '^']
+    operators = ['+=', '-=', '*=', '/=', '^=']
     bltn = ['log', 'sin', 'cos', 'exp']
 
     def __init__(self, tokenizer: Tokenizer):
@@ -13,12 +13,12 @@ class Parser:
 
     def parseProgram(self) -> Program:
         commands = []
-        self.tokenizer.get_and_check_next("<START>")
+        self.tokenizer.get_and_check_next("program:")
         self.tokenizer.get_and_check_next(";")
-        while(self.tokenizer.more_tokens() and self.tokenizer.check_next() != "<END>"):
+        while(self.tokenizer.more_tokens() and self.tokenizer.check_next() != "start!"):
             command = self.parseCommand()
             commands.append(command)
-        self.tokenizer.get_and_check_next("<END>")
+        self.tokenizer.get_and_check_next("start!")
         return Program(Body(commands))
     
     def parseCommand(self) -> Command:
@@ -27,7 +27,7 @@ class Parser:
         if (next_token == "map"):
             print("Parsing Map")
             command = self.parseMapper()
-        elif (next_token == "on"):
+        elif (next_token == "observe"):
             print("Parsing Trigger")
             command = self.parseTrigger()
         elif (next_token == "plot"):
@@ -53,7 +53,9 @@ class Parser:
 
     def parseMapper(self) -> Mapper:
         self.tokenizer.get_and_check_next("map")
+        self.tokenizer.get_and_check_next("\(")
         var = Var(self.tokenizer.get_next())
+        self.tokenizer.get_and_check_next("\)")
         map_from = str(self.tokenizer.get_next())
         self.tokenizer.get_and_check_next("to")
         declare = self.parseDeclare()
@@ -71,38 +73,39 @@ class Parser:
         return Assigner(declare, value)
 
     def parseTrigger(self) -> Trigger:
-        self.tokenizer.get_and_check_next("on")
-        self.tokenizer.get_and_check_next("new")
-        self.tokenizer.get_and_check_next("data")
-        self.tokenizer.get_and_check_next("from")
+        self.tokenizer.get_and_check_next("observe")
+        self.tokenizer.get_and_check_next("\(")
         var = self.parseVar()
+        self.tokenizer.get_and_check_next("\)")
+        self.tokenizer.get_and_check_next("do")
         math_funcs = self.parseMathFuncs()
         return Trigger(var, math_funcs)
 
     def parsePlotter(self) -> Plotter:
         self.tokenizer.get_and_check_next("plot")
         graph = self.parseGraph()
+        self.tokenizer.get_and_check_next("\(")
         x_axis = self.parseAxis(',')
         print("X AXIS GOTTEN")
         self.tokenizer.get_and_check_next(',')
         print("COMMA CONFIRMED")
-        y_axis = self.parseAxis('titled')
+        y_axis = self.parseAxis(')')
+        self.tokenizer.get_and_check_next("\)")
         self.tokenizer.get_and_check_next("titled")
         name = self.tokenizer.get_next()
         return Plotter(graph, x_axis, y_axis, name)
 
     def parseSource(self) -> Source:
         self.tokenizer.get_and_check_next("remote")
-        self.tokenizer.get_and_check_next("(")
-        url = ''
-        while(self.tokenizer.check_next() != ';'):
-            url += self.tokenizer.get_next()
-        self.tokenizer.get_and_check_next(")")
+        self.tokenizer.get_and_check_next("\(")
+        url = self.tokenizer.get_next()
+        self.tokenizer.get_and_check_next("\)")
         return Source(url)
 
     def parseMathFuncs(self) -> MathFuncs:
         functions = []
         line = self.tokenizer.get_line(',')
+        print(line)
         functions.append(self.parseFunc(line))
         next_token = self.tokenizer.get_next()
         while(next_token not in ['\n', ';'] and next_token == ','):
@@ -122,18 +125,22 @@ class Parser:
         return Axis()
 
     def parseFunc(self, line) -> Func:
+        func = None
         if (self.isFastFunc(line)):
-            return self.parseFastFunc()
+            func = self.parseFastFunc()
         elif (self.isSimpFunc(line)):
-            return self.parseSimpFunc()
+            func = self.parseSimpFunc()
         elif (self.isBltnFunc(line)):
-            return self.parseBltnFunc()
-
-        return None
+            func = self.parseBltnFunc()
+        print(func)
+        print(self.tokenizer.check_next())
+        return func
 
     def parseSimpFunc(self) -> SimpleFunc:
         var = Var(self.tokenizer.get_next())
-        op = Operand(self.tokenizer.get_next())
+        op = self.tokenizer.get_next()
+        op += self.tokenizer.get_next()
+        op = Operand(op)
         value = Value(self.tokenizer.get_next())
         return SimpleFunc(var, op, value)
     
@@ -152,10 +159,6 @@ class Parser:
         return BuiltinFunc(op, var)
 
     def parseGraph(self) -> Graph:
-        if self.tokenizer.check_next() == 'line':
-            graph = self.tokenizer.get_next() + ' '
-            graph += self.tokenizer.get_next()
-            return Graph(graph)
         return Graph(self.tokenizer.get_next())
 
     def parseVar(self) -> Var:
@@ -179,12 +182,12 @@ class Parser:
 
     def isFastFunc(self, line):
         ops = ['++', '-']
-        if (len(line) == 3 and (line[1] + line[2] in ops)):
+        if (len(line) == 1 and line[0][-2:] in ops):
             return True
         return False
 
     def isSimpFunc(self, line):
-        if (len(line) == 3 and line[1] in self.operators):
+        if (len(line) == 4 and str(line[1] + line[2]) in self.operators):
             return True
         return False
 

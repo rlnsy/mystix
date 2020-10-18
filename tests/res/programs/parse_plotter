@@ -1,1 +1,1 @@
-plot line xy x, log y titled line
+plot line_xy(x, log y) titled line

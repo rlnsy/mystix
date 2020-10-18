@@ -1,1 +1,1 @@
-on new data from triggerVar triggerVar++, triggerVar + 1;
+observe(triggerVar) do triggerVar++, triggerVar += 1;
