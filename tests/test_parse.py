@@ -157,54 +157,28 @@ class TestParse(ut.TestCase):
 
     def test_invalid_graph_title(self):
         tokens, parser = self.setup("invalid_title")
-        with self.assertRaises(TokenizationError):
+        with self.assertRaises(ParseError):
             parser.parsePlotter()
 
     def test_invalid_no_graph_title(self):
         tokens, parser = self.setup("missing_graph_title")
-        with self.assertRaises(TokenizationError):
+        with self.assertRaises(ParseError):
             parser.parsePlotter()
 
-    def test_empty_axis(self):
-        # TODO: debug to pass
-        # tokens, parser = self.setup("empty_axis")
-        # with self.assertRaises(ParseError):
-        #     parser.parsePlotter()
-        pass
-
-    def test_unsupported_graph_type(self):
-        # TODO: debug to pass
-        # tokens, parser = self.setup("invalid_graph_type")
-        # with self.assertRaises(ParseError):
-        #     parser.parseGraph()
-        pass
-
     def test_invalid_bltn_func(self):
-        # TODO: debug to pass
-        # tokens, parser = self.setup("invalid_bltn_type")
-        # with self.assertRaises(ParseError):
-        #     parser.parseBltnFunc()
-        pass
+        tokens, parser = self.setup("invalid_bltn_type")
+        with self.assertRaises(ParseError):
+            parser.parseFunc(tokens)
 
     def test_bltn_invalid_var(self):
-        # TODO: debug to pass
-        # tokens, parser = self.setup("bltn_invalid_var")
-        # with self.assertRaises(TokenizationError):
-        #     parser.parseBltnFunc()
-        pass
-
-    def test_double_var_simp_func(self):
-        # TODO: debug to pass
-        pass
-        # tokens, parser = self.setup("simple_func_two_var")
-        # with self.assertRaises(ParseError):
-        #     parser.parseSimpFunc()
+        tokens, parser = self.setup("bltn_invalid_var")
+        with self.assertRaises(TokenizationError):
+            parser.parseBltnFunc()
 
     def test_missing_comma_funcs(self):
-        # tokens, parser = self.setup("missing_comma_funcs")
-        # with self.assertRaises(TokenizationError):
-        #     parser.parseProgram()
-        pass
+        tokens, parser = self.setup("missing_comma_funcs")
+        with self.assertRaises(ParseError):
+            parser.parseProgram()
 
     def setup(self, input = None):
         def run_compile(content: str) -> Tokenizer:

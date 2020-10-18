@@ -101,10 +101,11 @@ class Parser:
         y_axis = self.parseAxis(')')
         self.tokenizer.get_and_check_next("\)")
         self.tokenizer.get_and_check_next("titled")
-        name = self.parseString()
-        if not name:
+        if self.tokenizer.check_next() == '"':
+            name = self.parseString()
+            return Plotter(graph, x_axis, y_axis, name)
+        else:
             raise ParseError("No graph title was set")
-        return Plotter(graph, x_axis, y_axis, name)
 
     def parseSource(self) -> Source:
         self.tokenizer.get_and_check_next("remote")
@@ -134,7 +135,8 @@ class Parser:
         line = self.tokenizer.get_line(endline)
         print(line)
         if(len(line) == 1):
-            return VarAxis(Var(self.tokenizer.get_next()))
+            v = self.parseVar()
+            return VarAxis(v)
         elif self.isMathFunc(line):
             func = self.parseFunc(line)
             return FuncAxis(func)
@@ -160,8 +162,13 @@ class Parser:
         op = self.tokenizer.get_next()
         op += self.tokenizer.get_next()
         op = Operand(op)
-        value = Value(self.tokenizer.get_next())
-        return SimpleFunc(var, op, value)
+        val = self.tokenizer.get_next()
+        print("PRINTING   ", val)
+        if val.isnumeric:    
+            value = Value(val)
+            return SimpleFunc(var, op, value)
+        else:
+            raise ParseError("Only numbers can the used on the right hand side of equations.")
     
     def parseFastFunc(self) -> FastFunc:
         token = self.tokenizer.get_next()
@@ -175,7 +182,8 @@ class Parser:
     def parseBltnFunc(self) -> BuiltinFunc:
         op = self.tokenizer.get_next()
         self.tokenizer.get_and_check_next("\(")
-        var = self.tokenizer.get_next()
+        var = self.parseVar()
+        # var = self.tokenizer.get_next()
         self.tokenizer.get_and_check_next("\)")
         return BuiltinFunc(op, var)
 
