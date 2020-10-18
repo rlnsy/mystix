@@ -2,7 +2,7 @@
 Access the powerful data-processing and visualization capabilities of the python 
 ecosystem as well as programmatic dynamic updating using a friendly syntax.
 
-# How to use:
+## How to use:
 1. If you haven't already, install the package:
 ```
 pip3 install mystix
