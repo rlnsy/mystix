@@ -90,8 +90,7 @@ class GraphManager:
         self.closed = False
         self.graphics = Graphics()
         self.plots = {}
-        self.graphics.add_window("410 DSL", 600, 600)
-        self.graphics.add_window("410 DSL 2", 600, 600)
+        self.graphics.add_window("Mystix", 600, 600)
         self.graphics.add_update(lambda: self.update_plots())
         for d in [CONST_DEBUG_OUTPUT, CONST_FRAGMENT_CACHE]:
             if path.isfile(d):
@@ -106,7 +105,7 @@ class GraphManager:
             raise GraphManagerError("Plot '%s' already exists" % plot_name)
         else:
             p: Plot = Plot(plot_name, self.graphics
-                           .get_window("410 DSL 2")
+                           .get_window("Mystix")
                            .addPlot(title=plot_name), line_plot)
             self.plots[plot_name] = p
 
