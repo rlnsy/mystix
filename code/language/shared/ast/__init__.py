@@ -21,7 +21,6 @@ from .Value import Value
 from .graphs_ast.Graph import Graph
 from .graphs_ast.Axis import Axis
 from .graphs_ast.Axis import VarAxis, FuncAxis
-from .LifeStat import LifeStat
 from .math_ast.MathFuncs import MathFuncs
 from .math_ast.Func import Func
 from .math_ast.SimpleFunc import SimpleFunc
