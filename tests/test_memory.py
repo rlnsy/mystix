@@ -1,7 +1,7 @@
 import unittest
 
-from code.language.evaluation.vars import Memory, OutOfMemoryError
-from code.language.shared.primitives.values import IntegerValue, Value
+from mystix.language.evaluation.vars import Memory, OutOfMemoryError
+from mystix.language.shared.primitives.values import IntegerValue, Value
 
 
 class MemoryTests(unittest.TestCase):

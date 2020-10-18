@@ -1,10 +1,10 @@
 
 
-from code.language.shared import ast
-from code.language.shared.primitives import Types
-from code.language.shared.primitives.values import IntegerValue
-from code.language.shared.primitives.graphs import ScatterXYGraph, LineXYGraph
-from code.language.shared.primitives.numerical import NumFunction
+from mystix.language.shared import ast
+from mystix.language.shared.primitives import Types
+from mystix.language.shared.primitives.values import IntegerValue
+from mystix.language.shared.primitives.graphs import ScatterXYGraph, LineXYGraph
+from mystix.language.shared.primitives.numerical import NumFunction
 
 
 def example_1() -> ast.Program:
@@ -35,10 +35,22 @@ def example_1() -> ast.Program:
                         ast.VarAxis(ast.Var("date")),
                         ast.VarAxis(ast.Var("age")), "age_graph"),
 
-            # plot line xy date log(count) called cases_log
+            # plot line xy date log(count) titled cases_log
             ast.Plotter(ast.Graph(LineXYGraph()),
                         ast.VarAxis(ast.Var("date")),
                         ast.FuncAxis(ast.BuiltinFunc(NumFunction.LOG, ast.Var(
                             "count"))),
                         "age_graph"),
         ]))
+
+
+def simple_plot_example() -> ast.Program:
+
+    return ast.Program(ast.Body([
+        ast.Plotter(ast.Graph(ScatterXYGraph()),
+                    ast.VarAxis(ast.Var("t")),
+                    ast.FuncAxis(ast.BuiltinFunc(NumFunction.SIN, ast.Var(
+                        "t"))),
+                    "sine_wave"),
+
+    ]))

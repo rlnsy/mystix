@@ -2,11 +2,11 @@ from unittest import TestCase
 
 from tests.util import ast_equal
 from tests.util.example_ast import example_1
-from code.language.shared import ast
-from code.language.shared.primitives import Types
-from code.language.shared.primitives.values import IntegerValue
-from code.language.shared.primitives.graphs import ScatterXYGraph, LineXYGraph
-from code.language.shared.primitives.numerical import NumFunction
+from mystix.language.shared import ast
+from mystix.language.shared.primitives import Types
+from mystix.language.shared.primitives.values import IntegerValue
+from mystix.language.shared.primitives.graphs import ScatterXYGraph, LineXYGraph
+from mystix.language.shared.primitives.numerical import NumFunction
 
 
 class EquivalenceUtilTests(TestCase):
