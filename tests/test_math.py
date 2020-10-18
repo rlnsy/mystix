@@ -1,8 +1,8 @@
 from unittest import TestCase
-from code.language.shared.primitives.values import (
+from mystix.language.shared.primitives.values import (
     NumericalValue, FloatValue, IntegerValue )
-from code.language.shared.primitives.numerical import NumOp, NumFunction
-from code.targets.analysis.math import apply_fn, apply_op, MathError
+from mystix.language.shared.primitives.numerical import NumOp, NumFunction
+from mystix.targets.analysis.math import apply_fn, apply_op, MathError
 from typing import cast
 
 

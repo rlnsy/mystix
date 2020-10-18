@@ -1,6 +1,6 @@
 import unittest
 
-from code.language.shared import ast, primitives
+from mystix.language.shared import ast, primitives
 
 
 class ASTTests(unittest.TestCase):

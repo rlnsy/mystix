@@ -1,14 +1,12 @@
 
 import unittest as ut
-from typing import List
-from code.ui.util import read_program_file
-from code.language.tokenization.tokenizer import Tokenizer, TokenizationError
-from code.language.parsing.parser import Parser
-from code.language.shared.ast import *
-from code.language.shared.primitives import *
-from code.language.shared.primitives.values import *
-from code.language.shared.primitives.numerical import *
-from code.language.shared.primitives.graphs import *
+from mystix.ui.util import read_program_file
+from mystix.language.tokenization.tokenizer import Tokenizer, TokenizationError
+from mystix.language.parsing.parser import Parser
+from mystix.language.shared.ast import *
+from mystix.language.shared.primitives import Types
+from mystix.language.shared.primitives.graphs import LineXYGraph, ScatterXYGraph
+
 
 class TestParse(ut.TestCase):
 
@@ -26,7 +24,7 @@ class TestParse(ut.TestCase):
         self.assertEqual(commands[1].math_funcs.mth_func_lst[1].impacted_var.name, 'triggerVar')
         self.assertEqual(commands[1].math_funcs.mth_func_lst[1].op.op, '+=')
         self.assertEqual(commands[1].math_funcs.mth_func_lst[1].rhs.value, '1')
-        self.assertEqual(commands[2].decl.type.type, 'category')
+        self.assertEqual(commands[2].decl.type.type, Types.CATEGORY)
         self.assertEqual(commands[2].decl.var.name, 'A')
         self.assertEqual(commands[2].value.value, '123456')
 
@@ -67,13 +65,13 @@ class TestParse(ut.TestCase):
         res = parser.parseMapper()
         self.assertEqual(res.src.name, 'testVar')
         self.assertEqual(res.tbl_field, 'testingAxis')
-        self.assertEqual(res.decl.type.type, 'category')
+        self.assertEqual(res.decl.type.type, Types.CATEGORY)
         self.assertEqual(res.decl.var.name, 'A')
 
     def test_assigner(self):
         tokens, parser = self.setup("parse_assigner")
         res = parser.parseAssigner()
-        self.assertEqual(res.decl.type.type, 'category')
+        self.assertEqual(res.decl.type.type, Types.CATEGORY)
         self.assertEqual(res.decl.var.name, 'A')
         self.assertEqual(res.value.value, '123456')
     

@@ -1,8 +1,8 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING as STATIC_CHECK
 if STATIC_CHECK:
-    from code.language.shared.ast import *
-from code.language.shared.ast.visitor import Visitor
+    from mystix.language.shared.ast import *
+from mystix.language.shared.ast.visitor import Visitor
 
 
 class ProgramPrinter(Visitor):

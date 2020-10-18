@@ -3,10 +3,11 @@ import unittest
 
 from tests.util.example_ast import example_1
 from tests.util import ast_equal
-from code.ui.util import read_program_file
-from code.language.parsing import Parser
-from code.language.tokenization import Tokenizer
-from code.language.shared.ast import Program
+
+from mystix.ui.util import read_program_file
+from mystix.language.tokenization import Tokenizer
+from mystix.language.parsing import Parser
+from mystix.language.shared.ast import Program
 
 
 class ExampleParseTests(unittest.TestCase):
