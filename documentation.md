@@ -30,6 +30,13 @@ Data that can be either:
 - String
 - Booleans
 
+### Strings
+```
+"{YOUR_STRING}"
+```
+A string is text surrounded by quotations. 
+
+
 ### Axis
 ```
 {VARIABLE | MATH_FUNCTION}
@@ -51,11 +58,11 @@ Increments or decrements the variable by 1.
 
 #### Built-in Functions
 ```
-{log|sin|cos|exp} {VARIABLE}
+{log|sin|cos|exp}({VARIABLE})
 ```
 Performs the specified operation on the variable.
 
-## Functions
+## Commands
 
 ### Load Data
 ```
@@ -82,15 +89,26 @@ Watches a variable and executes the specified function when the variable changes
 
 ### Plotter 
 ```
-plot {xy|line_xy}({AXIS}, {AXIS}) titled {STRING}
+plot {scatter_xy|line_xy}({AXIS}, {AXIS}) titled {STRING}
 ```
 Plots either a scatterplot or line graph with the specified axes and title. 
+
+## Program Structure
+
+```
+program:
+{COMMAND}
+...
+{COMMAND}
+start!
+```
+The basic structure of the program is to to start with `program:` then a new command on each line, ending with `start!`
 
 
 ### Quickstart
 For example, let's load some data (sorry, it's not a real link) to get data related to the growth of a cute puppy, named Buster. We will plot Buster's weight over the course of a range of days with a scatter plot. To start, we need to start the program with 'program:', we need to load a data source. 
 ```
-start!
+program:
 test_source = live remote "www.myawesomedogmeasurements.com/data"
 ```
 From the data (we named it test_source), let's focus on the attributes that we care about, and map them to newly defined variables.
@@ -105,8 +123,13 @@ plot scatter_xy(date, weight) titled "My Awesome Pup"
 start!
 ```
 
-
-## TODO:
-- Quick Start Guide
-- Example Code
+Putting it all together, we have:
+```
+program:
+test_source = live remote "www.myawesomedogmeasurements.com/data"
+map(test_source) "buster_weight" to number weight
+map(test_source) "day" to number day
+plot scatter_xy(date, weight) titled "My Awesome Pup"
+start!
+```
 
