@@ -41,9 +41,8 @@ def get_mock_data(count: int):
 def run():
     gm = GraphManager()
     gm.add_plot("example_plot", line_plot=True)
-
     def run_mock_logic():
-        for i in range(100): # ten seconds of playback
+        for i in range(30): # 3 seconds of playback
             t,y = get_mock_data(5)
             gm.add_plot_data("example_plot", t, y)
             time.sleep(0.1)
@@ -51,7 +50,7 @@ def run():
     logic = Thread(target=run_mock_logic)
     logic.start()
 
-    gm.graphics.display()
+    gm.graphics.display(ttl=3000)
 
     logic.join()
     gm.clean()

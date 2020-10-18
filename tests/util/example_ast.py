@@ -1,7 +1,6 @@
 
 
 from code.language.shared import ast
-from code.language.shared.primitives.misc import ReportingMode
 from code.language.shared.primitives import Types
 from code.language.shared.primitives.values import IntegerValue
 from code.language.shared.primitives.graphs import ScatterXYGraph, LineXYGraph
@@ -17,8 +16,7 @@ def example_1() -> ast.Program:
 
             # source = live remote "www.coviddata.com/stream"
             ast.Loader(ast.Var("source"),
-                                    ast.Source(ast.Reporting(ReportingMode.LIVE),
-                                               "www.coviddata.com/stream")),
+                                    ast.Source("www.coviddata.com/stream")),
 
             # map source "case_date" to number date
             ast.Mapper(ast.Var("source"), "case_date",
@@ -32,15 +30,27 @@ def example_1() -> ast.Program:
             ast.Trigger(ast.Var("source"), ast.MathFuncs([ast.Increment(ast.Var(
                 "count"))])),
 
-            # plot xy date age called age_graph
+            # plot xy date age titled age_graph
             ast.Plotter(ast.Graph(ScatterXYGraph()),
                         ast.VarAxis(ast.Var("date")),
                         ast.VarAxis(ast.Var("age")), "age_graph"),
 
-            # plot line xy date log(count) called cases_log
+            # plot line xy date log(count) titled cases_log
             ast.Plotter(ast.Graph(LineXYGraph()),
                         ast.VarAxis(ast.Var("date")),
                         ast.FuncAxis(ast.BuiltinFunc(NumFunction.LOG, ast.Var(
                             "count"))),
                         "age_graph"),
         ]))
+
+
+def simple_plot_example() -> ast.Program:
+
+    return ast.Program(ast.Body([
+        ast.Plotter(ast.Graph(ScatterXYGraph()),
+                    ast.VarAxis(ast.Var("t")),
+                    ast.FuncAxis(ast.BuiltinFunc(NumFunction.SIN, ast.Var(
+                        "t"))),
+                    "sine_wave"),
+
+    ]))

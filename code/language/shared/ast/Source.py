@@ -1,12 +1,10 @@
 from .Node import Node
-from .Reporting import Reporting
 from code.language.shared.ast.visitor import Visitor
 
 
 class Source(Node):
 
-    def __init__(self, reporting: Reporting, url: str):
-        self.reporting: Reporting = reporting
+    def __init__(self, url: str):
         self.url: str = url
 
     def accept(self, v: Visitor):

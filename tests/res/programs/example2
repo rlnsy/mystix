@@ -6,5 +6,5 @@ year = year / 100
 year = year * 10
 year = year + 23
 year = year - 12
-plot xy year medal called medal_graph
+plot xy year medal titled medal_graph
 <END>

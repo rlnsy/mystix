@@ -2,7 +2,7 @@
 import unittest as ut
 from typing import List
 from code.ui.util import read_program_file
-from code.language.tokenization import tokenizer
+from code.language.tokenization.tokenizer import Tokenizer, TokenizationError
 from code.language.parsing.parser import Parser
 from code.language.shared.ast import *
 from code.language.shared.primitives import *
@@ -85,7 +85,7 @@ class TestParse(ut.TestCase):
 
     def setup(self, input = None):
         def run_compile(content: str) -> List[str]:
-            tk = tokenizer(content)
+            tk = Tokenizer(content)
             return tk, tk.tokenize()
         if (input is not None):
             tk, tokens = read_program_file(f"tests/res/programs/{input}", run_compile)

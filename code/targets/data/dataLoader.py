@@ -1,8 +1,10 @@
 import csv, urllib.request, requests, json  # type: ignore
 from typing import List
 
+from code.language.evaluation.errors import LanguageError
 
-class DataLoaderError(Exception):
+
+class DataLoaderError(LanguageError):
     pass
 
 
@@ -52,8 +54,10 @@ class DataSource:
         d: str = self.dates.get()
         try:
             req = requests.get(self.url, params={'date': d})
+        except requests.exceptions.MissingSchema:
+            raise DataLoaderError("Source URL %s is invalid" % self.url)
         except requests.exceptions.ConnectionError:
-            raise DataLoaderError("Could not reach provided host")
+            raise DataLoaderError("Could not reach host %s" % self.url)
         res = req.text
         if req.status_code != 200:
             raise DataLoaderError("Remote responded with error invalid code")
@@ -65,7 +69,8 @@ class DataSource:
             raise DataLoaderError("Remote source produced non-json")
         if 'data' not in obj or type(obj['data']) is not list:
             raise DataLoaderError("New data did not match expected format")
-        return obj['data']
+        # hard-coded filter TODO should add this as a feature
+        return [r for r in obj['data'] if r['region']['iso'] == "CAN"]
 
 
 class DataLoader:
