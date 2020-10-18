@@ -69,6 +69,7 @@ class Environment:
     def __init__(self):
         self._mem_ = Memory()
         self._map_ = defaultdict(lambda: [])
+        self.source = ""
 
     def extend(self, name: str, val: Value) -> int:
         l: int = self._mem_.get_fresh_loc()
@@ -91,6 +92,9 @@ class Environment:
             raise UndefinedVariableError(name)
         else:
             return self._mem_.write(locations[q-1], val)
+
+    def set_source(self, src: str):
+        self.source = src
 
     def undef(self, name) -> None:
         locations = self._map_[name]

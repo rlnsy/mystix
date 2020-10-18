@@ -170,14 +170,16 @@ class Evaluator(Visitor):
             c.accept(self)
     
     def visit_loader(self, l: Loader):
-        # TODO: add source as a value in environment?
         v: Var = l.name
-        self.data.register_source(l.source.accept(self), v.name)
+        src = l.source.accept(self)
+        self.env.set_source(src)
+        self.data.register_source(src, v.name)
+
         self.sources.append(v.name)
 
     def visit_mapper(self, m: Mapper):
-        v_name = m.decl.accept(self)
         # TODO: source should be stored in environment
+        v_name = m.decl.accept(self)
         s_name = m.src.name
         self.maps[s_name][m.tbl_field] = v_name
 
