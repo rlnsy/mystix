@@ -64,7 +64,9 @@ class Parser:
         self.tokenizer.get_and_check_next("\(")
         var = Var(self.tokenizer.get_next())
         self.tokenizer.get_and_check_next("\)")
+        self.tokenizer.get_and_check_next("\"")
         map_from = str(self.tokenizer.get_next())
+        self.tokenizer.get_and_check_next("\"")
         self.tokenizer.get_and_check_next("to")
         declare = self.parseDeclare()
         return Mapper(var, map_from, declare)
@@ -106,7 +108,9 @@ class Parser:
     def parseSource(self) -> Source:
         self.tokenizer.get_and_check_next("remote")
         self.tokenizer.get_and_check_next("\(")
+        self.tokenizer.get_and_check_next("\"")
         url = self.tokenizer.get_next()
+        self.tokenizer.get_and_check_next("\"")
         self.tokenizer.get_and_check_next("\)")
         return Source(url)
 
