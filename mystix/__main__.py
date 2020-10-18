@@ -38,6 +38,6 @@ def run_compile(content: str):
 
 if len(sys.argv) >= 2:
     if sys.argv[1] == "-v":
-        print("Mystix v0.0.8")
+        print("Mystix v0.0.9")
     else:
         read_program_file(sys.argv[1], run_compile)

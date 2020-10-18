@@ -94,10 +94,9 @@ class GraphManager:
         self.graphics.add_window("410 DSL 2", 600, 600)
         self.graphics.add_update(lambda: self.update_plots())
         for d in [CONST_DEBUG_OUTPUT, CONST_FRAGMENT_CACHE]:
-            try:
-                with open(d) as file:
-                    pass
-            except FileNotFoundError:
+            if path.isfile(d):
+                raise GraphManagerError("%s is already a file" % d)
+            if not path.isdir(d):
                 mkdir(d)
 
     def add_plot(self, plot_name: str, line_plot: bool = False):
