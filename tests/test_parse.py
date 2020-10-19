@@ -77,7 +77,8 @@ class TestParse(ut.TestCase):
         res = parser.parseAssigner()
         self.assertEqual(res.decl.type.type, Types.CATEGORY)
         self.assertEqual(res.decl.var.name, 'a')
-        self.assertEqual(res.value.value, 123456)
+        print("RES VALUE IS ", res.value.__class__.__name__)
+        self.assertEqual(res.value.value.value, 123456)
     
     def test_math_funcs(self):
         tokens, parser = self.setup("parse_math_funcs")
