@@ -1,3 +1,65 @@
+## Final Deliverable Update (10-18-2020)
+### Original Goals
+We set out to create a DSL with high-level syntax for common tasks in the
+data science space. We settled on three core features to implement for our MVP:
+1. Loading data
+2. Manipulating data programmatically
+3. Displaying data in live plots.
+
+With additional stretch goals such as user-defined functions. We also wanted a
+ syntax/grammar that was intuitive for users coming from languages like Matlab, R
+ , and Python as well as easy enough for new programmers to learn - since making data
+ science more accessible is of strong importance for us.
+
+### Process
+Our first attempt at designing our language grammar was more or less an exercise in
+coming up with arbitrary syntax and not considering the semantics. We wrote down a
+ bunch of fake code and pretended we knew what it meant.
+ 
+ After a few refinements following our first user study, we ended up with some ideas
+  for a better grammar/syntax, but were still without clear semantics and more than a
+   few inconsistencies and unnecessary keywords.
+
+This didn't stop us from proceeding with our implementation. We developed our
+ software from the back forward, so to speak, first making sure the end features
+  were working in our codebase and slowly moved to unite these with the user-facing
+   language through tokenization, parsing, and evaluation.
+   
+In all of our implementation, we attempted to define and specify our language
+ semantics
+ completely in terms of unit and integration tests. This lead to a relatively stable
+ logic throughout the project, except when we had to make significant changes to
+  the grammar which propagated throughout the other modules.
+  
+ Our main challenge during implementation was team coordination. All of us put in
+  countless hours of work and met frequently but encountered issues when integrating
+   code and interacting with shared data structures, such as the AST. Using Python as
+    our primary language
+    highly exacerbated this issue, as we
+    often had silent errors related to type inconsistencies, which could have been
+     avoided using a statically type-checked language like Java.
+     
+### Studies
+Since our first user study, we have performed studies with many more participants
+ and collected valuable results. These are document in the [user studies](https://github.students.cs.ubc.ca/cpsc410-2020w-t1/cpsc410_project1_team17/tree/master/user_studies)
+ directory.
+     
+### Accomplishments
+As of this entry, we have achieved all of our MVP goals, with some limitations. Most of these are documented in the 
+[issues](https://github.students.cs.ubc.ca/cpsc410-2020w-t1/cpsc410_project1_team17/issues) section of our repo. Most importantly: bugs in our implementation, our
+ grammar and the flexibility of
+ our
+ language
+ all need
+ improvment, but we plan on addressing these problems and more in future updates
+  post-deadline. We have published our software to the Python Package Index
+   ([PyPI](https://pypi.org/project/mystix/0.1.3/)) in order to distribute it for use by the public, and will update this
+    package as we make improvments. This project has been fun and taught
+   us a lot about language
+   design as well as software engineering in a team. Big thanks to the course staff
+   , particularly our TA, Oloff, for providing guidance along the way! We hope you
+    enjoy exploring our project.
+
 ## Milestone 4 Update (10-09-2020)
 ### Status of Implementation
 As of today, we have implemented several code components of our language
