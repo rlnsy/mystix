@@ -1,4 +1,7 @@
 program:
-number i = 22;
-plot scatter_xy(i,i) titled "plot"
+source = remote("http://localhost:8000")
+map(source) "plant_height" to number height
+number count = 0
+observe (source) do count++
+plot scatter_xy(count,height) titled "plot"
 start!

@@ -3,9 +3,12 @@ from typing import Callable, List
 from os import path, listdir, remove, mkdir
 import pickle
 import re
-from pyqtgraph import PlotItem  # type: ignore
+import pyqtgraph as pqtg # type: ignore
 
 from mystix.language.evaluation.errors import LanguageError
+
+
+pqtg.setConfigOption('foreground', 'b')
 
 
 class GraphManagerError(LanguageError):
@@ -20,14 +23,15 @@ class Plot:
 
     CONST_DATA_LIMIT = 10000
 
-    def __init__(self, name: str, plot: PlotItem, line: bool):
+    def __init__(self, name: str, plot: pqtg.PlotItem, line: bool):
         self.name = name
         self.fr_fmt = re.compile("%s_([0-9]+)" % self.name)
-        self.graphics: PlotItem = plot
+        self.graphics: pqtg.PlotItem = plot
         self.plot_data \
             = self.graphics.plot() if line \
-            else self.graphics.plot(pen=None, symbol='x', symbolPen=None,
-                                    symbolSize=10)
+            else self.graphics.plot(pen=None, symbol='o',
+                                    symbolPen=pqtg.mkPen(color=(200, 200, 255)),
+                                    symbolSize=5)
         self.data_frag = 0
 
         self.x_data: List = []
