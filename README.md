@@ -1,6 +1,6 @@
 # Mystix
 Access the powerful data-processing and visualization capabilities of the python 
-ecosystem as well as programmatic dynamic updating using a friendly syntax.
+ecosystem using a friendly syntax.
 
 ## Getting Started
 1. If you haven't already, install the package:
