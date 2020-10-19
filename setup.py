@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="mystix",
-    version="0.1.2",
+    version="0.1.3",
     author="Rowan Lindsay",
     author_email="development@rowanlindsay.com",
     description="A domain-specific language intended for "
@@ -23,6 +23,7 @@ setuptools.setup(
         'pyqtgraph',
         'pyqt5',
         'mypy',
-        'requests'
+        'requests',
+        'flask'
     ],
 )
