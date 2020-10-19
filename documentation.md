@@ -66,9 +66,9 @@ Performs the specified operation on the variable.
 
 ### Load Data
 ```
-{VARIABLE} = {live|static} remote {URL}
+{VARIABLE} = remote({URL})
 ```
-Loads data either statically or live (streaming) from the specified URL.
+Loads data from the specified URL. Only API endpoints thhat return an array called "data" are supported.
 
 ### Mapping
 ```
