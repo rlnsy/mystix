@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="mystix",
-    version="0.1.3",
+    version="0.1.4",
     author="Rowan Lindsay",
     author_email="development@rowanlindsay.com",
     description="A domain-specific language intended for "
