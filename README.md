@@ -2,7 +2,7 @@
 Access the powerful data-processing and visualization capabilities of the python 
 ecosystem as well as programmatic dynamic updating using a friendly syntax.
 
-## How to use:
+## Getting Started
 1. If you haven't already, install the package:
 ```
 pip3 install mystix
@@ -24,6 +24,8 @@ python3 -m mystix example.mstx
 python3 -m mystix -s
 ```
 This runs a custom Flask server on your machine at `localhost:8000` that interacts nicely with our data-loading backend.
+
+For info on how the language works, check out our [docs](documentation.md).
 
 ## Development
 ### Getting started
