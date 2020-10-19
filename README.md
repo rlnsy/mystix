@@ -1,5 +1,5 @@
 # Mystix
-Access the powerful data-processing and visualization capabilities of the python 
+Access the powerful data-processing and visualization capabilities of the Python 
 ecosystem using a friendly syntax.
 
 ## Getting Started
