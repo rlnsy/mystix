@@ -77,7 +77,7 @@ class Parser:
     def parseMapper(self) -> ast.Mapper:
         self.tokenizer.get_and_check_next("map")
         self.tokenizer.get_and_check_next("\(")
-        var = ast.Var(self.tokenizer.get_next())
+        var = self.parseVar()
         self.tokenizer.get_and_check_next("\)")
         map_from = self.parseString()
         self.tokenizer.get_and_check_next("to")
@@ -109,28 +109,31 @@ class Parser:
         graph = self.parseGraph()
         self.tokenizer.get_and_check_next("\(")
         x_axis = self.parseAxis(',')
-        #print("X AXIS GOTTEN")
         self.tokenizer.get_and_check_next(',')
-        #print("COMMA CONFIRMED")
         y_axis = self.parseAxis(')')
         self.tokenizer.get_and_check_next("\)")
         self.tokenizer.get_and_check_next("titled")
-        name = self.parseString()
-        return ast.Plotter(graph, x_axis, y_axis, name)
+        if self.tokenizer.check_next() == '"':
+            name = self.parseString()
+            return ast.Plotter(graph, x_axis, y_axis, name)
+        else:
+            raise ParseError("No graph title was set")
 
     def parseSource(self) -> ast.Source:
         self.tokenizer.get_and_check_next("remote")
         self.tokenizer.get_and_check_next("\(")
         self.tokenizer.get_and_check_next("\"")
         url = self.tokenizer.get_next()
-        self.tokenizer.get_and_check_next("\"")
-        self.tokenizer.get_and_check_next("\)")
-        return ast.Source(url)
+        if not url.isdigit():
+            self.tokenizer.get_and_check_next("\"")
+            self.tokenizer.get_and_check_next("\)")
+            return ast.Source(url)
+        else:
+            raise ParseError("Sources must come from a URL")
 
     def parseMathFuncs(self) -> ast.MathFuncs:
         functions = []
         line = self.tokenizer.get_line(',')
-        #print(line)
         functions.append(self.parseFunc(line))
         next_token = self.tokenizer.get_next()
         while(next_token not in ['\n', ';'] and next_token == ','):
@@ -141,9 +144,9 @@ class Parser:
     
     def parseAxis(self, endline = ',') -> ast.Axis:
         line = self.tokenizer.get_line(endline)
-        #print(line)
         if(len(line) == 1):
-            return ast.VarAxis(ast.Var(self.tokenizer.get_next()))
+            v = self.parseVar()
+            return ast.VarAxis(v)
         elif self.isMathFunc(line):
             func = self.parseFunc(line)
             return ast.FuncAxis(func)
@@ -158,8 +161,6 @@ class Parser:
             func = self.parseSimpFunc()
         elif (self.isBltnFunc(line)):
             func = self.parseBltnFunc()
-        #print(func)
-        #print(self.tokenizer.check_next())
         if func is not None:
             return func
         else:
@@ -186,7 +187,8 @@ class Parser:
         op = self.tokenizer.get_next()
         f: NumFunction = self.bltn[op]
         self.tokenizer.get_and_check_next("\(")
-        var = self.tokenizer.get_next()
+        var = self.parseVar()
+        # var = self.tokenizer.get_next()
         self.tokenizer.get_and_check_next("\)")
         return ast.BuiltinFunc(f, op)
 
@@ -207,7 +209,15 @@ class Parser:
         return ast.Graph(graph)
 
     def parseVar(self) -> ast.Var:
-        return ast.Var(self.tokenizer.get_next())
+        v = self.tokenizer.get_next()
+        if v.startswith(")") or not v:
+            raise ParseError("No variable found")
+        elif v[0].isupper():
+            raise ParseError("Variables must start with a lowercase")
+        elif v[0].isdigit():
+            raise ParseError("Variables cannot start with a number")
+        else:
+            return ast.Var(v)
 
     def parseValue(self) -> ast.Value:
         next_token = self.tokenizer.get_next()
@@ -240,8 +250,10 @@ class Parser:
             return ast.Type(Types.NUMBER)
         elif t == 'binary':
             return ast.Type(Types.BINARY)
-        else:
+        elif t == 'category':
             return ast.Type(Types.CATEGORY)
+        else:
+            raise ParseError("Invalid type")
 
     def isSep(self, input: str) -> bool:
         if (input == ';' or input == '\n'):
