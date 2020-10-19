@@ -70,7 +70,10 @@ class DataSource:
         if 'data' not in obj or type(obj['data']) is not list:
             raise DataLoaderError("New data did not match expected format")
         # hard-coded filter TODO should add this as a feature
-        return [r for r in obj['data'] if r['region']['iso'] == "CAN"]
+        if len(obj['data']) > 0 and 'region' in obj['data'][0]:
+            return [r for r in obj['data'] if r['region']['iso'] == "CAN"]
+        else:
+            return obj['data']
 
 
 class DataLoader:

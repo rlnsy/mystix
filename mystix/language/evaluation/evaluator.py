@@ -55,6 +55,7 @@ class Evaluator(Visitor):
             a2: Axis = pl[2]
             x = a1.accept(self)
             y = a2.accept(self)
+            print("Data: %f, %f" % (x.value, y.value))
 
             def add(m: GraphManager):
                 m.add_plot_data(g, [x.value], [y.value])
@@ -102,7 +103,7 @@ class Evaluator(Visitor):
     def execute(self, p: Program, duration: Optional[int]):
         # internal clock
         t_init = time.time()
-        update_interval = 3
+        update_interval = 1
         if duration is not None:
             for i in range(int(duration/(1000*update_interval))):
                 self.update_sources()

@@ -13,6 +13,7 @@ pyqtgraph = "*"
 pyqt5 = "*"
 mypy = "*"
 requests = "*"
+flask = "*"
 
 [requires]
 python_version = "3.8"
