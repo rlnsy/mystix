@@ -19,6 +19,11 @@ vim example.mstx
 ```
 python3 -m mystix example.mstx
 ```
+4. (Optional) Simulate a compatible data stream:
+```
+python3 -m mystix -s
+```
+This runs a custom Flask server on your machine at `localhost:8000` that interacts nicely with our data-loading backend.
 
 ## Development
 ### Getting started
