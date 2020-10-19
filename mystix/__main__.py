@@ -29,7 +29,7 @@ from .language.example import run_example
 
 if len(sys.argv) >= 2:
     if sys.argv[1] == "-v":
-        print("Mystix v0.1.3")
+        print("Mystix v0.1.4")
     elif sys.argv[1] == "-s":
         print("Simulating data stream")
         data_simulator.run_simulate()
