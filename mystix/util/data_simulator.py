@@ -1,6 +1,5 @@
 from flask import Flask, request, make_response
 import json
-import numpy as np
 import math
 
 
