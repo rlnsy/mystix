@@ -27,6 +27,9 @@ This runs a custom Flask server on your machine at `localhost:8000` that interac
 
 For info on how the language works, check out our [docs](documentation.md).
 
+## State of the Project
+For documentation of our progress, including the latest udpates, view the [Milestones](MILESTONES.md).
+
 ## Development
 ### Getting started
 In order to start developing the project, follow these simple steps:
