@@ -1,4 +1,6 @@
 # Mystix
+![logo_text](mystix_logo_text.png)
+
 Access the powerful data-processing and visualization capabilities of the Python 
 ecosystem using a friendly syntax.
 
