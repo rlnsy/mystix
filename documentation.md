@@ -1,15 +1,11 @@
 ## Features
 - Data can be sourced from a URL
-- Users can choose between live or static data updates
 - Variables can be set to keep track of any changes and be used in graph creation
 - Ability to apply mathematical operations on the data, such as:
   -  Aggregation and analysis functions using:
      - Sum, difference, multiplication, division, powers	
      - Logarithms, trigonometric ratios
-     - Group by other columns
-- Filter outliers or values 
-- Flexibility of graph parameters - axis ranges, graph colours, etc
-- Generate multiple types of graphs such as scatterplot, line, and bar graphs
+- Generate multiple types of graphs such as scatterplot and line graphs
 
 
 
@@ -109,7 +105,7 @@ The basic structure of the program is to to start with `program:` then a new com
 For example, let's load some data (sorry, it's not a real link) to get data related to the growth of a cute puppy, named Buster. We will plot Buster's weight over the course of a range of days with a scatter plot. To start, we need to start the program with 'program:', we need to load a data source. 
 ```
 program:
-test_source = live remote "www.myawesomedogmeasurements.com/data"
+test_source = remote("www.myawesomedogmeasurements.com/data")
 ```
 From the data (we named it test_source), let's focus on the attributes that we care about, and map them to newly defined variables.
 
@@ -126,7 +122,7 @@ start!
 Putting it all together, we have:
 ```
 program:
-test_source = live remote "www.myawesomedogmeasurements.com/data"
+test_source = remote("www.myawesomedogmeasurements.com/data")
 map(test_source) "buster_weight" to number weight
 map(test_source) "day" to number day
 plot scatter_xy(date, weight) titled "My Awesome Pup"
