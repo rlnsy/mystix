@@ -146,7 +146,7 @@ class Parser:
         line = self.tokenizer.get_line(endline)
         if(len(line) == 1):
             v = self.parseVar()
-            return VarAxis(v)
+            return ast.VarAxis(v)
         elif self.isMathFunc(line):
             func = self.parseFunc(line)
             return ast.FuncAxis(func)
