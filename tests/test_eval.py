@@ -105,6 +105,21 @@ class MiscEvaluationTests(TestCase):
                     ast.Var("count"), ast.Operand(ConcreteNumOp.EXP),
                     ast.Value(IntegerValue(2)))])),
             ]))
-        code, err = e.evaluate(p, duration=7000)
+        code, err = e.evaluate(p, duration=500)
         self.assertEqual(0, code)
         self.assertTrue(cast(IntegerValue, e.env.get_val("count")).value > 1)
+
+    def test_pow_overflow(self):
+        e = Evaluator()
+        p = ast.Program(
+            ast.Body([
+                ast.Loader(ast.Var("source"),
+                           ast.Source("https://covid-api.com/api/reports")),
+                ast.Assigner(ast.Declare(ast.Type(Types.NUMBER), ast.Var("count")),
+                             ast.Value(FloatValue(1.1))),
+                ast.Trigger(ast.Var("source"), ast.MathFuncs([ast.SimpleFunc(
+                    ast.Var("count"), ast.Operand(ConcreteNumOp.EXP),
+                    ast.Value(IntegerValue(2)))])),
+            ]))
+        code, err = e.evaluate(p, duration=10000)
+        self.assertNotEqual(0, code)

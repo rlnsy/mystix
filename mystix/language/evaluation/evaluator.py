@@ -55,7 +55,6 @@ class Evaluator(Visitor):
             a2: Axis = pl[2]
             x = a1.accept(self)
             y = a2.accept(self)
-            print("Data: %f, %f" % (x.value, y.value))
 
             def add(m: GraphManager):
                 m.add_plot_data(g, [x.value], [y.value])
@@ -136,13 +135,13 @@ class Evaluator(Visitor):
         def runtime():
             try:
                 return self.execute(p, duration)
-            except LanguageError as e:
+            except (LanguageError, OverflowError) as e:
 
                 def close(m: GraphManager):
                     m.close()
                 self.do_graphics(close)
+                return 1, e if not isinstance(e, OverflowError) else "Number overflow"
 
-                return 1, e
         with ThreadPoolExecutor() as threads:
             logic = threads.submit(runtime)
 
