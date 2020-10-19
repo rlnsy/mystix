@@ -1,0 +1,4 @@
+program:
+number i = 22;
+plot scatter_xy(i,i) titled "plot"
+start!

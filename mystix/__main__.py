@@ -24,6 +24,7 @@ import sys
 
 from .language.evaluation.main import run_program
 from .util import data_simulator
+from .language.example import run_example
 
 
 if len(sys.argv) >= 2:
@@ -32,5 +33,7 @@ if len(sys.argv) >= 2:
     elif sys.argv[1] == "-s":
         print("Simulating data stream")
         data_simulator.run_simulate()
+    elif sys.argv[1] == "-e":
+        run_example()
     else:
         run_program(sys.argv[1], graphics=True, duration=None)
