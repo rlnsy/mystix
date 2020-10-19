@@ -1,0 +1,1 @@
+plot histogramer_xy(date,age) titled "a title"
