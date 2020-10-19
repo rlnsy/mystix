@@ -1,6 +1,6 @@
 from mystix.ui.graphics import Graphics
 from typing import Callable, List
-from os import path, listdir, remove
+from os import path, listdir, remove, mkdir
 import pickle
 import re
 from pyqtgraph import PlotItem  # type: ignore
@@ -12,8 +12,8 @@ class GraphManagerError(LanguageError):
     pass
 
 
-CONST_FRAGMENT_CACHE = "tmp/vis_cache"
-CONST_DEBUG_OUTPUT = "tmp/vis_trace"
+CONST_FRAGMENT_CACHE = "/tmp/mystix_vis_cache"
+CONST_DEBUG_OUTPUT = "/tmp/mystix_vis_trace"
 
 
 class Plot:
@@ -90,9 +90,13 @@ class GraphManager:
         self.closed = False
         self.graphics = Graphics()
         self.plots = {}
-        self.graphics.add_window("410 DSL", 600, 600)
-        self.graphics.add_window("410 DSL 2", 600, 600)
+        self.graphics.add_window("Mystix", 600, 600)
         self.graphics.add_update(lambda: self.update_plots())
+        for d in [CONST_DEBUG_OUTPUT, CONST_FRAGMENT_CACHE]:
+            if path.isfile(d):
+                raise GraphManagerError("%s is already a file" % d)
+            if not path.isdir(d):
+                mkdir(d)
 
     def add_plot(self, plot_name: str, line_plot: bool = False):
         if ' ' in plot_name:
@@ -101,7 +105,7 @@ class GraphManager:
             raise GraphManagerError("Plot '%s' already exists" % plot_name)
         else:
             p: Plot = Plot(plot_name, self.graphics
-                           .get_window("410 DSL 2")
+                           .get_window("Mystix")
                            .addPlot(title=plot_name), line_plot)
             self.plots[plot_name] = p
 

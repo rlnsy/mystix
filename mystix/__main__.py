@@ -21,22 +21,12 @@
 
 import sys
 
-from mystix.ui.util import read_program_file
-from mystix.language.tokenization import Tokenizer
-from mystix.language.parsing import Parser
-from mystix.language.shared.ast import Program
-from mystix.language.evaluation import Evaluator
 
-
-def run_compile(content: str):
-    t = Tokenizer(content)
-    t.tokenize()
-    p: Program = Parser(t).parseProgram()
-    Evaluator(graphics=False).evaluate(p)
+from .language.evaluation.main import run_program
 
 
 if len(sys.argv) >= 2:
     if sys.argv[1] == "-v":
-        print("Mystix v0.0.3")
+        print("Mystix v0.1.1")
     else:
-        read_program_file(sys.argv[1], run_compile)
+        run_program(sys.argv[1])

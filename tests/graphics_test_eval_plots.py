@@ -8,7 +8,7 @@ import mystix.language.shared.ast as ast
 from mystix.language.evaluation import Evaluator
 from mystix.language.evaluation.errors import LanguageError
 from mystix.language.evaluation.vars import UndefinedVariableError
-from mystix.language.shared.primitives.values import FloatValue
+from mystix.language.shared.primitives import values,  graphs
 
 
 class GraphicsEvaluationTests(TestCase):
@@ -64,18 +64,41 @@ class GraphicsEvaluationTests(TestCase):
         print("Testing hard-coded variable value")
         program = simple_plot_example()
         e = Evaluator(graphics=False)
-        e.env.extend('t', FloatValue(0.5))
+        e.env.extend('t', values.FloatValue(0.5))
         code, err = e.evaluate(program, duration=7000)
         self.assertEqual(0, code)
 
-    def test_plot_manual_define_2(self):
+    def test_regular_program(self):
         """
         Should successfully create a plot and update with
-        a constant value
+        new values
         """
-        print("Testing hard-coded variable value 2")
-        program = simple_plot_example()
+        print("Testing a full program")
+        p = ast.Program(
+            ast.Body([
+
+                # source = live remote "https://covid-api.com/api/reports"
+                ast.Loader(ast.Var("source"),
+                           ast.Source("https://covid-api.com/api/reports")),
+
+                # map source "confirmed" to number confirmed
+                ast.Mapper(ast.Var("source"), "confirmed",
+                           ast.Declare(ast.Type(Types.NUMBER), ast.Var("confirmed"))),
+
+                # number count = 0
+                ast.Assigner(ast.Declare(ast.Type(Types.NUMBER), ast.Var("count")),
+                             ast.Value(values.IntegerValue(0))),
+
+                # observe(source) do count++
+                ast.Trigger(ast.Var("source"), ast.MathFuncs([ast.Increment(ast.Var(
+                    "count"))])),
+
+                # plot line_xy(count,confirmed) called "confirmed_cases"
+                ast.Plotter(ast.Graph(graphs.LineXYGraph()),
+                            ast.VarAxis(ast.Var("count")),
+                            ast.VarAxis(ast.Var("confirmed")), "confirmed_cases"),
+
+            ]))
         e = Evaluator(graphics=True)
-        e.env.extend('t', FloatValue(1.0))
-        code, err = e.evaluate(program, duration=7000)
+        code, err = e.evaluate(p, duration=7000)
         self.assertEqual(0, code)

@@ -61,8 +61,8 @@ class DataSource:
         res = req.text
         if req.status_code != 200:
             raise DataLoaderError("Remote responded with error invalid code")
-        with open("tmp/load_cache/api_response_%s.json" % d, "w") as cache:
-            cache.write(res)
+        # with open("tmp/load_cache/api_response_%s.json" % d, "w") as cache:
+        #     cache.write(res)
         try:
             obj = json.loads(res)
         except json.decoder.JSONDecodeError:

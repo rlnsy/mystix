@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="mystix",
-    version="0.0.2",
+    version="0.1.1",
     author="Rowan Lindsay",
     author_email="development@rowanlindsay.com",
     description="A domain-specific language intended for "
@@ -14,7 +14,7 @@ setuptools.setup(
     long_description=long_description.replace(":chart_with_downwards_trend:", ""),
     long_description_content_type="text/markdown",
     url="",
-    packages=["mystix"],
+    packages=setuptools.find_packages(),
     python_requires='>=3.8',
     install_requires=[
         'numpy',

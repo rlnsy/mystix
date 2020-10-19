@@ -179,7 +179,10 @@ class Evaluator(Visitor):
         v_name = m.decl.accept(self)
         # TODO: source should be stored in environment
         s_name = m.src.name
-        self.maps[s_name][m.tbl_field] = v_name
+        if s_name in self.sources:
+            self.maps[s_name][m.tbl_field] = v_name
+        else:
+            raise LanguageError("Source '%s' not initialized" % s_name)
 
     def visit_declare(self, d: Declare) -> str:
         t: Types = d.type.accept(self)
@@ -207,7 +210,7 @@ class Evaluator(Visitor):
         self.plots.append((pltr.graph_name, pltr.x, pltr.y))
 
     def visit_var(self, v: Var):
-        pass
+        return self.env.get_val(v.name)
 
     def visit_source(self, s: Source) -> str:
         return s.url
