@@ -1,0 +1,3 @@
+[submodule "git_mover"]
+	path = git_mover
+	url = https://github.com/rlnsy/git_mover
