@@ -11,6 +11,7 @@
 export PIPENV_VENV_IN_PROJECT=1
 export PIPENV_IGNORE_VIRTUALENVS=1
 
+# https://stackoverflow.com/a/30969768/179329
 set -o allexport; source .env; set +o allexport
 
 if      [ -z "$GIT_MOVER_SRC_TOKEN" ] \
