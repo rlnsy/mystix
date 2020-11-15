@@ -1,5 +1,13 @@
 #!/bin/bash
 
+#
+# Migrate repository data using git_mover
+#
+# Drawbacks
+# - does not migrate PRs
+# - code migration must be done manually using origins
+#
+
 export PIPENV_VENV_IN_PROJECT=1
 export PIPENV_IGNORE_VIRTUALENVS=1
 
