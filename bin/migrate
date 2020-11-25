@@ -1,0 +1,37 @@
+#!/bin/bash
+
+#
+# Migrate repository data using git_mover
+#
+# Drawbacks
+# - does not migrate PRs
+# - code migration must be done manually using origins
+#
+
+export PIPENV_VENV_IN_PROJECT=1
+export PIPENV_IGNORE_VIRTUALENVS=1
+
+# https://stackoverflow.com/a/30969768/179329
+set -o allexport; source .env; set +o allexport
+
+if      [ -z "$GIT_MOVER_SRC_TOKEN" ] \
+    ||  [ -z "$GIT_MOVER_SRC_UNAME" ] \
+    ||  [ -z "$GIT_MOVER_DST_TOKEN" ] \
+    ||  [ -z "$GIT_MOVER_DST_UNAME" ]; then
+    echo "Missing evironment variables"
+fi
+
+cd git_mover
+
+pipenv run python git-mover.py \
+--destinationToken "$GIT_MOVER_DST_TOKEN" \
+--destinationUserName "$GIT_MOVER_DST_UNAME" \
+--sourceRoot "https://github.students.cs.ubc.ca" \
+--destinationRoot "https://api.github.com" \
+--milestones \
+--labels \
+--issues \
+"$GIT_MOVER_SRC_UNAME" \
+"$GIT_MOVER_SRC_TOKEN" \
+"cpsc410-2020w-t1/cpsc410_project1_team17" \
+"rlnsy/mystix"

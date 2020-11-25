@@ -3,6 +3,7 @@
 tests/out
 tmp
 .vscode/
+.env
 
 # Created by https://www.toptal.com/developers/gitignore/api/intellij,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=intellij,python
